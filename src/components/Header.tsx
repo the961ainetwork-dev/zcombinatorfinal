@@ -28,7 +28,7 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
     };
   }, []);
 
-  const isZ961Active = ["prospectus", "policy", "values", "resources"].includes(currentTab);
+  const isZ961Active = ["news", "ask", "show", "policy", "values", "resources"].includes(currentTab);
 
   const handleTabClick = (tabName: string) => {
     setTab(tabName);
@@ -52,7 +52,7 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
         {/* Row 1: Logo & Live Marketplace Ticker */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Logo Section */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleTabClick("news")} id="header_logo_comb">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleTabClick("prospectus")} id="header_logo_comb">
             <div className="bg-black text-white font-syne font-black text-xl w-12 h-12 flex items-center justify-center border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] tracking-tighter">
               961
             </div>
@@ -86,39 +86,15 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
           {/* Tab Links */}
           <nav className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase z-30" id="header_navbar_tabs">
             <button
-              id="tab_btn_news"
-              onClick={() => handleTabClick("news")}
+              id="tab_btn_prospectus"
+              onClick={() => handleTabClick("prospectus")}
               className={`px-3 py-1.5 border-2 border-black font-black transition-all cursor-pointer ${
-                currentTab === "news"
+                currentTab === "prospectus"
                   ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                   : "bg-white text-black hover:bg-zinc-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
               }`}
             >
-              <span>News</span>
-            </button>
-
-            <button
-              id="tab_btn_ask"
-              onClick={() => handleTabClick("ask")}
-              className={`px-3 py-1.5 border-2 border-black font-black transition-all cursor-pointer ${
-                currentTab === "ask"
-                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                  : "bg-white text-black hover:bg-zinc-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
-              }`}
-            >
-              <span>Ask 961</span>
-            </button>
-
-            <button
-              id="tab_btn_show"
-              onClick={() => handleTabClick("show")}
-              className={`px-3 py-1.5 border-2 border-black font-black transition-all cursor-pointer ${
-                currentTab === "show"
-                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                  : "bg-white text-black hover:bg-zinc-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
-              }`}
-            >
-              <span>Show 961</span>
+              <span>Prospectus (Home)</span>
             </button>
 
             <button
@@ -202,12 +178,32 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
                 >
                   <div className="divide-y-2 divide-black">
                     <button
-                      onClick={() => handleTabClick("prospectus")}
+                      onClick={() => handleTabClick("news")}
                       className={`w-full text-left px-3 py-2.5 hover:bg-zinc-100 font-extrabold uppercase flex items-center justify-between cursor-pointer ${
-                        currentTab === "prospectus" ? "bg-zinc-100 font-black border-l-4 border-black" : ""
+                        currentTab === "news" ? "bg-zinc-100 font-black border-l-4 border-black" : ""
                       }`}
                     >
-                      <span>Prospectus</span>
+                      <span>Ecosystem News</span>
+                      <Newspaper className="w-3.5 h-3.5 text-black" />
+                    </button>
+
+                    <button
+                      onClick={() => handleTabClick("ask")}
+                      className={`w-full text-left px-3 py-2.5 hover:bg-zinc-100 font-extrabold uppercase flex items-center justify-between cursor-pointer ${
+                        currentTab === "ask" ? "bg-zinc-100 font-black border-l-4 border-black" : ""
+                      }`}
+                    >
+                      <span>Ask 961</span>
+                      <MessageSquare className="w-3.5 h-3.5 text-black" />
+                    </button>
+
+                    <button
+                      onClick={() => handleTabClick("show")}
+                      className={`w-full text-left px-3 py-2.5 hover:bg-zinc-100 font-extrabold uppercase flex items-center justify-between cursor-pointer ${
+                        currentTab === "show" ? "bg-zinc-100 font-black border-l-4 border-black" : ""
+                      }`}
+                    >
+                      <span>Show 961</span>
                       <Sparkles className="w-3.5 h-3.5 text-black" />
                     </button>
 

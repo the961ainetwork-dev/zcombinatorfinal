@@ -1,14 +1,37 @@
-import React from "react";
-import { motion } from "motion/react";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Shield, Cpu, Lock, Award, ChevronLeft, ChevronRight, Activity, TrendingUp, Sparkles, FolderKanban } from "lucide-react";
 
 export default function HeroSection() {
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const totalSlides = 3;
+
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % totalSlides);
+    }, 9000); // Cycle every 9 seconds
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
+  const handleNext = () => {
+    setActiveSlide((prev) => (prev + 1) % totalSlides);
+  };
+
+  const handlePrev = () => {
+    setActiveSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  };
+
   return (
     <div 
-      className="bg-black text-white border-4 border-black p-6 md:p-12 relative overflow-hidden flex flex-col justify-between mb-8"
+      className="bg-black text-white border-4 border-black relative overflow-hidden flex flex-col justify-between mb-8 select-none"
       id="hero_up_section"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
     >
       {/* Background Subtle Accent Grids (Swiss/Editorial styling) */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-difference">
+      <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-difference z-0">
         <div className="w-full h-full border-r border-b border-white grid grid-cols-6 grid-rows-4">
           {Array.from({ length: 24 }).map((_, i) => (
             <div key={i} className="border-t border-l border-white"></div>
@@ -16,155 +39,376 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Main Grid: Responsive 3-columns on large screens, Stacked on mobile */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative z-10">
-        
-        {/* LEFT COLUMN: Large stark overlapping typography */}
-        <div className="lg:col-span-5 flex flex-col justify-between select-none" id="hero_left_stack">
-          <div className="space-y-0 tracking-tighter leading-none font-black text-white">
-            <motion.div 
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-7xl md:text-8xl xl:text-[9.5rem] font-syne uppercase select-none opacity-80"
-              style={{ letterSpacing: "-0.05em" }}
-            >
-              Z961
-            </motion.div>
-            
-            <motion.div 
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-6xl md:text-7xl xl:text-[7.5rem] font-serif font-light tracking-normal italic text-white/90 select-none"
-            >
-              COMB
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-7xl md:text-8xl xl:text-[9.5rem] font-syne uppercase select-none opacity-80"
-              style={{ letterSpacing: "-0.05em" }}
-            >
-              Z961
-            </motion.div>
-            
-            <motion.div 
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-5xl md:text-6xl xl:text-[6.5rem] font-serif tracking-normal leading-tight select-none font-bold uppercase"
-            >
-              COMBINATOR
-            </motion.div>
-          </div>
-
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-8 lg:mt-16 text-xs md:text-sm font-mono tracking-[0.25em] uppercase text-gray-400 font-bold"
+      <AnimatePresence mode="wait">
+        {activeSlide === 0 && (
+          <motion.div
+            key="slide0"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.5 }}
+            className="p-6 md:p-10 lg:p-12 relative z-10 w-full"
+            id="hero_slide_lets_talk"
           >
-            WHERE INNOVATION MEETS INVESTMENTS
-          </motion.div>
-        </div>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              {/* Left Stack: Dynamic Content matching the user's uploaded layout */}
+              <div className="lg:col-span-7 space-y-6 text-left" id="slide0_left">
+                {/* Aligned Badge */}
+                <div className="flex items-center gap-2 font-mono text-[10px] md:text-xs text-zinc-300 font-black tracking-widest bg-zinc-900 border border-zinc-800 px-3 py-1.5 w-fit uppercase">
+                  <Shield className="w-4 h-4 text-emerald-400 stroke-[2.5]" />
+                  <span>UNDP / ESCWA ALIGNED TRANSNATIONAL SANDBOX</span>
+                </div>
 
-        {/* CENTER COLUMN: Vertical high-fashion editorial monochrome image inside sharp border */}
-        <div className="lg:col-span-3 flex items-center justify-center relative" id="hero_center_image_container">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7 }}
-            className="w-full max-w-[280px] lg:max-w-none bg-zinc-900 border-2 border-white/40 p-1.5 shadow-[0px_0px_20px_rgba(255,255,255,0.05)] relative group overflow-hidden"
-          >
-            {/* Aspect ratio frame (3:4) */}
-            <div className="aspect-[3/4] relative w-full overflow-hidden bg-black">
-              <img
-                src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=800&auto=format&fit=crop"
-                alt="Z961 Combinator High Fashion Editorial model wearing structured tailored black coat"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover grayscale contrast-125 brightness-95 transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
-              
-              {/* Discrete tag overlay */}
-              <div className="absolute bottom-3 left-3 bg-white/95 text-black text-[9px] font-mono tracking-widest uppercase py-0.5 px-1.5 font-black border border-black z-10">
-                PLATEAU 01 / FORM
+                {/* Overlapping Stark Display Typography */}
+                <div className="space-y-1">
+                  <h1 className="text-6xl md:text-8xl font-syne font-black uppercase tracking-tighter leading-none select-none text-white">
+                    Let's Talk!
+                  </h1>
+                  <h2 className="text-xl md:text-3xl font-serif italic font-light tracking-wide text-zinc-250 select-none">
+                    Local innovation. Global capital.
+                  </h2>
+                </div>
+
+                {/* Ecosystem shift highlight text */}
+                <p className="text-sm md:text-base text-zinc-400 leading-relaxed font-sans max-w-xl font-medium tracking-normal select-text">
+                  No cap, this is the biggest shift in the Lebanese ecosystem yet. Coupling offshore capital with the fresh revenue generated by remote engineers.
+                </p>
+
+                {/* Three precise feature items mirroring the uploaded image exactly */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-zinc-900" id="slide0_features">
+                  {/* Smart Matching */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1 bg-zinc-900 border border-zinc-800 text-white shrink-0">
+                        <Cpu className="w-4.5 h-4.5 text-zinc-200" />
+                      </div>
+                      <span className="font-mono text-xs font-black tracking-wide uppercase text-white">Smart Matching</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-450 leading-relaxed font-sans font-medium">
+                      AI semantic matching analyzes startup readiness profiles against investor mandates.
+                    </p>
+                  </div>
+
+                  {/* Data Rooms */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1 bg-zinc-900 border border-zinc-800 text-white shrink-0">
+                        <Lock className="w-4.5 h-4.5 text-zinc-200" />
+                      </div>
+                      <span className="font-mono text-xs font-black tracking-wide uppercase text-white">Data Rooms</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-450 leading-relaxed font-sans font-medium">
+                      Institutional-grade document vaults. Role-based access. Full audit trails.
+                    </p>
+                  </div>
+
+                  {/* Readiness Audit */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1 bg-zinc-900 border border-zinc-800 text-white shrink-0">
+                        <Award className="w-4.5 h-4.5 text-zinc-200" />
+                      </div>
+                      <span className="font-mono text-xs font-black tracking-wide uppercase text-white">Readiness Audit</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-450 leading-relaxed font-sans font-medium">
+                      Traction, TAM, Team, Exit Strategy. Human verification. Institutional seal.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Stack: Creative Vector Grids representing magazine models from screen */}
+              <div className="lg:col-span-5 h-full flex items-center justify-center relative" id="slide0_right">
+                <div className="grid grid-cols-2 gap-3 w-full max-w-[380px] lg:max-w-none bg-zinc-950 border-2 border-zinc-850 p-4 shadow-[0px_0px_25px_rgba(255,255,255,0.03)] selection:bg-white selection:text-black">
+                  {/* Mockup magazine card 1 */}
+                  <div className="border border-zinc-800 p-2.5 bg-[#121212] aspect-[4/3] flex flex-col justify-between hover:border-zinc-500 transition-all">
+                    <div className="flex justify-between items-center text-[7px] font-mono text-zinc-500">
+                      <span>MOCKUP ENGINE v2</span>
+                      <span>ISSUE #41</span>
+                    </div>
+                    <div>
+                      <h4 className="font-serif italic text-xs tracking-wide text-zinc-300">SIGNATURE TOUCH</h4>
+                      <p className="text-[8px] font-mono text-zinc-500 mt-1 uppercase">Aesthetic Synthesis</p>
+                    </div>
+                    <div className="h-6 border-t border-dashed border-zinc-800 flex items-center justify-between text-[7px] font-mono mt-2">
+                      <span>FORM / PATTERN</span>
+                      <span>01</span>
+                    </div>
+                  </div>
+
+                  {/* Mockup magazine card 2 */}
+                  <div className="border border-zinc-800 p-2.5 bg-zinc-900 aspect-[4/3] flex flex-col justify-between hover:border-zinc-500 transition-all">
+                    <div className="flex justify-between items-center text-[7px] font-mono text-zinc-400">
+                      <span>SOMNI EDITORIAL</span>
+                      <span>● ACTIVE</span>
+                    </div>
+                    <div>
+                      <h4 className="font-syne font-black text-xs leading-none text-white tracking-widest uppercase">SOMNI</h4>
+                      <p className="text-[8px] font-sans text-emerald-400 mt-1 uppercase font-semibold">ECO SYSTEM LINK</p>
+                    </div>
+                    <div className="h-1 bg-zinc-800 w-full rounded-none">
+                      <div className="h-full bg-zinc-400 w-2/3"></div>
+                    </div>
+                  </div>
+
+                  {/* Mockup magazine card 3 */}
+                  <div className="border border-zinc-800 p-2.5 bg-zinc-900 aspect-[4/3] flex flex-col justify-between hover:border-zinc-500 transition-all">
+                    <div className="flex justify-between items-center text-[7px] font-mono text-zinc-500">
+                      <span>GAUCHERE COUTURE</span>
+                      <span>BYBLOS CLUSTER</span>
+                    </div>
+                    <div>
+                      <h4 className="font-serif italic text-xs text-zinc-300">GAUCHERE</h4>
+                      <p className="text-[8px] font-mono text-zinc-500 mt-0.5 uppercase">Diaspora Network</p>
+                    </div>
+                    <div className="bg-zinc-950 border border-zinc-855 text-zinc-450 p-1 font-mono text-[7px] text-center uppercase">
+                      NCEI ENDORSED NODE
+                    </div>
+                  </div>
+
+                  {/* Mockup magazine card 4 */}
+                  <div className="border border-zinc-800 p-2.5 bg-[#121212] aspect-[4/3] flex flex-col justify-between hover:border-zinc-500 transition-all">
+                    <div className="flex justify-between items-center text-[7px] font-mono text-zinc-500">
+                      <span>COLLECTION 2026</span>
+                      <span>(+961) HUB</span>
+                    </div>
+                    <div>
+                      <h4 className="font-syne font-black text-xs text-zinc-200 uppercase tracking-tighter">FALL WINTER</h4>
+                      <p className="text-[8px] font-mono text-zinc-400 mt-0.5 font-bold">STABILIZATION CODE</p>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 bg-white"></span>
+                      <span className="text-[7px] font-mono text-zinc-450">SECURE DISPATCH</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
-        </div>
+        )}
 
-        {/* RIGHT COLUMN: Editorial summary & rotating asterisk star */}
-        <div className="lg:col-span-4 flex flex-col justify-between pt-4 lg:pt-0" id="hero_right_editorial">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+        {activeSlide === 1 && (
+          <motion.div
+            key="slide1"
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="space-y-4 max-w-sm"
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.5 }}
+            className="p-6 md:p-10 lg:p-12 relative z-10 w-full"
+            id="hero_slide_combinator_original"
           >
-            <h3 className="font-serif italic text-xl md:text-2xl text-white tracking-wide border-b border-white/20 pb-2">
-              961 Combinator: Fusion of Data and Form
-            </h3>
-            
-            <p className="text-xs md:text-sm text-gray-300 leading-relaxed font-light text-justify">
-              Algorithmic synthesis and procedural generation are the core principles of the 961 Combinator. The system leverages advanced artificial intelligence models and micro-operational frameworks to blend functional elegance with persistent offshore capital.
-            </p>
-            
-            <p className="text-xs md:text-sm text-gray-400 leading-relaxed font-light text-justify">
-              Our dedication to robust execution informs every single combination, creating a new borderless language of design and financial sovereignty for Lebanon’s premium tech-builders.
-            </p>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              {/* LEFT COLUMN: Large stark overlapping typography */}
+              <div className="lg:col-span-5 flex flex-col justify-between select-none text-left" id="hero_left_stack">
+                <div className="space-y-0 tracking-tighter leading-none font-black text-white">
+                  <div className="text-7xl md:text-8xl xl:text-[8.5rem] font-syne uppercase select-none opacity-80" style={{ letterSpacing: "-0.05em" }}>
+                    Z961
+                  </div>
+                  <div className="text-6xl md:text-7xl xl:text-[6.5rem] font-serif font-light tracking-normal italic text-white/90 select-none">
+                    COMB
+                  </div>
+                  <div className="text-7xl md:text-8xl xl:text-[8.5rem] font-syne uppercase select-none opacity-85 hover:opacity-100 transition-all" style={{ letterSpacing: "-0.05em" }}>
+                    Z961
+                  </div>
+                  <div className="text-5xl md:text-6xl xl:text-[5.5rem] font-serif tracking-normal leading-tight select-none font-bold uppercase text-white">
+                    COMBINATOR
+                  </div>
+                </div>
 
-            <div className="pt-2">
-              <a 
-                href="#dropdown_z961_menu_container"
-                className="inline-flex items-center gap-2 text-xs font-mono font-bold tracking-[0.2em] uppercase text-white hover:text-gray-300 transition-all hover:translate-x-1"
-              >
-                LEARN MORE <span className="text-sm font-sans">→</span>
-              </a>
+                <div className="mt-6 text-[10px] md:text-xs font-mono tracking-[0.25em] uppercase text-zinc-455 font-bold">
+                  WHERE INNOVATION MEETS DISPERSION
+                </div>
+              </div>
+
+              {/* CENTER COLUMN: Vertical high-fashion editorial monochrome image inside sharp border */}
+              <div className="lg:col-span-3 flex items-center justify-center relative" id="hero_center_image_container">
+                <div className="w-full max-w-[240px] lg:max-w-none bg-zinc-900 border-2 border-white/40 p-1.5 shadow-[0px_0px_20px_rgba(255,255,255,0.05)] relative group overflow-hidden">
+                  <div className="aspect-[3/4] relative w-full overflow-hidden bg-black">
+                    <img
+                      src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=800&auto=format&fit=crop"
+                      alt="Z961 Combinator High Fashion Editorial model"
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover grayscale contrast-125 brightness-95 transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+                    <div className="absolute bottom-3 left-3 bg-white text-black text-[9px] font-mono tracking-widest uppercase py-0.5 px-1.5 font-black border border-black z-10">
+                      PLATEAU 01 / FORM
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* RIGHT COLUMN: Editorial summary & rotating asterisk star */}
+              <div className="lg:col-span-4 flex flex-col justify-between pt-4 lg:pt-0 text-left" id="hero_right_editorial">
+                <div className="space-y-4 max-w-sm">
+                  <h3 className="font-serif italic text-xl md:text-2xl text-white tracking-wide border-b border-white/20 pb-2 flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-white fill-white" />
+                    <span>Fusion of Data and Form</span>
+                  </h3>
+                  
+                  <p className="text-[11px] md:text-xs text-zinc-400 leading-relaxed font-sans font-medium text-justify normal-case">
+                    Algorithmic synthesis and procedural generation are the core principles of the 961 Combinator. The system leverages advanced artificial intelligence models and micro-operational frameworks to blend functional elegance with persistent offshore capital.
+                  </p>
+                  
+                  <p className="text-[11px] md:text-xs text-zinc-400 leading-relaxed font-sans font-medium text-justify normal-case">
+                    Our dedication to robust execution informs every single combination, creating a new borderless language of design and financial sovereignty for Lebanon’s premium tech-builders.
+                  </p>
+
+                  <div className="pt-2">
+                    <a 
+                      href="#dropdown_z961_menu_container"
+                      className="inline-flex items-center gap-2 text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-white hover:text-zinc-300 transition-all hover:translate-x-1"
+                    >
+                      LEARN MORE <span className="text-sm font-sans">→</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </motion.div>
+        )}
 
-          {/* Majestic Rotating 8-Point Asterisk Star at bottom right */}
-          <div className="flex justify-end items-end mt-12 lg:mt-0" id="hero_asterisk_box">
-            <motion.div 
-              animate={{ rotate: 360 }}
-              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-              className="w-16 h-16 md:w-24 md:h-24 text-white shrink-0 cursor-pointer hover:scale-105 active:scale-95 transition-transform"
-              title="961 COMBINATOR CODES"
-            >
-              {/* Highly precise 8-spoke geometric flower/star SVG resembling the screenshot */}
-              <svg 
-                viewBox="0 0 100 100" 
-                fill="currentColor" 
-                className="w-full h-full"
-              >
-                <g transform="translate(50, 50)">
-                  {Array.from({ length: 8 }).map((_, i) => {
-                    const angle = i * 45;
-                    return (
-                      <rect 
-                        key={i}
-                        x="-6" 
-                        y="-45" 
-                        width="12" 
-                        height="90" 
-                        rx="6"
-                        transform={`rotate(${angle})`}
-                        className="text-white"
-                      />
-                    );
-                  })}
-                  <circle cx="0" cy="0" r="10" className="fill-black border-2 border-white" />
-                </g>
-              </svg>
-            </motion.div>
-          </div>
+        {activeSlide === 2 && (
+          <motion.div
+            key="slide2"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.5 }}
+            className="p-6 md:p-10 lg:p-12 relative z-10 w-full"
+            id="hero_slide_remittance_sovereignty"
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              {/* Left Stack: Tech Infrastructure details */}
+              <div className="lg:col-span-7 space-y-6 text-left" id="slide2_left">
+                <div className="flex items-center gap-2 font-mono text-[10px] md:text-xs text-emerald-400 font-extrabold tracking-widest bg-zinc-950 border border-emerald-950 px-3 py-1.5 w-fit uppercase">
+                  <TrendingUp className="w-4.5 h-4.5 text-emerald-400" />
+                  <span>Fresh Revenue Optimization Desk</span>
+                </div>
 
+                <div className="space-y-1">
+                  <h1 className="text-5xl md:text-7xl font-syne font-black uppercase tracking-tighter leading-none text-white">
+                    $180M Fresh USD
+                  </h1>
+                  <h2 className="text-lg md:text-2xl font-serif italic text-zinc-300 tracking-wide font-light">
+                    Annual developer offshore value generated inside Lebanon
+                  </h2>
+                </div>
+
+                <p className="text-xs md:text-sm text-zinc-400 leading-relaxed font-sans max-w-xl font-medium tracking-normal select-text">
+                  Remote contracts bypass local structural liquidity hurdles. Combinator operates as an institutional clearance mechanism providing diaspora trustees direct and fully auditable access to vetted ventures, micro-grids, and AgTech pipelines.
+                </p>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-zinc-900" id="slide2_stats">
+                  <div className="p-3 bg-zinc-950 border border-zinc-800">
+                    <span className="text-gray-400 text-[9px] font-mono uppercase tracking-wider block">Average Salary</span>
+                    <span className="text-base font-mono font-black text-white">$2,850/mo</span>
+                  </div>
+                  <div className="p-3 bg-zinc-950 border border-zinc-800">
+                    <span className="text-gray-400 text-[9px] font-mono uppercase tracking-wider block">Growth Velocity</span>
+                    <span className="text-base font-mono font-black text-emerald-400">+34% YoY</span>
+                  </div>
+                  <div className="p-3 bg-zinc-950 border border-zinc-800">
+                    <span className="text-gray-400 text-[9px] font-mono uppercase tracking-wider block">Sandbox Capacity</span>
+                    <span className="text-base font-mono font-black text-white">$3.2M Active</span>
+                  </div>
+                  <div className="p-3 bg-zinc-950 border border-zinc-800">
+                    <span className="text-gray-400 text-[9px] font-mono uppercase tracking-wider block">Staff Engineers</span>
+                    <span className="text-base font-mono font-black text-white">450+ Engaged</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Stack: Interactive Vector Graph representing flow of fresh currency */}
+              <div className="lg:col-span-5 h-full flex items-center justify-center" id="slide2_right">
+                <div className="w-full max-w-[340px] lg:max-w-none border-2 border-zinc-800 bg-zinc-950 p-5 space-y-4 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.05)] text-left font-mono">
+                  <div className="flex justify-between items-center border-b border-zinc-800 pb-2">
+                    <span className="text-[9px] font-black text-white uppercase flex items-center gap-1">
+                      <Activity className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+                      USD FLOW MATRIX
+                    </span>
+                    <span className="text-[9px] text-zinc-500">BDL 165 CLEARANCE</span>
+                  </div>
+
+                  {/* Flow chart simulation */}
+                  <div className="space-y-3 text-[10px] font-bold">
+                    <div className="flex items-center justify-between text-zinc-300">
+                      <span>Diaspora Trust Capital</span>
+                      <span className="text-white">→ AUDIT STAGE →</span>
+                    </div>
+                    <div className="h-2 bg-zinc-900 border border-zinc-805 relative overflow-hidden">
+                      <div className="h-full bg-emerald-500 w-3/4 animate-pulse"></div>
+                    </div>
+
+                    <div className="flex items-center justify-between text-zinc-300">
+                      <span>Interactive Sandbox Matches</span>
+                      <span className="text-emerald-400">→ NCEI APPROVED</span>
+                    </div>
+                    <div className="h-2 bg-zinc-900 border border-zinc-805 relative overflow-hidden">
+                      <div className="h-full bg-emerald-400 w-1/2"></div>
+                    </div>
+
+                    <div className="flex items-center justify-between text-zinc-300">
+                      <span>Direct Salary Clearings</span>
+                      <span className="text-white">→ FRESH DOLLARS (+961)</span>
+                    </div>
+                    <div className="h-2 bg-zinc-900 border border-zinc-505 relative overflow-hidden">
+                      <div className="h-full bg-zinc-200 w-full"></div>
+                    </div>
+                  </div>
+
+                  <div className="bg-zinc-900 p-2.5 text-[8.5px] border border-zinc-800 text-zinc-400 leading-normal font-sans normal-case">
+                    Capital deployed into smart agricultural drip systems in Beqaa, decentralized solar microgrids in Tripoli, and fintech card clearing APIs in Beirut.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Slide Navigation Controls */}
+      <div 
+        className="border-t-2 border-zinc-900 bg-zinc-950 px-6 py-3.5 flex items-center justify-between relative z-25 text-xs font-mono font-bold"
+        id="hero_slider_controls_bar"
+      >
+        <div className="flex items-center gap-3" id="hero_slider_dots_left">
+          {Array.from({ length: totalSlides }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveSlide(i)}
+              className={`w-7 h-2 transition-all cursor-pointer ${
+                activeSlide === i 
+                  ? "bg-white border border-white" 
+                  : "bg-zinc-800 hover:bg-zinc-650 border border-zinc-850"
+              }`}
+              title={`Go to slide ${i+1}`}
+            />
+          ))}
         </div>
 
+        {/* Active Index Counter Display */}
+        <div className="text-zinc-400 uppercase text-[10px] tracking-widest bg-zinc-900 border border-zinc-800 px-3 py-1 z-30" id="hero_slider_index_indicator">
+          SLIDE <span className="text-white font-black">0{activeSlide + 1}</span> / 0{totalSlides}
+        </div>
+
+        {/* Stark Neo-Brutalist Previous / Next Navigation Buttons */}
+        <div className="flex items-center gap-1.5" id="hero_slider_arrow_controls">
+          <button
+            onClick={handlePrev}
+            className="w-8 h-8 bg-zinc-900 hover:bg-white text-zinc-400 hover:text-black border border-zinc-800 hover:border-black flex items-center justify-center transition-all cursor-pointer active:scale-95"
+            title="Previous Slide"
+          >
+            <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
+          </button>
+          <button
+            onClick={handleNext}
+            className="w-8 h-8 bg-zinc-900 hover:bg-white text-zinc-400 hover:text-black border border-zinc-800 hover:border-black flex items-center justify-center transition-all cursor-pointer active:scale-95"
+            title="Next Slide"
+          >
+            <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+          </button>
+        </div>
       </div>
     </div>
   );

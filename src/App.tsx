@@ -300,7 +300,7 @@ export default function App() {
     }
   ];
 
-  const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources" | "sandbox">("news");
+  const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources" | "sandbox">("prospectus");
   const [stories, setStories] = useState<Story[]>(INITIAL_STORIES);
   const [startups, setStartups] = useState<Startup[]>(INITIAL_STARTUPS);
   const [jobs, setJobs] = useState<Job[]>(INITIAL_JOBS);
@@ -530,7 +530,7 @@ export default function App() {
         )}
 
         {/* Editorial Hero Banner for primary landing views */}
-        {["news", "ask", "show"].includes(currentTab) && <HeroSection />}
+        {["prospectus", "news", "ask", "show"].includes(currentTab) && <HeroSection />}
 
         <div className="animate-fade-in" id="active_view_root">
           {/* View dispatch matching tab selection */}
