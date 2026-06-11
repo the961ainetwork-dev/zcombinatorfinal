@@ -8,11 +8,12 @@ import Prospectus from "./components/Prospectus";
 import PolicyFramework from "./components/PolicyFramework";
 import CoreValues from "./components/CoreValues";
 import ResourcesHub from "./components/ResourcesHub";
+import InitiativeSandbox from "./components/InitiativeSandbox";
 import { Story, Startup, Job } from "./types";
 import { Info, Mail, Phone, MapPin, Loader2, Sparkles } from "lucide-react";
 
 export default function App() {
-  const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources">("news");
+  const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources" | "sandbox">("news");
   const [stories, setStories] = useState<Story[]>([]);
   const [startups, setStartups] = useState<Startup[]>([]);
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -302,6 +303,8 @@ export default function App() {
             )}
 
             {currentTab === "resources" && <ResourcesHub />}
+
+            {currentTab === "sandbox" && <InitiativeSandbox />}
           </div>
         )}
       </main>

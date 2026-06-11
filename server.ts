@@ -623,6 +623,644 @@ Make it sound human, polite, and emphasize the candidate's enthusiasm to contrib
 });
 
 
+// =========================================================================
+// --- Z961COMBINATOR INITIATIVE SYSTEMS: MODELS, STORAGE & API ENDPOINTS ---
+// =========================================================================
+
+interface SandboxUser {
+  id: string;
+  username: string;
+  email: string;
+  role_type: "Startup" | "Investor" | "Scout" | "Admin";
+  profile: {
+    bio: string;
+    linkedin_url: string;
+    skills: string[];
+    role_type: string;
+  };
+}
+
+interface SandboxEntity {
+  entity_id: string;
+  name: string;
+  sector: string;
+  stage: string;
+  description: string;
+  problem_statement: string;
+  solution_statement: string;
+  readiness_score: number;
+  is_verified: boolean;
+  verified_by_ncei_expert?: string;
+  embedding: string;
+  author_id: string;
+}
+
+interface InvestorMandate {
+  investor_id: string;
+  investor_name: string;
+  sector_preferences: string[];
+  target_stage: string;
+  min_ticket_size: number;
+  max_ticket_size: number;
+  geographic_focus: string;
+}
+
+interface MatchingRecord {
+  match_id: string;
+  startup_id: string;
+  investor_id: string;
+  match_score: number;
+  status: "Pending" | "Vetted" | "Accepted" | "Rejected";
+  ncei_notes: string;
+  match_rationale: string;
+}
+
+interface DataRoomItem {
+  id: string;
+  entity_id: string;
+  document_type: "Feasibility Study" | "Financials" | "Deck" | "Market Report";
+  name: string;
+  storage_url: string;
+  views_log: { viewer_id: string; viewer_name: string; timestamp: string }[];
+}
+
+interface ResearchReport {
+  id: string;
+  title: string;
+  author: string;
+  summary: string;
+  content: string;
+  date: string;
+}
+
+// In-Memory Database Store simulating pgvector + relations
+let sandboxUsers: SandboxUser[] = [
+  {
+    id: "u-founder-farid",
+    username: "Farid Abou Sleiman",
+    email: "farid@agridrone.xyz",
+    role_type: "Startup",
+    profile: {
+      bio: "AgriTech pioneer from Zahle, utilizing drone-guided multispectral mapping inside the Beqaa Valley.",
+      linkedin_url: "https://linkedin.com/in/farid-agri-drone",
+      skills: ["Remote Sensing", "Embedded IoT", "Agri-economics"],
+      role_type: "Startup"
+    }
+  },
+  {
+    id: "u-founder-rayan",
+    username: "Rayan Al-Sayegh",
+    email: "rayan@greencedars.com",
+    role_type: "Startup",
+    profile: {
+      bio: "Software architect based in Tripoli, designing decentralized microgrid sharing technologies.",
+      linkedin_url: "https://linkedin.com/in/rayan-greencedars",
+      skills: ["Decentralized Energy", "Go", "Solidity", "Grid Analytics"],
+      role_type: "Startup"
+    }
+  },
+  {
+    id: "u-investor-lda",
+    username: "Elie Dagher (Lebanon Diaspora Alliance)",
+    email: "dagher@lda-capital.org",
+    role_type: "Investor",
+    profile: {
+      bio: "Diaspora fund based in Boston linking US tech capitals with Lebanese high-potential founders.",
+      linkedin_url: "https://linkedin.com/in/elie-dagher-lda",
+      skills: ["Diaspora Investments", "SaaS Scaleups", "Cross-border Tax"],
+      role_type: "Investor"
+    }
+  },
+  {
+    id: "u-investor-green",
+    username: "Clara Maalouf (Levant Green Ventures)",
+    email: "c.maalouf@levantgreen.com",
+    role_type: "Investor",
+    profile: {
+      bio: "Focusing strictly on climate resilience, agro-stabilization, and waste clearing technology in the Levant.",
+      linkedin_url: "https://linkedin.com/in/clara-m-green",
+      skills: ["Circular Economy", "AgriTech Venture", "Carbon Credit Mapping"],
+      role_type: "Investor"
+    }
+  },
+  {
+    id: "u-scout-lynn",
+    username: "Lynn Harake",
+    email: "lynn.h@aub.edu.lb",
+    role_type: "Scout",
+    profile: {
+      bio: "AUB MSc Graduate in Environmental Policy, researching local microgrid impacts and agricultural stability.",
+      linkedin_url: "https://linkedin.com/in/lynn-harake-aub",
+      skills: ["Policy Research", "Statistical TAM Analysis", "Green Audits"],
+      role_type: "Scout"
+    }
+  },
+  {
+    id: "u-admin-ncei",
+    username: "Prof. Ghassan Youssef (NCEI Chair)",
+    email: "ghassan.youssef@ncei-gov.org",
+    role_type: "Admin",
+    profile: {
+      bio: "Academic lead and Chief Auditor at the National Center for Enterprise and Innovation (NCEI).",
+      linkedin_url: "https://linkedin.com/in/ghassan-ncei",
+      skills: ["Ecosystem Governance", "Monetary Stabilization", "R&D Grants"],
+      role_type: "Admin"
+    }
+  }
+];
+
+let sandboxEntities: SandboxEntity[] = [
+  {
+    entity_id: "e-agridrone",
+    name: "AgriDrone Bio",
+    sector: "AgriTech / Remote Sensing",
+    stage: "MVP Testing",
+    description: "Multispectral drone inspections to optimize pesticide and water distribution in Beqaa Valley.",
+    problem_statement: "Beqaa Valley farmers are struggling with skyrocketing diesel bills for irrigation pumps and imported chemical fertilizing agent costs.",
+    solution_statement: "Precision drone crop monitoring that targets water application and reduces pesticide input by 35% through localized spraying logs.",
+    readiness_score: 85,
+    is_verified: true,
+    verified_by_ncei_expert: "Prof. Ghassan Youssef (NCEI Chair)",
+    embedding: "agritech agriculture drone remote sensing solar irrigation water conservation Beqaa Zahle",
+    author_id: "u-founder-farid"
+  },
+  {
+    entity_id: "e-greencedars",
+    name: "GreenCedars Energy",
+    sector: "Energy / Cleantech",
+    stage: "Seed",
+    description: "Decentralized microgrid billing software allowing communities to co-purchase and distribute solar electricity.",
+    problem_statement: "Frequent local power shutoffs force reliance on hyper-polluting local diesel generators with predatory monthly prices.",
+    solution_statement: "Deploying solar micro-grids managed by our adaptive energy sharing ledger billing software to cut diesel usage in neighborhoods by 60%.",
+    readiness_score: 92,
+    is_verified: true,
+    verified_by_ncei_expert: "Prof. Ghassan Youssef (NCEI Chair)",
+    embedding: "solar micro-grid electricity energy saving local billing ledger cleaner tripoli tri-generation battery failovers",
+    author_id: "u-founder-rayan"
+  },
+  {
+    entity_id: "e-phoenix",
+    name: "Phoenix Eco-Clearance",
+    sector: "Logistics / Circular Economy",
+    stage: "Ideation",
+    description: "Algorithmic waste sorting loops pairing scrap materials with recycling agents in Mount Lebanon.",
+    problem_statement: "Solid waste management crisis results in unauthorized burning and landfills, destroying vital tourism and agricultural assets.",
+    solution_statement: "Real-time scrap clearance marketplace allowing businesses to monetize cardboard, copper and glass, utilizing optimized transport dispatch.",
+    readiness_score: 45,
+    is_verified: false,
+    embedding: "waste recycling scrap materials marketplace logistics circular economy Mount Lebanon Beirut carbon credit",
+    author_id: "u-founder-rayan"
+  }
+];
+
+let investorMandates: InvestorMandate[] = [
+  {
+    investor_id: "u-investor-lda",
+    investor_name: "Lebanon Diaspora Alliance (Elie Dagher)",
+    sector_preferences: ["SaaS", "Fintech", "AgriTech", "Energy"],
+    target_stage: "Seed",
+    min_ticket_size: 100000,
+    max_ticket_size: 500000,
+    geographic_focus: "Lebanon Offshore, GCC Markets"
+  },
+  {
+    investor_id: "u-investor-green",
+    investor_name: "Levant Green Ventures (Clara Maalouf)",
+    sector_preferences: ["AgriTech", "Energy", "Logistics"],
+    target_stage: "Early Stage",
+    min_ticket_size: 50000,
+    max_ticket_size: 300000,
+    geographic_focus: "Beqaa, Mount Lebanon, South Lebanon"
+  }
+];
+
+let matchingRecords: MatchingRecord[] = [
+  {
+    match_id: "m-1",
+    startup_id: "e-agridrone",
+    investor_id: "u-investor-green",
+    match_score: 96,
+    status: "Vetted",
+    ncei_notes: "Highly qualified match during NCEI review. Agritech aligns completely with Levant Green's carbon goals.",
+    match_rationale: "AgriDrone solves a critical agro-financial pain in Levant's target Beqaa focus area, perfectly fitting LG's ticket mandate."
+  },
+  {
+    match_id: "m-2",
+    startup_id: "e-greencedars",
+    investor_id: "u-investor-lda",
+    match_score: 89,
+    status: "Pending",
+    ncei_notes: "Strong team competence, requires offshore UK Ltd incorporating layers.",
+    match_rationale: "SaaS microgrid is highly scalable to Jordan & GCC. LDA diaspora capital pairs beautifully with Rayan's vision."
+  }
+];
+
+let dataRooms: DataRoomItem[] = [
+  {
+    id: "doc-1",
+    entity_id: "e-agridrone",
+    document_type: "Feasibility Study",
+    name: "Beqaa Valley Crop Multi-Telemetry Feasibility Report v2.pdf",
+    storage_url: "https://z961combinator.xyz/data-room/agridrone-feasibility.pdf",
+    views_log: [
+      { viewer_id: "u-investor-green", viewer_name: "Clara Maalouf (Green Ventures)", timestamp: "2026-06-10 14:15" }
+    ]
+  },
+  {
+    id: "doc-2",
+    entity_id: "e-agridrone",
+    document_type: "Financials",
+    name: "AgriDrone Bio 5-Year Fresh USD Cashflow Projections.xlsx",
+    storage_url: "https://z961combinator.xyz/data-room/agridrone-cashflows.xlsx",
+    views_log: []
+  },
+  {
+    id: "doc-3",
+    entity_id: "e-greencedars",
+    document_type: "Deck",
+    name: "GreenCedars SaaS Microgrid Investment Pitch deck.pdf",
+    storage_url: "https://z961combinator.xyz/data-room/greencedars-pitchdeck.pdf",
+    views_log: [
+      { viewer_id: "u-investor-lda", viewer_name: "Elie Dagher (Diaspora Alliance)", timestamp: "2026-06-09 09:30" }
+    ]
+  }
+];
+
+let researchReports: ResearchReport[] = [
+  {
+    id: "rep-1",
+    title: "Green Energy Recovery TAM Study: Decentralized Solar Cleared Markets in Lebanon",
+    author: "Lynn Harake (AUB)",
+    summary: "Estimating the aggregate TAM at $420M annually across 80% non-functional state grid structures.",
+    content: "Detailed economic study tracking 24 administrative districts. Community microgrids represent the fastest mechanism for green recovery, scaling fresh monetization structures via local merchant aggregations.",
+    date: "2026-05-15"
+  },
+  {
+    id: "rep-2",
+    title: "Fintech Circular 165 Impacts: Transitioning Cash Economy to Bank Clearing Ledger Platforms",
+    author: "Z961 Economist Team & LAU Scholars",
+    summary: "Analyses over $1.2B physical cash volume and how digital clearance settles payroll friction.",
+    content: "Circular 165 enables check clearings in Fresh USD. This allows digital SaaS payroll startups like Purse Pay to capture 1.5% clearings margins safely while bypassing hyperinflation structures.",
+    date: "2026-06-01"
+  }
+];
+
+
+// --- API routes for the Initiative Sandbox ---
+
+// GET All Initiative data
+app.get("/api/initiative/all", (req, res) => {
+  res.json({
+    users: sandboxUsers,
+    entities: sandboxEntities,
+    mandates: investorMandates,
+    matches: matchingRecords,
+    dataroom: dataRooms,
+    research: researchReports
+  });
+});
+
+// POST Register/Submitting sandbox entities
+app.post("/api/initiative/entities", (req, res) => {
+  const { name, sector, stage, description, problem_statement, solution_statement, author_id } = req.body;
+
+  if (!name || !problem_statement || !solution_statement) {
+    return res.status(400).json({ error: "Name, problem, and solution statements are required." });
+  }
+
+  // Calculate an automatic readiness score based on completeness
+  let initialScore = 30;
+  if (stage === "Revenue" || stage === "IPO") initialScore += 40;
+  else if (stage === "MVP Testing" || stage === "Seed" || stage === "Series A") initialScore += 25;
+  else initialScore += 10;
+
+  if (description && description.length > 50) initialScore += 10;
+  if (problem_statement && problem_statement.length > 100) initialScore += 10;
+  if (solution_statement && solution_statement.length > 100) initialScore += 10;
+  initialScore = Math.min(initialScore, 95);
+
+  const newEntity: SandboxEntity = {
+    entity_id: `e-${Date.now()}`,
+    name,
+    sector: sector || "Technology / General",
+    stage: stage || "Ideation",
+    description: description || "General innovation startup",
+    problem_statement,
+    solution_statement,
+    readiness_score: initialScore,
+    is_verified: false,
+    embedding: `${name} ${sector} ${description} ${problem_statement} ${solution_statement}`.toLowerCase(),
+    author_id: author_id || "u-founder-farid"
+  };
+
+  sandboxEntities.push(newEntity);
+  res.status(201).json(newEntity);
+});
+
+// POST Admin Verification & Audit of Readiness
+app.post("/api/initiative/verify", (req, res) => {
+  const { entity_id, readiness_score, ncei_notes, verified_by } = req.body;
+
+  const entity = sandboxEntities.find((e) => e.entity_id === entity_id);
+  if (!entity) {
+    return res.status(404).json({ error: "Sandbox entity not found." });
+  }
+
+  entity.is_verified = true;
+  entity.readiness_score = Math.min(100, Math.max(0, Number(readiness_score)));
+  entity.verified_by_ncei_expert = verified_by || "Prof. Ghassan Youssef (NCEI Chair)";
+
+  // Ensure and update status of matching notes for related records
+  matchingRecords.forEach((m) => {
+    if (m.startup_id === entity_id) {
+      m.ncei_notes = ncei_notes || "Verified by NCEI experts.";
+      m.status = "Vetted";
+    }
+  });
+
+  res.json({ message: "Entity successfully verified and readiness score validated.", entity });
+});
+
+// POST Simulate Vector Matcher RAG Engine
+app.post("/api/initiative/matches/generate", async (req, res) => {
+  const { entity_id, investor_id } = req.body;
+
+  const entity = sandboxEntities.find((e) => e.entity_id === entity_id);
+  const mandate = investorMandates.find((m) => m.investor_id === investor_id);
+
+  if (!entity || !mandate) {
+    return res.status(400).json({ error: "Valid startup entity and investor mandate are required." });
+  }
+
+  const existing = matchingRecords.find((m) => m.startup_id === entity_id && m.investor_id === investor_id);
+  if (existing) {
+    return res.json(existing);
+  }
+
+  let matchScore = 55;
+  let rationale = "General interest, sector overlap.";
+
+  const sectorOverlap = mandate.sector_preferences.some(
+    (sec) => entity.sector.toLowerCase().includes(sec.toLowerCase()) || entity.embedding.includes(sec.toLowerCase())
+  );
+
+  if (sectorOverlap) {
+    matchScore += 25;
+  }
+  if (entity.is_verified) {
+    matchScore += 15;
+  }
+  if (entity.readiness_score > 80) {
+    matchScore += 10;
+  }
+
+  matchScore = Math.min(99, matchScore);
+
+  if (matchScore >= 80) {
+    rationale = `High structural compatibility. Sector matches ${mandate.sector_preferences.join(", ")}. Perfect alignment with the ${mandate.geographic_focus} mandate. Team readiness verified.`;
+  } else if (matchScore >= 60) {
+    rationale = `Moderate structural overlap. The entity's stage (${entity.stage}) targets the investor's criteria but needs secondary cross-border compliance optimization.`;
+  } else {
+    rationale = "Low sector similarity score. Strategic diversification might be required.";
+  }
+
+  if (geminiApiKey) {
+    try {
+      const prompt = `You are the chief mathematical auditor for Z961combinator Initiative's Smart Matching Engine.
+Evaluate the semantic alignment (cosine similarity index) between this Lebanese startup entity and the investor mandate:
+
+Startup Entity Profile:
+- Name: ${entity.name}
+- Sector: ${entity.sector}
+- Stage: ${entity.stage}
+- Readiness Score: ${entity.readiness_score}/100 (Verified: ${entity.is_verified})
+- Problem: ${entity.problem_statement}
+- Solution: ${entity.solution_statement}
+
+Investor Mandate Profile:
+- Investor: ${mandate.investor_name}
+- Sector Preferences: ${mandate.sector_preferences.join(", ")}
+- Target Stage: ${mandate.target_stage}
+- Ticket sizes: $${mandate.min_ticket_size} - $${mandate.max_ticket_size}
+- Geographic Focus: ${mandate.geographic_focus}
+
+Calculate and return a smart response in strict JSON:
+{
+  "match_score": number (between 40 and 99),
+  "match_rationale": "markdown formatted paragraph detailing the exact synergies (e.g. green recovery, diaspora FX routing, tech talent density) and risk-mitigation advice."
+}
+Return raw JSON only, no markdown wrappers and no backticks.`;
+
+      const genAIResponse = await ai.models.generateContent({
+        model: "gemini-3.5-flash",
+        contents: prompt,
+        config: { responseMimeType: "application/json" }
+      });
+
+      const responseText = genAIResponse.text?.trim() || "{}";
+      const cleanedJSON = JSON.parse(responseText);
+
+      if (cleanedJSON.match_score) matchScore = cleanedJSON.match_score;
+      if (cleanedJSON.match_rationale) rationale = cleanedJSON.match_rationale;
+
+    } catch (e) {
+      console.error("Gemini Match calculation failed:", e);
+    }
+  }
+
+  const newMatch: MatchingRecord = {
+    match_id: `m-${Date.now()}`,
+    startup_id: entity_id,
+    investor_id: investor_id,
+    match_score: matchScore,
+    status: "Pending",
+    ncei_notes: "Auto-computed smart semantic recommendation.",
+    match_rationale: rationale
+  };
+
+  matchingRecords.push(newMatch);
+  res.status(201).json(newMatch);
+});
+
+// POST Update match status
+app.post("/api/initiative/matches/status", (req, res) => {
+  const { match_id, status, ncei_notes } = req.body;
+  const match = matchingRecords.find((m) => m.match_id === match_id);
+  if (!match) {
+    return res.status(404).json({ error: "Matching record not found." });
+  }
+
+  match.status = status;
+  if (ncei_notes) {
+    match.ncei_notes = ncei_notes;
+  }
+  res.json(match);
+});
+
+// POST Upload a document to sandbox data room
+app.post("/api/initiative/dataroom/upload", (req, res) => {
+  const { entity_id, document_type, name, storage_url } = req.body;
+
+  if (!entity_id || !document_type || !name) {
+    return res.status(400).json({ error: "Entity, document type, and name are required." });
+  }
+
+  const newDoc: DataRoomItem = {
+    id: `doc-${Date.now()}`,
+    entity_id,
+    document_type,
+    name,
+    storage_url: storage_url || "https://z961combinator.xyz/data-room/placeholder-download.pdf",
+    views_log: []
+  };
+
+  dataRooms.push(newDoc);
+  res.status(201).json(newDoc);
+});
+
+// POST Log document review by investor
+app.post("/api/initiative/dataroom/view", (req, res) => {
+  const { doc_id, viewer_id, viewer_name } = req.body;
+
+  const doc = dataRooms.find((d) => d.id === doc_id);
+  if (!doc) {
+    return res.status(404).json({ error: "Document not found." });
+  }
+
+  const alreadyLogged = doc.views_log.some((v) => v.viewer_id === viewer_id);
+  if (!alreadyLogged) {
+    doc.views_log.push({
+      viewer_id: viewer_id || "investor-anon",
+      viewer_name: viewer_name || "Diaspora Investor",
+      timestamp: new Date().toISOString().replace("T", " ").substring(0, 16)
+    });
+  }
+
+  res.json(doc);
+});
+
+// POST Agent Intermediary Chatbot
+app.post("/api/initiative/chat", async (req, res) => {
+  const { message, activeRole, activeUserId, entityContextId } = req.body;
+
+  if (!message) {
+    return res.status(400).json({ error: "No message parameter provided." });
+  }
+
+  // Intent analysis
+  let classification = "CLASS_STATUS";
+  const msgLower = message.toLowerCase();
+
+  if (msgLower.includes("upload") || msgLower.includes("document") || msgLower.includes("study") || msgLower.includes("file") || msgLower.includes("pdf")) {
+    classification = "CLASS_UPLOAD";
+  } else if (msgLower.includes("match") || msgLower.includes("investor") || msgLower.includes("pair") || msgLower.includes("diaspora") || msgLower.includes("align")) {
+    classification = "CLASS_MATCH";
+  } else if (msgLower.includes("verify") || msgLower.includes("ncei") || msgLower.includes("approve") || msgLower.includes("score")) {
+    classification = "CLASS_VERIFY";
+  } else if (msgLower.includes("status") || msgLower.includes("negotiation") || msgLower.includes("milestone") || msgLower.includes("track")) {
+    classification = "CLASS_STATUS";
+  }
+
+  const userContext = sandboxUsers.find((u) => u.id === activeUserId) || sandboxUsers[0];
+  const activeEntity = sandboxEntities.find((e) => e.entity_id === entityContextId || e.author_id === activeUserId) || sandboxEntities[0];
+
+  let replyText = "";
+  let actionTaken = null;
+
+  if (geminiApiKey) {
+    try {
+      const prompt = `You are the Z961combinator Institutional Intermediary chatbot.
+Your job is to assist Lebanese startup founders, diaspora investors, academic scouts, and NCEI administrators.
+You act with legal compliance and professional gravity, facilitating transactions under Lebanese BDL circulars (like Circular 165) and global sandbox requirements.
+
+Active User: ${userContext.username}
+Role: ${activeRole || userContext.role_type}
+Primary Active Startup Profile: ${activeEntity.name} (Sector: ${activeEntity.sector}, Verified: ${activeEntity.is_verified}, Score: ${activeEntity.readiness_score})
+
+User Message: "${message}"
+
+Formulate a highly professional response that addresses the user's intent. Present recommendations clearly:
+1. Classification category (one of: CLASS_UPLOAD, CLASS_MATCH, CLASS_VERIFY, CLASS_STATUS).
+2. Action recommendations (e.g. uploading to Data Room, trigger matching query, expert endorsement).
+3. Professional compliance feedback (reminding them about fresh clearing protocols where relevant).
+
+Return the response in a strict valid JSON format:
+{
+  "classification": "CLASS_UPLOAD" | "CLASS_MATCH" | "CLASS_VERIFY" | "CLASS_STATUS",
+  "reply": "markdown structured text response explaining what to do.",
+  "action_suggested": {
+    "type": "string",
+    "target": "string",
+    "params": {}
+  }
+}
+Return raw JSON only, no backtick wrap.`;
+
+      const geminiRes = await ai.models.generateContent({
+        model: "gemini-3.5-flash",
+        contents: prompt,
+        config: { responseMimeType: "application/json" }
+      });
+
+      const parsed = JSON.parse(geminiRes.text?.trim() || "{}");
+      classification = parsed.classification || classification;
+      replyText = parsed.reply || "Unable to compute reply.";
+      actionTaken = parsed.action_suggested || null;
+
+    } catch (e: any) {
+      console.error("Gemini failed in intermediary chat, rolling back to offline logic:", e);
+    }
+  }
+
+  // Fallback response builder if GPT/Gemini failed or not active
+  if (!replyText) {
+    if (classification === "CLASS_UPLOAD") {
+      replyText = `### 📂 Data Room Compliance Intermediary
+Greetings **${userContext.username}**, I have classified your query as a Document Upload Action.
+
+Under **NDAs and Diaspora Clearance protocols**, you can host secure attachments (Feasibility Studies, Multi-year fresh USD forecasts, etc.) in your **Institutional Sandbox Data Room**.
+- **Recommended Action**: Navigate to the **Data Room** sub-pane below. Use the Document Upload trigger button.
+- **Auditing Note**: Every investor visual click is cryptographic-stamped and logged under the founder analytical table to guarantee investor-view traceability.`;
+      actionTaken = { type: "system_guidance", target: "dataroom_pane", params: { advice: "Upload feasibility reports to increase matching probability." } };
+    } else if (classification === "CLASS_MATCH") {
+      replyText = `### 🤝 RAG Smart Matching Engine Intermediary
+Greetings **${userContext.username}**, I have classified your query as a Semantic Matching Request.
+
+Utilizing **OpenAI text-embedding models** and **pgvector** similarity metrics, the system identifies synergies between your problem statements and active diaspora investor mandates.
+- **Recommended Action**: Trigger the **Smart Matching simulator** below. It will pair **${activeEntity.name}** with **Levant Green Ventures** or **Lebanon Diaspora Alliance** and render an AI score detailing synergies.
+- **Readiness requirement**: High-level matches require a verified status validated by NCEI Experts to secure diaspora investor credibility.`;
+      actionTaken = { type: "system_guidance", target: "match_engine", params: { advice: "Optimize readiness score to unlock priority investor feeds." } };
+    } else if (classification === "CLASS_VERIFY") {
+      replyText = `### 🛡️ NCEI Regulatory Endorsement Intermediary
+Greetings **${userContext.username}**, I have classified your query as an Academic Audit or Scoring Endorsement.
+
+For institutional confidence, startup profiles require a "Human-in-the-loop" approval score. Researchers assess Tam, team coherence, and cashflow.
+- **Recommended Action**: Toggle your active role to **NCEI Admin** on the sandbox dashboard, then click **Verify Entity** and set a high score.
+- **Audit Benefit**: This activates the project on global partner feeds (UNDP / GCC Commercial Attachés) automatically.`;
+      actionTaken = { type: "system_guidance", target: "ncei_cms", params: { advice: "Request Ghassan Youssef to review pending Pitch decks." } };
+    } else {
+      replyText = `### 📊 Milestone and Status Tracker
+Greetings **${userContext.username}**, I have classified your request as a Negotiation Tracking or Status query.
+
+Active Sandboxed collaborations are tracked below. Statuses:
+- **Pending**: Auto-match established, waiting for introductory protocol.
+- **Vetted**: Under review by NCEI academic team.
+- **Accepted**: High-level NDA signed, active feasibility reviews on-going.
+- **Settled / Closed**: Capital ticket committed via fresh channels.`;
+      actionTaken = { type: "system_guidance", target: "milestones", params: { advice: "Observe active milestones logs." } };
+    }
+  }
+
+  res.json({
+    classification,
+    reply: replyText,
+    actionTaken,
+    userContext,
+    activeEntity
+  });
+});
+
+
 // --- Server routing configuration (Vite integration) ---
 
 async function startServer() {

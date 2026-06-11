@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Briefcase, Landmark, Lightbulb, MessageSquare, Newspaper, PlusCircle, Sparkles, TrendingUp, ChevronDown, Award, FileText, CheckCircle2 } from "lucide-react";
+import { Briefcase, Landmark, Lightbulb, MessageSquare, Newspaper, PlusCircle, Sparkles, TrendingUp, ChevronDown, Award, FileText, CheckCircle2, Shield } from "lucide-react";
 
 interface HeaderProps {
   currentTab: string;
@@ -114,6 +114,19 @@ export default function Header({ currentTab, setTab, stats }: HeaderProps) {
             }`}
           >
             <span>Pitch Lab (AI)</span>
+          </button>
+
+          <button
+            id="tab_btn_sandbox"
+            onClick={() => handleTabClick("sandbox")}
+            className={`px-3 py-1.5 border-2 border-black font-black transition-all flex items-center gap-1 cursor-pointer ${
+              currentTab === "sandbox"
+                ? "bg-black text-[#FF6600] shadow-[2px_2px_0px_0px_rgba(255,102,0,1)]"
+                : "bg-[#FFF9E6] text-black hover:bg-[#FFEAA7] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+            }`}
+          >
+            <Shield className="w-4 h-4 text-[#FF6600]" />
+            <span>Sandbox</span>
           </button>
 
           {/* New z961COMBINATOR Program Menu Dropdown */}
