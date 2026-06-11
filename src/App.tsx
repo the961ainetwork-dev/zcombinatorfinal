@@ -10,6 +10,9 @@ import CoreValues from "./components/CoreValues";
 import ResourcesHub from "./components/ResourcesHub";
 import InitiativeSandbox from "./components/InitiativeSandbox";
 import HeroSection from "./components/HeroSection";
+import NdaRegistration from "./components/NdaRegistration";
+import TorRules from "./components/TorRules";
+import FaqHub from "./components/FaqHub";
 import { Story, Startup, Job } from "./types";
 import { Info, Mail, Phone, MapPin, Loader2, Sparkles } from "lucide-react";
 
@@ -300,7 +303,7 @@ export default function App() {
     }
   ];
 
-  const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources" | "sandbox">("prospectus");
+  const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources" | "sandbox" | "nda" | "tor" | "faq">("prospectus");
   const [stories, setStories] = useState<Story[]>(INITIAL_STORIES);
   const [startups, setStartups] = useState<Startup[]>(INITIAL_STARTUPS);
   const [jobs, setJobs] = useState<Job[]>(INITIAL_JOBS);
@@ -624,6 +627,12 @@ export default function App() {
           {currentTab === "resources" && <ResourcesHub />}
 
           {currentTab === "sandbox" && <InitiativeSandbox />}
+
+          {currentTab === "nda" && <NdaRegistration />}
+
+          {currentTab === "tor" && <TorRules />}
+
+          {currentTab === "faq" && <FaqHub />}
         </div>
       </main>
 

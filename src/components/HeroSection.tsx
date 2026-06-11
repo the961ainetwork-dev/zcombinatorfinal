@@ -5,7 +5,7 @@ import { Shield, Cpu, Lock, Award, ChevronLeft, ChevronRight, Activity, Trending
 export default function HeroSection() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const totalSlides = 3;
+  const totalSlides = 4;
 
   useEffect(() => {
     if (isPaused) return;
@@ -47,12 +47,146 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.5 }}
+            className="p-6 md:p-10 lg:p-12 relative z-10 w-full min-h-[460px] flex items-center bg-black overflow-hidden"
+            id="hero_slide_combinator_premium"
+          >
+            {/* Background Subtle Column Grid Dividers matching the uploaded design */}
+            <div className="absolute inset-0 grid grid-cols-6 pointer-events-none z-0 divide-x divide-zinc-900/50 opacity-60">
+              <div></div><div></div><div></div><div></div><div></div><div></div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full relative z-10">
+              {/* LEFT COLUMN: Large stark overlapping typography */}
+              <div className="lg:col-span-5 flex flex-col justify-between h-full select-none text-left" id="hero_left_stack_premium">
+                <div className="space-y-0 tracking-tighter leading-none font-black text-white">
+                  <div className="text-7xl md:text-8xl xl:text-[8.5rem] font-syne uppercase select-none opacity-95" style={{ letterSpacing: "-0.05em" }}>
+                    Z961
+                  </div>
+                  <div className="text-6xl md:text-7xl xl:text-[6.5rem] font-serif font-light tracking-normal italic text-white/95 select-none -mt-4">
+                    COMB
+                  </div>
+                  <div className="text-7xl md:text-8xl xl:text-[8.5rem] font-syne uppercase select-none opacity-95 -mt-4" style={{ letterSpacing: "-0.05em" }}>
+                    Z961
+                  </div>
+                  <div className="text-5xl md:text-6xl xl:text-[5.5rem] font-serif tracking-normal leading-[0.9] select-none font-bold uppercase text-white -mt-1">
+                    COMBINATOR
+                  </div>
+                </div>
+
+                <div className="mt-8 text-[10px] md:text-xs font-mono tracking-[0.3em] uppercase text-zinc-400 font-extrabold" id="investments_caption">
+                  WHERE INNOVATION MEETS INVESTMENTS
+                </div>
+              </div>
+
+              {/* CENTER COLUMN: Interactive 3D cad mechanical engine tablet graphics */}
+              <div className="lg:col-span-3 flex items-center justify-center relative py-4 lg:py-0" id="hero_center_image_premium_container">
+                <div className="w-full max-w-[240px] lg:max-w-none bg-zinc-950 border border-zinc-800 p-2 shadow-[0px_0px_30px_rgba(255,255,255,0.03)] relative overflow-visible">
+                  
+                  {/* Outer Frame Border matching CAD tablet */}
+                  <div className="border border-white/20 p-1 bg-black aspect-[3/4] relative w-full overflow-hidden flex items-center justify-center">
+                    
+                    {/* Tablet CAD Screen Image */}
+                    <img
+                      src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop"
+                      alt="961 Combinator Engine CAD tablet"
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover grayscale opacity-80 contrast-125"
+                    />
+                    
+                    {/* Dark gradient overlay */}
+                    <div className="absolute inset-0 bg-black/35 pointer-events-none mix-blend-multiply"></div>
+
+                    {/* Blue Tech Grid overlay */}
+                    <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#06b6d4_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+
+                    {/* Active Screen Frame Info Overlay */}
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 flex justify-between items-center text-[7.5px] font-mono text-cyan-400 font-extrabold uppercase tracking-wider z-15 bg-black/80 px-2 py-1 border border-cyan-950">
+                      <span>ENGINE MODE: ONLINE</span>
+                      <span>SECURE SANDBOX</span>
+                    </div>
+                  </div>
+
+                  {/* HIGH FIDELITY NEON BLUE FLOATING CAD TAGS OVERLAY */}
+                  {/* Torque Equation Tag (Left overlay pointing to engine) */}
+                  <div className="absolute top-10 -left-12 z-20 hidden sm:flex items-center" id="cad_overlay_torque">
+                    <div className="bg-zinc-950/95 border border-cyan-500/50 px-2 py-1 text-[8.5px] font-mono text-cyan-400 font-bold uppercase shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+                      TORQUE = r × F
+                    </div>
+                    {/* Connecting line */}
+                    <div className="w-6 h-[1px] bg-cyan-500/70 border-t border-dashed border-cyan-400/50"></div>
+                  </div>
+
+                  {/* Acceleration Equation Tag (Bottom-left overlay pointing to screen data) */}
+                  <div className="absolute bottom-16 -left-14 z-20 hidden sm:flex flex-col items-end" id="cad_overlay_acceleration">
+                    <div className="bg-zinc-950/95 border border-cyan-500/50 px-2 py-1 text-[8px] font-mono text-cyan-400 font-bold uppercase shadow-[0_2px_10px_rgba(0,0,0,0.5)] space-y-0.5">
+                      <div>F = m a</div>
+                      <div className="text-[7px] text-cyan-500 font-medium">F = m · dv / dt</div>
+                    </div>
+                    {/* Angled leader line */}
+                    <svg className="w-8 h-4 text-cyan-400/70 overflow-visible" viewBox="0 0 32 16">
+                      <line x1="32" y1="0" x2="16" y2="16" stroke="currentColor" strokeWidth="1" strokeDasharray="2,2" />
+                      <line x1="16" y1="16" x2="0" y2="16" stroke="currentColor" strokeWidth="1" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              {/* RIGHT COLUMN: Editorial summary & link */}
+              <div className="lg:col-span-4 flex flex-col justify-center h-full pt-4 lg:pt-0 text-left relative" id="hero_right_editorial_premium">
+                <div className="space-y-6 max-w-sm">
+                  <h3 className="font-serif italic text-xl md:text-2xl text-white tracking-wide leading-tight">
+                    961 Combinator: Fusion of Data and Form
+                  </h3>
+                  
+                  <div className="h-[1.5px] bg-zinc-800 w-full"></div>
+                  
+                  <div className="space-y-4">
+                    <p className="text-[11px] md:text-xs text-zinc-400 leading-relaxed font-sans font-medium text-justify normal-case">
+                      Algorithmic synthesis and procedural generation are the core principles of the 961 Combinator. The system leverages advanced artificial intelligence models and micro-operational frameworks to blend functional elegance with persistent offshore capital.
+                    </p>
+                    
+                    <p className="text-[11px] md:text-xs text-zinc-400 leading-relaxed font-sans font-medium text-justify normal-case">
+                      Our dedication to robust execution informs every single combination, creating a new borderless language of design and financial sovereignty for Lebanon’s premium tech-builders.
+                    </p>
+                  </div>
+
+                  <div className="pt-2">
+                    <a 
+                      href="#dropdown_z961_menu_container"
+                      className="inline-flex items-center gap-2 text-[10px] font-mono font-black tracking-[0.2em] uppercase text-white hover:text-orange-400 transition-all hover:translate-x-1"
+                    >
+                      LEARN MORE <span className="text-sm font-sans">→</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* BIG SPINNING 8-POINT ROTATOR STAR AT THE BOTTOM RIGHT OF CONTAINER */}
+            <div className="absolute bottom-6 right-6 lg:bottom-10 lg:right-10 z-10 shrink-0 hidden md:block" id="spinning_accent_star">
+              <svg viewBox="0 0 100 100" className="w-16 h-16 text-white animate-[spin_30s_linear_infinite]" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="50" y1="10" x2="50" y2="90" stroke="white" strokeWidth="10" strokeLinecap="square" />
+                <line x1="10" y1="50" x2="90" y2="50" stroke="white" strokeWidth="10" strokeLinecap="square" />
+                <line x1="21.72" y1="21.72" x2="78.28" y2="78.28" stroke="white" strokeWidth="10" strokeLinecap="square" />
+                <line x1="21.72" y1="78.28" x2="78.28" y2="21.72" stroke="white" strokeWidth="10" strokeLinecap="square" />
+              </svg>
+            </div>
+          </motion.div>
+        )}
+
+        {activeSlide === 1 && (
+          <motion.div
+            key="slide1"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.5 }}
             className="p-6 md:p-10 lg:p-12 relative z-10 w-full"
             id="hero_slide_lets_talk"
           >
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               {/* Left Stack: Dynamic Content matching the user's uploaded layout */}
-              <div className="lg:col-span-7 space-y-6 text-left" id="slide0_left">
+              <div className="lg:col-span-7 space-y-6 text-left" id="slide1_left">
                 {/* Aligned Badge */}
                 <div className="flex items-center gap-2 font-mono text-[10px] md:text-xs text-zinc-300 font-black tracking-widest bg-zinc-900 border border-zinc-800 px-3 py-1.5 w-fit uppercase">
                   <Shield className="w-4 h-4 text-emerald-400 stroke-[2.5]" />
@@ -74,8 +208,8 @@ export default function HeroSection() {
                   No cap, this is the biggest shift in the Lebanese ecosystem yet. Coupling offshore capital with the fresh revenue generated by remote engineers.
                 </p>
 
-                {/* Three precise feature items mirroring the uploaded image exactly */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-zinc-900" id="slide0_features">
+                {/* Three precise feature items */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-zinc-900" id="slide1_features">
                   {/* Smart Matching */}
                   <div className="space-y-1.5">
                     <div className="flex items-center gap-2">
@@ -117,8 +251,8 @@ export default function HeroSection() {
                 </div>
               </div>
 
-              {/* Right Stack: Creative Vector Grids representing magazine models from screen */}
-              <div className="lg:col-span-5 h-full flex items-center justify-center relative" id="slide0_right">
+              {/* Right Stack: Creative Vector Grids */}
+              <div className="lg:col-span-5 h-full flex items-center justify-center relative" id="slide1_right">
                 <div className="grid grid-cols-2 gap-3 w-full max-w-[380px] lg:max-w-none bg-zinc-950 border-2 border-zinc-850 p-4 shadow-[0px_0px_25px_rgba(255,255,255,0.03)] selection:bg-white selection:text-black">
                   {/* Mockup magazine card 1 */}
                   <div className="border border-zinc-800 p-2.5 bg-[#121212] aspect-[4/3] flex flex-col justify-between hover:border-zinc-500 transition-all">
@@ -131,7 +265,7 @@ export default function HeroSection() {
                       <p className="text-[8px] font-mono text-zinc-500 mt-1 uppercase">Aesthetic Synthesis</p>
                     </div>
                     <div className="h-6 border-t border-dashed border-zinc-800 flex items-center justify-between text-[7px] font-mono mt-2">
-                      <span>FORM / PATTERN</span>
+                       <span>FORM / PATTERN</span>
                       <span>01</span>
                     </div>
                   </div>
@@ -161,7 +295,7 @@ export default function HeroSection() {
                       <h4 className="font-serif italic text-xs text-zinc-300">GAUCHERE</h4>
                       <p className="text-[8px] font-mono text-zinc-500 mt-0.5 uppercase">Diaspora Network</p>
                     </div>
-                    <div className="bg-zinc-950 border border-zinc-855 text-zinc-450 p-1 font-mono text-[7px] text-center uppercase">
+                    <div className="bg-zinc-950 border border-zinc-855 text-zinc-455 p-1 font-mono text-[7px] text-center uppercase">
                       NCEI ENDORSED NODE
                     </div>
                   </div>
@@ -178,89 +312,8 @@ export default function HeroSection() {
                     </div>
                     <div className="flex items-center gap-1">
                       <span className="w-1.5 h-1.5 bg-white"></span>
-                      <span className="text-[7px] font-mono text-zinc-450">SECURE DISPATCH</span>
+                      <span className="text-[7px] font-mono text-zinc-455">SECURE DISPATCH</span>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-        {activeSlide === 1 && (
-          <motion.div
-            key="slide1"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.5 }}
-            className="p-6 md:p-10 lg:p-12 relative z-10 w-full"
-            id="hero_slide_combinator_original"
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              {/* LEFT COLUMN: Large stark overlapping typography */}
-              <div className="lg:col-span-5 flex flex-col justify-between select-none text-left" id="hero_left_stack">
-                <div className="space-y-0 tracking-tighter leading-none font-black text-white">
-                  <div className="text-7xl md:text-8xl xl:text-[8.5rem] font-syne uppercase select-none opacity-80" style={{ letterSpacing: "-0.05em" }}>
-                    Z961
-                  </div>
-                  <div className="text-6xl md:text-7xl xl:text-[6.5rem] font-serif font-light tracking-normal italic text-white/90 select-none">
-                    COMB
-                  </div>
-                  <div className="text-7xl md:text-8xl xl:text-[8.5rem] font-syne uppercase select-none opacity-85 hover:opacity-100 transition-all" style={{ letterSpacing: "-0.05em" }}>
-                    Z961
-                  </div>
-                  <div className="text-5xl md:text-6xl xl:text-[5.5rem] font-serif tracking-normal leading-tight select-none font-bold uppercase text-white">
-                    COMBINATOR
-                  </div>
-                </div>
-
-                <div className="mt-6 text-[10px] md:text-xs font-mono tracking-[0.25em] uppercase text-zinc-455 font-bold">
-                  WHERE INNOVATION MEETS DISPERSION
-                </div>
-              </div>
-
-              {/* CENTER COLUMN: Vertical high-fashion editorial monochrome image inside sharp border */}
-              <div className="lg:col-span-3 flex items-center justify-center relative" id="hero_center_image_container">
-                <div className="w-full max-w-[240px] lg:max-w-none bg-zinc-900 border-2 border-white/40 p-1.5 shadow-[0px_0px_20px_rgba(255,255,255,0.05)] relative group overflow-hidden">
-                  <div className="aspect-[3/4] relative w-full overflow-hidden bg-black">
-                    <img
-                      src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=800&auto=format&fit=crop"
-                      alt="Z961 Combinator High Fashion Editorial model"
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover grayscale contrast-125 brightness-95 transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
-                    <div className="absolute bottom-3 left-3 bg-white text-black text-[9px] font-mono tracking-widest uppercase py-0.5 px-1.5 font-black border border-black z-10">
-                      PLATEAU 01 / FORM
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* RIGHT COLUMN: Editorial summary & rotating asterisk star */}
-              <div className="lg:col-span-4 flex flex-col justify-between pt-4 lg:pt-0 text-left" id="hero_right_editorial">
-                <div className="space-y-4 max-w-sm">
-                  <h3 className="font-serif italic text-xl md:text-2xl text-white tracking-wide border-b border-white/20 pb-2 flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-white fill-white" />
-                    <span>Fusion of Data and Form</span>
-                  </h3>
-                  
-                  <p className="text-[11px] md:text-xs text-zinc-400 leading-relaxed font-sans font-medium text-justify normal-case">
-                    Algorithmic synthesis and procedural generation are the core principles of the 961 Combinator. The system leverages advanced artificial intelligence models and micro-operational frameworks to blend functional elegance with persistent offshore capital.
-                  </p>
-                  
-                  <p className="text-[11px] md:text-xs text-zinc-400 leading-relaxed font-sans font-medium text-justify normal-case">
-                    Our dedication to robust execution informs every single combination, creating a new borderless language of design and financial sovereignty for Lebanon’s premium tech-builders.
-                  </p>
-
-                  <div className="pt-2">
-                    <a 
-                      href="#dropdown_z961_menu_container"
-                      className="inline-flex items-center gap-2 text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-white hover:text-zinc-300 transition-all hover:translate-x-1"
-                    >
-                      LEARN MORE <span className="text-sm font-sans">→</span>
-                    </a>
                   </div>
                 </div>
               </div>
@@ -362,6 +415,90 @@ export default function HeroSection() {
                   </div>
                 </div>
               </div>
+            </div>
+          </motion.div>
+        )}
+
+        {activeSlide === 3 && (
+          <motion.div
+            key="slide3"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.5 }}
+            className="p-6 md:p-10 lg:p-12 relative z-10 w-full bg-zinc-950"
+            id="hero_slide_ncei_creative"
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              {/* Left Column: Big stark typography + the circular rotating NCEI logo badge card overlay */}
+              <div className="lg:col-span-7 relative flex flex-col md:flex-row items-center gap-6 text-left" id="slide3_left">
+                {/* Big bold background text */}
+                <div className="space-y-0.5 tracking-tighter leading-none font-sans font-black text-white shrink-0">
+                  <div className="text-[2.75rem] sm:text-[4.75rem] md:text-[5.5rem] font-syne uppercase select-none text-white tracking-widest leading-none">
+                    UNLEASH
+                  </div>
+                  <div className="text-[2.25rem] sm:text-[4rem] md:text-[4.75rem] font-serif font-light tracking-wide italic text-zinc-300 leading-none">
+                    YOUR INNER
+                  </div>
+                  <div className="text-[2.75rem] sm:text-[4.75rem] md:text-[5.5rem] font-syne uppercase select-none text-white tracking-widest leading-none flex items-center gap-2">
+                    MODEL <span className="text-orange-500 font-serif leading-none font-light animate-[spin_10s_linear_infinite]">*</span>
+                  </div>
+                </div>
+
+                {/* High Fidelity NCEI Circular Badge Card Overlay */}
+                <div className="relative w-44 h-44 md:w-52 md:h-52 bg-black rounded-full border-4 border-zinc-800 flex flex-col justify-center items-center shadow-[0_0_30px_rgba(249,115,22,0.2)] overflow-hidden shrink-0 mx-auto md:mx-0" id="slide3_ncei_logo_circle">
+                  {/* Segmented orange/white tachometer styling border */}
+                  <div className="absolute inset-2 rounded-full border border-dashed border-orange-500 animate-[spin_40s_linear_infinite]" />
+                  <div className="absolute inset-1 rounded-full border-2 border-stone-800 border-t-orange-500 border-r-orange-500" />
+                  
+                  <div className="relative z-10 text-center px-4 space-y-1 select-none">
+                    <div className="font-mono text-[9px] text-orange-500 font-extrabold tracking-widest uppercase">LEBANON</div>
+                    <div className="text-2xl md:text-3xl font-syne font-black tracking-tight text-white leading-none">NCEI</div>
+                    <div className="h-0.5 bg-orange-500 w-12 mx-auto my-1"></div>
+                    <div className="text-[7.5px] md:text-[8.5px] font-mono text-zinc-300 font-extrabold uppercase leading-tight tracking-wider">
+                      The National Council<br/>for Entrepreneurship<br/>& Innovation
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: S Modernity sidebar guidelines & descriptive program info */}
+              <div className="lg:col-span-5 flex flex-col justify-between pt-4 lg:pt-0 text-left" id="slide3_right_editorial">
+                <div className="space-y-4 max-w-sm">
+                  <div className="border-b border-zinc-800 pb-2 space-y-1">
+                    <span className="text-[10px] font-mono font-bold tracking-[0.25em] text-orange-500 block">
+                      S MODERNITY • BLENDING NATIVE DESIGN
+                    </span>
+                    <h3 className="font-serif italic text-lg text-zinc-200 tracking-wide font-light leading-snug">
+                      Integrating regional constraints with world-class procedural frameworks.
+                    </h3>
+                  </div>
+                  
+                  <p className="text-[11px] text-zinc-450 leading-relaxed font-sans font-medium text-justify normal-case text-zinc-400">
+                    The National Council for Entrepreneurship & Innovation (NCEI Lebanon) acts as a neutral institutional mediator and trust broker. We validate participant credentials and digital documentation files within the 961 Combinator sandbox.
+                  </p>
+                  
+                  <p className="text-[11px] text-zinc-450 leading-relaxed font-sans font-medium text-justify normal-case text-zinc-400">
+                    This active coordination bypasses common structural bottlenecks, unlocking reliable offshore salary clearings, active investor matchings, and borderless remote contract compliance.
+                  </p>
+
+                  {/* NCEI Interactive Status Container */}
+                  <div className="flex items-center gap-3 bg-zinc-900 border border-zinc-800 p-3" id="slide3_interactive_status">
+                    <div className="w-8 h-8 rounded-full bg-orange-950/40 border border-orange-500 flex items-center justify-center shrink-0">
+                      <div className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse" />
+                    </div>
+                    <div>
+                      <span className="text-[9px] font-mono text-zinc-450 block uppercase font-bold">NCEI ACTIVE TRUST AGENT</span>
+                      <span className="text-[10px] text-zinc-200 font-sans block font-semibold">Institutional Sandbox Certified Node</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Caption Banner representing "Nurtured by..." precisely */}
+            <div className="w-full text-center mt-8 pt-4 border-t border-zinc-900 font-mono text-[10px] sm:text-xs tracking-wider uppercase text-zinc-400 select-text" id="slide3_footer_caption">
+              Nurtured by <span className="text-white font-extrabold hover:text-orange-400 transition-colors cursor-pointer">The National Council for Entrepreneurship & Innovation (NCEI Lebanon)</span>
             </div>
           </motion.div>
         )}

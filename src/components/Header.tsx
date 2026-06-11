@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Briefcase, Landmark, Lightbulb, MessageSquare, Newspaper, PlusCircle, Sparkles, TrendingUp, ChevronDown, Award, FileText, CheckCircle2, Shield, Search, X } from "lucide-react";
+import React, { useState } from "react";
+import { Briefcase, Landmark, MessageSquare, Newspaper, Sparkles, TrendingUp, ShieldCheck, Scale, Search, X, Home, BookOpen, AlertCircle, FileSpreadsheet, HelpCircle } from "lucide-react";
 
 interface HeaderProps {
   currentTab: string;
@@ -13,46 +13,180 @@ interface HeaderProps {
 }
 
 export default function Header({ currentTab, setTab, stats, searchQuery, setSearchQuery }: HeaderProps) {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setDropdownOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const isZ961Active = ["news", "ask", "show", "policy", "values", "resources"].includes(currentTab);
-
+  
   const handleTabClick = (tabName: string) => {
     setTab(tabName);
-    setDropdownOpen(false);
   };
 
   const getSearchPlaceholder = () => {
     if (["news", "ask", "show"].includes(currentTab)) {
-      return "SEARCH TECH NEWS & ARTICLES...";
+      return "SEARCH TECH NEWS...";
     } else if (currentTab === "startups") {
-      return "SEARCH STARTUPS & FOUNDERS...";
+      return "SEARCH STARTUPS...";
     } else if (currentTab === "jobs") {
-      return "SEARCH JOBS & SKILLS (+961)...";
+      return "SEARCH JOBS (+961)...";
     }
     return "SEARCH 961 COMBINATOR...";
   };
 
   return (
-    <header className="bg-white text-black border-b-4 border-black sticky top-0 z-40 py-4 font-sans" id="main_header_961">
-      <div className="max-w-7xl mx-auto px-4 flex flex-col gap-4">
-        {/* Row 1: Logo & Live Marketplace Ticker */}
+    <header className="bg-white text-black sticky top-0 z-40 font-sans border-b-4 border-black" id="main_header_two_tier">
+      {/* ================= TIER 1: SECOND TOP NAV MENU ON TOP OF ALL ================= */}
+      <div className="bg-[#121212] text-zinc-300 font-mono text-[10px] sm:text-xs border-b-2 border-black py-2.5 z-40 transition-all select-none" id="tier1_top_nav">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+          
+          {/* Top Menu Links */}
+          <nav className="flex flex-wrap items-center gap-x-1 gap-y-1.5 text-[11px] font-bold uppercase tracking-wider" id="tier1_navbar">
+            <button
+              onClick={() => handleTabClick("prospectus")}
+              className={`px-2.5 py-1 transition-all cursor-pointer hover:text-white flex items-center gap-1 border border-transparent ${
+                currentTab === "prospectus"
+                  ? "bg-zinc-800 text-white border-zinc-700"
+                  : "text-zinc-400"
+              }`}
+              id="top_tab_prospectus"
+            >
+              <Home className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <span>Prospectus</span>
+            </button>
+
+            <span className="text-zinc-700 hidden sm:inline">|</span>
+
+            <button
+              onClick={() => handleTabClick("news")}
+              className={`px-2.5 py-1 transition-all cursor-pointer hover:text-white flex items-center gap-1 border border-transparent ${
+                currentTab === "news"
+                  ? "bg-zinc-800 text-white border-zinc-700"
+                  : "text-zinc-400"
+              }`}
+              id="top_tab_news"
+            >
+              <Newspaper className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <span>Ecosystem News</span>
+            </button>
+
+            <span className="text-zinc-700 hidden sm:inline">|</span>
+
+            <button
+              onClick={() => handleTabClick("ask")}
+              className={`px-2.5 py-1 transition-all cursor-pointer hover:text-white flex items-center gap-1 border border-transparent ${
+                currentTab === "ask"
+                  ? "bg-zinc-800 text-white border-zinc-700"
+                  : "text-zinc-400"
+              }`}
+              id="top_tab_ask"
+            >
+              <MessageSquare className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <span>Ask 961</span>
+            </button>
+
+            <span className="text-zinc-700 hidden sm:inline">|</span>
+
+            <button
+              onClick={() => handleTabClick("show")}
+              className={`px-2.5 py-1 transition-all cursor-pointer hover:text-white flex items-center gap-1 border border-transparent ${
+                currentTab === "show"
+                  ? "bg-zinc-800 text-white border-zinc-700"
+                  : "text-zinc-400"
+              }`}
+              id="top_tab_show"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <span>Show 961</span>
+            </button>
+
+            <span className="text-zinc-700 hidden sm:inline">|</span>
+
+            <button
+              onClick={() => handleTabClick("policy")}
+              className={`px-2.5 py-1 transition-all cursor-pointer hover:text-white flex items-center gap-1 border border-transparent ${
+                currentTab === "policy"
+                  ? "bg-zinc-800 text-white border-zinc-700"
+                  : "text-zinc-400"
+              }`}
+              id="top_tab_policy"
+            >
+              <Landmark className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <span>Policy & Framework</span>
+            </button>
+
+            <span className="text-zinc-700 hidden sm:inline">|</span>
+
+            <button
+              onClick={() => handleTabClick("values")}
+              className={`px-2.5 py-1 transition-all cursor-pointer hover:text-white flex items-center gap-1 border border-transparent ${
+                currentTab === "values"
+                  ? "bg-zinc-800 text-white border-zinc-700"
+                  : "text-zinc-400"
+              }`}
+              id="top_tab_values"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <span>Core Values</span>
+            </button>
+
+            <span className="text-zinc-700 hidden sm:inline">|</span>
+
+            <button
+              onClick={() => handleTabClick("resources")}
+              className={`px-2.5 py-1 transition-all cursor-pointer hover:text-white flex items-center gap-1 border border-transparent ${
+                currentTab === "resources"
+                  ? "bg-zinc-800 text-white border-zinc-700"
+                  : "text-zinc-400"
+              }`}
+              id="top_tab_resources"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <span>Resource Papers</span>
+            </button>
+
+            <span className="text-zinc-700 hidden sm:inline">|</span>
+
+            <button
+              onClick={() => handleTabClick("faq")}
+              className={`px-2.5 py-1 transition-all cursor-pointer hover:text-white flex items-center gap-1 border border-transparent ${
+                currentTab === "faq"
+                  ? "bg-zinc-800 text-white border-zinc-700"
+                  : "text-zinc-400"
+              }`}
+              id="top_tab_faq"
+            >
+              <HelpCircle className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <span>FAQ</span>
+            </button>
+          </nav>
+
+          {/* Integrated Search Bar on the Right side of Top Nav */}
+          <div className="flex items-center gap-1.5 bg-zinc-900 border border-zinc-700 px-2.5 py-1 text-xs font-mono w-full lg:w-64 shrink-0 focus-within:border-zinc-400 transition-all" id="tier1_search_container">
+            <Search className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+            <input
+              id="global_search_input"
+              type="text"
+              placeholder={getSearchPlaceholder()}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="text-[10px] bg-transparent outline-none w-full text-white placeholder-zinc-550 font-mono uppercase font-black"
+            />
+            {searchQuery && (
+              <button 
+                onClick={() => setSearchQuery("")} 
+                className="text-zinc-450 hover:text-white p-0.5 cursor-pointer"
+                title="Clear Search"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            )}
+          </div>
+          
+        </div>
+      </div>
+
+      {/* ================= TIER 2: PRIMARY LOGO & NAVIGATION MENU BELOW ================= */}
+      <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-4" id="tier2_main_nav">
+        {/* Row 1: Brand Identifier & Live Marketplace Indicator */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          {/* Logo Section */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleTabClick("prospectus")} id="header_logo_comb">
+          {/* Logo Brand section */}
+          <div className="flex items-center gap-3 cursor-pointer select-none" onClick={() => handleTabClick("prospectus")} id="header_logo_comb">
             <div className="bg-black text-white font-syne font-black text-xl w-12 h-12 flex items-center justify-center border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] tracking-tighter">
               961
             </div>
@@ -60,12 +194,14 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
               <h1 className="font-syne font-black text-2xl uppercase tracking-tighter leading-none flex items-center gap-1.5 text-black">
                 Combinator <span className="text-[10px] bg-black text-white px-1.5 py-0.5 font-mono tracking-normal font-bold lowercase">xyz</span>
               </h1>
-              <p className="text-[10px] text-gray-500 font-mono mt-1 uppercase tracking-wider font-bold">Lebanese Startup Hub & Tech News (+961)</p>
+              <p className="text-[10px] text-gray-500 font-mono mt-1 uppercase tracking-wider font-bold">
+                Lebanese Sandbox Hub • July 2026
+              </p>
             </div>
           </div>
 
-          {/* Live Marketplace Ticker */}
-          <div className="hidden lg:flex items-center gap-3 text-[10px] font-mono bg-white border-2 border-black p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" id="header_live_ticker">
+          {/* Real-time Ticker */}
+          <div className="hidden lg:flex items-center gap-3 text-[10px] font-mono bg-white border-2 border-black p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] select-none" id="header_live_ticker">
             <div className="flex items-center gap-1 font-bold text-black">
               <span className="w-2.5 h-2.5 bg-black border border-black inline-block animate-pulse"></span>
               <span>ECO CLEARANCE: FRESH CLEARING LIVE</span>
@@ -81,22 +217,10 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
         {/* Separator Line */}
         <div className="border-t-2 border-black my-0.5"></div>
 
-        {/* Row 2: Tabs & Integrated Search Bar */}
+        {/* Row 2: Secondary Tab Links (Startups, Jobs, Pitch Lab, Sandbox, NDA, TOR) */}
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-          {/* Tab Links */}
-          <nav className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase z-30" id="header_navbar_tabs">
-            <button
-              id="tab_btn_prospectus"
-              onClick={() => handleTabClick("prospectus")}
-              className={`px-3 py-1.5 border-2 border-black font-black transition-all cursor-pointer ${
-                currentTab === "prospectus"
-                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                  : "bg-white text-black hover:bg-zinc-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
-              }`}
-            >
-              <span>Prospectus (Home)</span>
-            </button>
-
+          
+          <nav className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase z-30" id="tier2_navbar_tabs">
             <button
               id="tab_btn_startups"
               onClick={() => handleTabClick("startups")}
@@ -137,7 +261,7 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
               className={`px-3 py-1.5 border-2 border-black font-black transition-all cursor-pointer ${
                 currentTab === "pitch-lab"
                   ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                  : "bg-zinc-100 text-black hover:bg-black hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
+                  : "bg-zinc-50 text-black hover:bg-black hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
               }`}
             >
               <span>Pitch Lab (AI)</span>
@@ -149,120 +273,59 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
               className={`px-3 py-1.5 border-2 border-black font-black transition-all flex items-center gap-1 cursor-pointer ${
                 currentTab === "sandbox"
                   ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                  : "bg-zinc-100 text-black hover:bg-zinc-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-zinc-50 text-black hover:bg-zinc-150 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
               }`}
             >
-              <Shield className="w-4 h-4 text-black" fill="currentColor" />
+              <AlertCircle className="w-4 h-4 text-black" fill="currentColor" />
               <span>Sandbox</span>
             </button>
 
-            {/* 961 Combinator Dropdown Tab Layout */}
-            <div className="relative inline-block text-left" id="dropdown_z961_menu_container" ref={dropdownRef}>
-              <button
-                id="tab_btn_z961_dropdown"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className={`flex items-center gap-1 px-3 py-1.5 border-2 border-black font-black transition-all cursor-pointer ${
-                  isZ961Active
-                    ? "bg-black text-white shadow-[2.5px_2.5px_0px_0px_rgba(0,0,0,1)]"
-                    : "bg-zinc-100 text-black hover:bg-zinc-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                }`}
-              >
-                <span>961 Combinator</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
-              </button>
+            {/* NEW: NDA Registration Page Link */}
+            <button
+              id="tab_btn_nda"
+              onClick={() => handleTabClick("nda")}
+              className={`px-3 py-1.5 border-2 border-black font-black transition-all flex items-center gap-1 cursor-pointer ${
+                currentTab === "nda"
+                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-white text-black hover:bg-zinc-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
+              }`}
+            >
+              <span>NDA Registration</span>
+            </button>
 
-              {dropdownOpen && (
-                <div
-                  className="absolute right-0 mt-2 w-52 bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-black z-50 text-[11px]"
-                  id="dropdown_z961_items"
-                >
-                  <div className="divide-y-2 divide-black">
-                    <button
-                      onClick={() => handleTabClick("news")}
-                      className={`w-full text-left px-3 py-2.5 hover:bg-zinc-100 font-extrabold uppercase flex items-center justify-between cursor-pointer ${
-                        currentTab === "news" ? "bg-zinc-100 font-black border-l-4 border-black" : ""
-                      }`}
-                    >
-                      <span>Ecosystem News</span>
-                      <Newspaper className="w-3.5 h-3.5 text-black" />
-                    </button>
+            {/* NEW: TOR Terms & Participation Link */}
+            <button
+              id="tab_btn_tor"
+              onClick={() => handleTabClick("tor")}
+              className={`px-3 py-1.5 border-2 border-black font-black transition-all flex items-center gap-1 cursor-pointer ${
+                currentTab === "tor"
+                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-white text-black hover:bg-zinc-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
+              }`}
+            >
+              <span>TOR Rules</span>
+            </button>
 
-                    <button
-                      onClick={() => handleTabClick("ask")}
-                      className={`w-full text-left px-3 py-2.5 hover:bg-zinc-100 font-extrabold uppercase flex items-center justify-between cursor-pointer ${
-                        currentTab === "ask" ? "bg-zinc-100 font-black border-l-4 border-black" : ""
-                      }`}
-                    >
-                      <span>Ask 961</span>
-                      <MessageSquare className="w-3.5 h-3.5 text-black" />
-                    </button>
-
-                    <button
-                      onClick={() => handleTabClick("show")}
-                      className={`w-full text-left px-3 py-2.5 hover:bg-zinc-100 font-extrabold uppercase flex items-center justify-between cursor-pointer ${
-                        currentTab === "show" ? "bg-zinc-100 font-black border-l-4 border-black" : ""
-                      }`}
-                    >
-                      <span>Show 961</span>
-                      <Sparkles className="w-3.5 h-3.5 text-black" />
-                    </button>
-
-                    <button
-                      onClick={() => handleTabClick("policy")}
-                      className={`w-full text-left px-3 py-2.5 hover:bg-zinc-100 font-extrabold uppercase flex items-center justify-between cursor-pointer ${
-                        currentTab === "policy" ? "bg-zinc-100 font-black border-l-4 border-black" : ""
-                      }`}
-                    >
-                      <span>Policy & Framework</span>
-                      <Landmark className="w-3.5 h-3.5 text-black" />
-                    </button>
-
-                    <button
-                      onClick={() => handleTabClick("values")}
-                      className={`w-full text-left px-3 py-2.5 hover:bg-zinc-100 font-extrabold uppercase flex items-center justify-between cursor-pointer ${
-                        currentTab === "values" ? "bg-zinc-100 font-black border-l-4 border-black" : ""
-                      }`}
-                    >
-                      <span>Core Values</span>
-                      <CheckCircle2 className="w-3.5 h-3.5 text-black" />
-                    </button>
-
-                    <button
-                      onClick={() => handleTabClick("resources")}
-                      className={`w-full text-left px-3 py-2.5 hover:bg-zinc-100 font-extrabold uppercase flex items-center justify-between cursor-pointer ${
-                        currentTab === "resources" ? "bg-zinc-100 font-black border-l-4 border-black" : ""
-                      }`}
-                    >
-                      <span>Resource Papers</span>
-                      <FileText className="w-3.5 h-3.5 text-black" />
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
+            {/* NEW: FAQ Help Center Link */}
+            <button
+              id="tab_btn_faq"
+              onClick={() => handleTabClick("faq")}
+              className={`px-3 py-1.5 border-2 border-black font-black transition-all flex items-center gap-1 cursor-pointer ${
+                currentTab === "faq"
+                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-white text-black hover:bg-zinc-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
+              }`}
+            >
+              <HelpCircle className="w-4 h-4 text-black" />
+              <span>FAQ</span>
+            </button>
           </nav>
 
-          {/* Premium Search input component */}
-          <div className="flex items-center gap-2 bg-white border-2 border-black px-3 py-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus-within:ring-2 focus-within:ring-black transition-shadow text-xs font-mono w-full md:w-72" id="global_search_container">
-            <Search className="w-4 h-4 text-black shrink-0" />
-            <input
-              id="global_search_input"
-              type="text"
-              placeholder={getSearchPlaceholder()}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="text-xs bg-transparent outline-none w-full text-black placeholder-gray-500 font-mono uppercase font-bold"
-            />
-            {searchQuery && (
-              <button 
-                onClick={() => setSearchQuery("")} 
-                className="text-black hover:text-zinc-500 p-0.5 cursor-pointer"
-                title="Clear Search"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
+          {/* Quick Context Indicator on lower nav right */}
+          <div className="hidden md:flex items-center gap-2 font-mono text-[9px] text-gray-500 font-extrabold uppercase bg-zinc-50 border border-zinc-200 px-2 py-1 select-none">
+            <span>z961 | NCEI LEBANON</span>
           </div>
+
         </div>
       </div>
     </header>
