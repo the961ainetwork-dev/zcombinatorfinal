@@ -185,15 +185,15 @@ export default function NewsAggregator({
   const getCategoryTagClass = (category: string) => {
     switch (category) {
       case "tech":
-        return "bg-emerald-100 text-emerald-950 border-black";
+        return "bg-black text-white border-black font-black";
       case "economy":
-        return "bg-amber-100 text-amber-950 border-black";
+        return "bg-zinc-100 text-black border-zinc-500 font-medium";
       case "ask":
-        return "bg-sky-100 text-sky-950 border-black";
+        return "bg-zinc-800 text-white border-black font-semibold";
       case "show":
-        return "bg-fuchsia-100 text-fuchsia-950 border-[#000000]";
+        return "bg-zinc-300 text-black border-black font-extrabold";
       default:
-        return "bg-gray-100 text-gray-950 border-black";
+        return "bg-white text-black border-zinc-400";
     }
   };
 
@@ -208,7 +208,7 @@ export default function NewsAggregator({
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6" id="news_agg_container">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 font-sans text-black" id="news_agg_container">
       {/* Side Details/Threads Panel or Main list block */}
       <div className={`${selectedStory ? "lg:col-span-7" : "lg:col-span-12"} flex flex-col gap-4`} id="news_list_section">
         {/* Actions bar */}
@@ -224,14 +224,14 @@ export default function NewsAggregator({
               className="text-xs bg-transparent outline-none w-full text-black placeholder-gray-500 font-mono uppercase"
             />
             {searchQuery && (
-              <button onClick={() => setSearchQuery("")} className="text-black hover:text-[#FF6600]">
+              <button onClick={() => setSearchQuery("")} className="text-black hover:text-zinc-600 cursor-pointer">
                 <X className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
 
           {/* Premium Neo-Brutalist Sorting Toggles */}
-          <div className="flex items-center gap-1.5 bg-[#F6F6EF] border-2 border-black p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-[10px] font-mono leading-none" id="stories_sorting_toggle_box">
+          <div className="flex items-center gap-1.5 bg-zinc-100 border-2 border-black p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-[10px] font-mono leading-none" id="stories_sorting_toggle_box">
             <span className="px-1 font-bold text-gray-500 uppercase select-none">Sort:</span>
             
             <button
@@ -240,8 +240,8 @@ export default function NewsAggregator({
               onClick={() => setSortBy("newest")}
               className={`px-2 py-1.5 font-black border transition-all cursor-pointer ${
                 sortBy === "newest"
-                  ? "bg-black text-[#FF6600] border-black"
-                  : "bg-white text-black border-black hover:bg-orange-50 hover:translate-x-[0.5px] hover:translate-y-[0.5px]"
+                  ? "bg-black text-white border-black"
+                  : "bg-white text-black border-black hover:bg-zinc-100 hover:translate-x-[0.5px] hover:translate-y-[0.5px]"
               }`}
             >
               NEWEST
@@ -253,8 +253,8 @@ export default function NewsAggregator({
               onClick={() => setSortBy("points")}
               className={`px-2 py-1.5 font-black border transition-all cursor-pointer ${
                 sortBy === "points"
-                  ? "bg-black text-[#FF6600] border-black"
-                  : "bg-white text-black border-black hover:bg-orange-50 hover:translate-x-[0.5px] hover:translate-y-[0.5px]"
+                  ? "bg-black text-white border-black"
+                  : "bg-white text-black border-black hover:bg-zinc-100 hover:translate-x-[0.5px] hover:translate-y-[0.5px]"
               }`}
             >
               POINTS
@@ -266,8 +266,8 @@ export default function NewsAggregator({
               onClick={() => setSortBy("comments")}
               className={`px-2 py-1.5 font-black border transition-all cursor-pointer ${
                 sortBy === "comments"
-                  ? "bg-black text-[#FF6600] border-black"
-                  : "bg-white text-black border-black hover:bg-orange-50 hover:translate-x-[0.5px] hover:translate-y-[0.5px]"
+                  ? "bg-black text-white border-black"
+                  : "bg-white text-black border-black hover:bg-zinc-100 hover:translate-x-[0.5px] hover:translate-y-[0.5px]"
               }`}
             >
               COMMENTS
@@ -277,7 +277,7 @@ export default function NewsAggregator({
           <button
             id="open_submit_modal_btn"
             onClick={() => setShowSubmitModal(true)}
-            className="flex items-center gap-1.5 bg-[#FF6600] hover:bg-[#ff8533] text-white font-bold border-2 border-black px-4 py-2 text-xs uppercase shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-[1.5px] active:translate-y-[1.5px] cursor-pointer transition-all"
+            className="flex items-center gap-1.5 bg-black hover:bg-neutral-800 text-white font-bold border-2 border-black px-4 py-2 text-xs uppercase shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-[1.5px] active:translate-y-[1.5px] cursor-pointer transition-all"
           >
             <Plus className="w-4 h-4 text-white" />
             <span>Submit Story</span>
@@ -298,8 +298,8 @@ export default function NewsAggregator({
                 <div
                   key={story.id}
                   id={`story_row_${story.id}`}
-                  className={`p-4 flex gap-4 items-start transition hover:bg-[#F6F6EF] ${
-                    isSelected ? "bg-[#FFF9E6]" : "bg-white"
+                  className={`p-4 flex gap-4 items-start transition hover:bg-zinc-50 ${
+                    isSelected ? "bg-zinc-100" : "bg-white"
                   }`}
                 >
                   {/* index number and upvote */}
@@ -313,7 +313,7 @@ export default function NewsAggregator({
                         e.stopPropagation();
                         onUpvote(story.id);
                       }}
-                      className="group bg-white hover:bg-[#FF6600] border-2 border-black rounded-none p-1 transition-all shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] active:translate-x-[0.5px] active:translate-y-[0.5px]"
+                      className="group bg-white hover:bg-black border-2 border-black rounded-none p-1 transition-all shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] active:translate-x-[0.5px] active:translate-y-[0.5px]"
                       title="Upvote story"
                     >
                       <ArrowUp className="w-3.5 h-3.5 text-black group-hover:text-white transition" />
@@ -323,7 +323,7 @@ export default function NewsAggregator({
                   {/* Main cell information */}
                   <div className="flex-1 min-w-0 cursor-pointer" onClick={() => setSelectedStory(story)}>
                     <div className="flex flex-wrap items-baseline gap-1.5 mb-1.5">
-                      <h2 className="font-display font-black text-black text-sm sm:text-base leading-snug hover:text-[#FF6600] transition-colors uppercase tracking-tight">
+                      <h2 className="font-syne font-bold text-black text-sm sm:text-base leading-snug hover:text-zinc-600 transition-colors uppercase tracking-tight">
                         {story.title}
                       </h2>
                       {story.url && (
@@ -332,25 +332,25 @@ export default function NewsAggregator({
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="text-[10px] text-gray-500 hover:text-[#FF6600] font-mono flex items-center gap-0.5 inline-flex"
+                          className="text-[10px] text-gray-500 hover:text-black font-mono flex items-center gap-0.5 inline-flex"
                         >
                           <span>({getStoryDomain(story.url)})</span>
-                          <ExternalLink className="w-2.5 h-2.5 text-black" />
+                          <ExternalLink className="w-2.5 h-2.5 text-black animate-pulse" />
                         </a>
                       )}
                     </div>
 
                     <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-xs text-gray-600 font-mono">
-                      <span className="font-bold text-[#FF6600] bg-[#FFF9E6] border border-black px-1.5 py-0.2">{story.points} points</span>
+                      <span className="font-bold text-black bg-zinc-100 border border-black px-1.5 py-0.2">{story.points} points</span>
                       <span className="text-black font-semibold">by @{story.author}</span>
                       <span>{story.timestamp}</span>
-                      <span className="text-gray-400">•</span>
+                      <span className="text-zinc-400">•</span>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           setSelectedStory(story);
                         }}
-                        className="flex items-center gap-1 text-black font-bold hover:text-[#FF6600] transition"
+                        className="flex items-center gap-1 text-black font-bold hover:text-neutral-600 transition cursor-pointer"
                       >
                         <MessageSquare className="w-3.5 h-3.5 text-black" />
                         <span>{story.commentsCount} comments</span>
@@ -370,19 +370,19 @@ export default function NewsAggregator({
       {/* RIGHT/DRAWER SIDE: Nested Discussion Thread Pane */}
       {selectedStory && (
         <div className="col-span-12 lg:col-span-5 flex flex-col gap-4 animate-fade-in" id="comments_thread_panel">
-          <div className="bg-[#FFF9E6] border-2 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] overflow-hidden flex flex-col max-h-[85vh]">
+          <div className="bg-zinc-50 border-2 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] overflow-hidden flex flex-col max-h-[85vh]">
             {/* Thread Header */}
             <div className="bg-black p-4 border-b-2 border-black flex items-center justify-between text-white">
               <div className="flex items-center gap-2">
-                <MessageSquare className="w-4 h-4 text-[#FF6600] fill-[#FF6600]" />
-                <h3 className="font-display font-black text-sm uppercase tracking-tight">
+                <MessageSquare className="w-4 h-4 text-white fill-white" />
+                <h3 className="font-syne font-bold text-sm uppercase tracking-tight">
                   Discussion Thread
                 </h3>
               </div>
               <button
                 id="close_comments_btn"
                 onClick={() => setSelectedStory(null)}
-                className="text-white hover:text-[#FF6600] p-1 border-2 border-black bg-neutral-900 transition font-black cursor-pointer"
+                className="text-white hover:text-zinc-300 p-1 border-2 border-black bg-neutral-900 transition font-black cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -390,7 +390,7 @@ export default function NewsAggregator({
 
             {/* Story Main Body in thread */}
             <div className="p-4 border-b-2 border-black bg-white overflow-y-auto">
-              <h4 className="font-display font-black text-black uppercase text-sm mb-2 leading-tight">
+              <h4 className="font-syne font-bold text-black uppercase text-sm mb-2 leading-tight">
                 {selectedStory.title}
               </h4>
               {selectedStory.url && (
@@ -398,19 +398,19 @@ export default function NewsAggregator({
                   href={selectedStory.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-[#FF6600] font-bold hover:underline flex items-center gap-1 mb-2 inline-flex"
+                  className="text-xs text-black font-bold hover:underline flex items-center gap-1 mb-2 inline-flex"
                 >
                   <span>Go to website</span>
                   <ExternalLink className="w-3 h-3 text-black" />
                 </a>
               )}
               {selectedStory.text && (
-                <div className="text-xs text-black bg-[#F6F6EF] p-3.5 border-2 border-black font-mono leading-relaxed mt-2 uppercase">
+                <div className="text-xs text-black bg-zinc-100 p-3.5 border border-black font-mono leading-relaxed mt-2 uppercase">
                   {selectedStory.text}
                 </div>
               )}
               <div className="flex items-center gap-2 mt-4 text-[10px] font-mono text-gray-500">
-                <span className="font-bold text-[#FF6600]">{selectedStory.points} points</span>
+                <span className="font-bold text-black">{selectedStory.points} points</span>
                 <span>•</span>
                 <span>Posted by @{selectedStory.author}</span>
                 <span>•</span>
@@ -420,16 +420,16 @@ export default function NewsAggregator({
 
             {/* Nested Comments List */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-white">
-              <div className="text-[10px] font-bold text-[#FF6600] font-mono uppercase tracking-wider mb-2">
+              <div className="text-[10px] font-bold text-black font-mono uppercase tracking-wider mb-2">
                 Comments ({selectedStory.comments.length})
               </div>
 
               {selectedStory.comments.length === 0 ? (
-                <p className="text-xs text-gray-500 italic text-center py-6 font-mono uppercase font-bold">No comments yet. Share your thoughts!</p>
+                <p className="text-xs text-gray-400 italic text-center py-6 font-mono uppercase font-bold">No comments yet. Share your thoughts!</p>
               ) : (
                 selectedStory.comments.map((comment) => (
-                  <div key={comment.id} className="flex gap-2.5 items-start bg-[#F6F6EF] p-4 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                    <CornerDownRight className="w-4 h-4 text-[#FF6600] shrink-0 mt-0.5" />
+                  <div key={comment.id} className="flex gap-2.5 items-start bg-zinc-100 p-3 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <CornerDownRight className="w-4 h-4 text-black shrink-0 mt-0.5" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2 mb-2">
                         <span className="text-xs font-mono font-black text-black">
@@ -439,7 +439,7 @@ export default function NewsAggregator({
                           {comment.timestamp}
                         </span>
                       </div>
-                      <p className="text-xs text-black leading-relaxed font-sans select-text">
+                      <p className="text-xs text-gray-800 leading-relaxed font-sans select-text">
                         {comment.text}
                       </p>
                     </div>
@@ -449,7 +449,7 @@ export default function NewsAggregator({
             </div>
 
             {/* Add Comment Area */}
-            <div className="p-4 bg-[#FFF9E6] border-t-2 border-black font-sans">
+            <div className="p-4 bg-zinc-50 border-t-2 border-black font-sans">
               <form onSubmit={handleCommentSubmit} className="space-y-3" id="add_comment_form">
                 <div>
                   <label className="block text-[9px] font-mono font-bold text-black uppercase tracking-wider mb-1">
@@ -476,7 +476,7 @@ export default function NewsAggregator({
                     placeholder="Provide logical economic insight, advice, or feedback..."
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}
-                    className="w-full text-xs bg-white border-2 border-black p-2 outline-none text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                    className="w-full text-xs bg-white border-2 border-black p-2 outline-none text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] animate-pulse"
                   />
                 </div>
 
@@ -489,7 +489,7 @@ export default function NewsAggregator({
                 <button
                   id="submit_comment_btn"
                   type="submit"
-                  className="w-full bg-[#FF6600] text-white border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-black font-bold uppercase text-[10px] py-2 transition-all cursor-pointer font-mono"
+                  className="w-full bg-black text-white border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-neutral-850 font-bold uppercase text-[10px] py-2 transition-all cursor-pointer font-mono"
                 >
                   Post Comment
                 </button>
@@ -503,17 +503,17 @@ export default function NewsAggregator({
       {showSubmitModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fade-in" id="story_submit_modal_overlay">
           <div className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-w-lg w-full overflow-hidden text-black rounded-none">
-            <div className="bg-[#FFF9E6] p-4 border-b-2 border-black flex items-center justify-between">
+            <div className="bg-zinc-100 p-4 border-b-2 border-black flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Plus className="w-5 h-5 text-[#FF6600] text-bold stroke-[3]" />
-                <h3 className="font-display font-black text-base text-black uppercase tracking-tight">
+                <Plus className="w-5 h-5 text-black text-bold stroke-[3]" />
+                <h3 className="font-syne font-bold text-sm text-black uppercase tracking-tight">
                   Submit to 961 Combinator
                 </h3>
               </div>
               <button
                 id="close_story_modal_btn"
                 onClick={() => setShowSubmitModal(false)}
-                className="text-black hover:text-[#FF6600] p-1 border-2 border-black bg-white transition hover:translate-x-[1px] hover:translate-y-[1px] font-black cursor-pointer"
+                className="text-black hover:text-zinc-650 p-1 border-2 border-black bg-white transition hover:translate-x-[1px] hover:translate-y-[1px] font-black cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -531,7 +531,7 @@ export default function NewsAggregator({
                   placeholder="Keep it informative and objective"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
-                  className="w-full text-xs bg-white border-2 border-black p-2 outline-none text-black font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:shadow-[2px_2px_0px_0px_rgba(255,102,0,1)]"
+                  className="w-full text-xs bg-white border-2 border-black p-2 outline-none text-black font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:ring-1 focus:ring-black"
                 />
               </div>
 
@@ -546,7 +546,7 @@ export default function NewsAggregator({
                   placeholder="https://economylebanon.org/article-example"
                   value={newUrl}
                   onChange={(e) => setNewUrl(e.target.value)}
-                  className="w-full text-xs bg-white border-2 border-black p-2 outline-none text-black font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:shadow-[2px_2px_0px_0px_rgba(255,102,0,1)]"
+                  className="w-full text-xs bg-white border-2 border-black p-2 outline-none text-black font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:ring-1 focus:ring-black"
                 />
               </div>
 
@@ -561,7 +561,7 @@ export default function NewsAggregator({
                   placeholder="Tell the community about your SaaS, tech problem, or economic policy advice..."
                   value={newText}
                   onChange={(e) => setNewText(e.target.value)}
-                  className="w-full text-xs bg-white border-2 border-black p-2 outline-none text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:shadow-[2px_2px_0px_0px_rgba(255,102,0,1)]"
+                  className="w-full text-xs bg-white border-2 border-black p-2 outline-none text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:ring-1 focus:ring-black"
                 />
               </div>
 
@@ -574,7 +574,7 @@ export default function NewsAggregator({
                     id="submit_story_category"
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value as any)}
-                    className="w-full text-xs bg-white border-2 border-black p-2 outline-none text-black font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:shadow-[2px_2px_0px_0px_rgba(255,102,0,1)]"
+                    className="w-full text-xs bg-white border-2 border-black p-2 outline-none text-black font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                   >
                     <option value="tech">Tech</option>
                     <option value="economy">Economy</option>
@@ -594,7 +594,7 @@ export default function NewsAggregator({
                     placeholder="e.g. beirut_innovator"
                     value={newAuthor}
                     onChange={(e) => setNewAuthor(e.target.value)}
-                    className="w-full text-xs bg-white border-2 border-black p-2 outline-none text-black font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:shadow-[2px_2px_0px_0px_rgba(255,102,0,1)]"
+                    className="w-full text-xs bg-white border-2 border-black p-2 outline-none text-black font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                   />
                 </div>
               </div>
@@ -617,7 +617,7 @@ export default function NewsAggregator({
                 <button
                   type="submit"
                   id="confirm_submission_btn"
-                  className="px-5 py-2 text-xs font-black uppercase text-white bg-[#FF6600] border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all cursor-pointer"
+                  className="px-5 py-2 text-xs font-black uppercase text-white bg-black border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all cursor-pointer"
                 >
                   Post Story
                 </button>

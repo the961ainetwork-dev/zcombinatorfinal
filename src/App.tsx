@@ -9,6 +9,7 @@ import PolicyFramework from "./components/PolicyFramework";
 import CoreValues from "./components/CoreValues";
 import ResourcesHub from "./components/ResourcesHub";
 import InitiativeSandbox from "./components/InitiativeSandbox";
+import HeroSection from "./components/HeroSection";
 import { Story, Startup, Job } from "./types";
 import { Info, Mail, Phone, MapPin, Loader2, Sparkles } from "lucide-react";
 
@@ -505,9 +506,9 @@ export default function App() {
       <main className="max-w-7xl mx-auto px-4 py-8 flex-1 w-full" id="root_main_content">
         {/* Subtle synchronization info */}
         {isSyncing && (
-          <div className="mb-4 bg-[#FFF9E6] border-2 border-black p-3 text-xs font-mono font-bold flex items-center justify-between shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-[#FF6600]">
+          <div className="mb-4 bg-zinc-100 border-2 border-black p-3 text-xs font-mono font-bold flex items-center justify-between shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-black">
             <span className="flex items-center gap-2">
-              <Loader2 className="w-4 h-4 text-[#FF6600] animate-spin" />
+              <Loader2 className="w-4 h-4 text-black animate-spin" />
               <span>SYNCING PLATFORM DATABASE PROTOCOLS WITH BEIRUT DESK (+961)...</span>
             </span>
           </div>
@@ -527,6 +528,9 @@ export default function App() {
             </button>
           </div>
         )}
+
+        {/* Editorial Hero Banner for primary landing views */}
+        {["news", "ask", "show"].includes(currentTab) && <HeroSection />}
 
         <div className="animate-fade-in" id="active_view_root">
           {/* View dispatch matching tab selection */}
@@ -628,8 +632,8 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
           {/* About Column */}
           <div className="space-y-2 border-2 border-black p-4 bg-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
-            <h4 className="font-display font-black text-black uppercase tracking-tight flex items-center gap-1 text-base">
-              <Sparkles className="w-4 h-4 text-[#FF6600] fill-[#FF6600]" />
+            <h4 className="font-syne font-black text-black uppercase tracking-tight flex items-center gap-1 text-base">
+              <Sparkles className="w-4 h-4 text-black fill-black" />
               <span>961 Combinator</span>
             </h4>
             <p className="text-xs text-gray-700 leading-relaxed font-sans font-medium">
@@ -638,7 +642,7 @@ export default function App() {
           </div>
 
           {/* Guidelines Column */}
-          <div className="space-y-1.5 border-2 border-black p-4 bg-[#FFF9E6] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
+          <div className="space-y-1.5 border-2 border-black p-4 bg-zinc-100 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
             <h4 className="font-mono text-xs font-black text-black uppercase tracking-wider">Community Guidelines</h4>
             <ul className="text-xs text-gray-700 space-y-1 font-mono font-bold">
               <li>• ALWAYS POST CONSTRUCTIVE, LOGICAL ANALYSES.</li>
@@ -651,11 +655,11 @@ export default function App() {
           <div className="space-y-1.5 border-2 border-black p-4 bg-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] text-xs text-black font-mono font-bold">
             <h4 className="text-xs font-black text-black uppercase tracking-wider">Contact & Desk</h4>
             <div className="flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-[#FF6600]" />
+              <MapPin className="w-3.5 h-3.5 text-black" />
               <span>BYBLOS / BEIRUT, LEBANON</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Mail className="w-3.5 h-3.5 text-[#FF6600]" />
+              <Mail className="w-3.5 h-3.5 text-black" />
               <span>INFO@Z961COMBINATOR.XYZ</span>
             </div>
             <p className="text-[10px] text-gray-500 mt-2">© {new Date().getFullYear()} 961 COMBINATOR. ALL RIGHTS RESERVED.</p>

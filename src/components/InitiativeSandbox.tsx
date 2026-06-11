@@ -427,34 +427,34 @@ export default function InitiativeSandbox() {
   return (
     <div className="space-y-8" id="sandbox_initiative_root">
       {/* Alert Header - Brutalist Strategic Frame */}
-      <div className="bg-black text-white p-6 border-4 border border-black flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-[6px_6px_0px_0px_rgba(255,102,0,1)]">
+      <div className="bg-black text-white p-6 border-4 border border-black flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-[6px_6px_0px_0px_rgba(39,39,42,1)]">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 font-mono text-xs text-[#FF6600] font-bold">
+          <div className="flex items-center gap-2 font-mono text-xs text-zinc-300 font-bold">
             <Shield className="w-4.5 h-4.5 stroke-[2.5]" />
             <span>UNDP / ESCWA ALIGNED TRANSNATIONAL SANDBOX</span>
           </div>
-          <h2 className="font-display font-black text-2xl uppercase tracking-tighter">Z961combinator Initiative</h2>
+          <h2 className="font-syne font-bold text-2xl uppercase tracking-tighter">Z961combinator Initiative</h2>
           <p className="text-[11px] text-gray-400 font-mono">
             Digital Infrastructure for Economic Stabilization: Pairing fresh-revenue Lebanese tech builders with diaspora capital.
           </p>
         </div>
         <div className="flex flex-wrap gap-2 text-xs font-mono font-bold">
-          <div className="bg-[#1A1A1A] border border-[#FF6600] px-3 py-1.5 text-[#FF6600]">
+          <div className="bg-zinc-900 border border-zinc-700 px-3 py-1.5 text-zinc-300">
             ACTIVE PIPELINE: ${entities.length * 200}K ESTIMATED ASSIGNED CODES
           </div>
-          <div className="bg-[#1A1A1A] border border-[#FF6600] px-3 py-1.5 text-emerald-400">
+          <div className="bg-zinc-900 border border-zinc-700 px-3 py-1.5 text-emerald-400">
             NCEI ENDORSED: {verifiedCount}/{entities.length}
           </div>
         </div>
       </div>
 
       {/* Role Play Intermediary Switcher Bar */}
-      <div className="border-4 border-black p-4 bg-[#FFF9E6] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="border-4 border-black p-4 bg-zinc-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <span className="text-[10px] uppercase font-mono font-black text-gray-500 block mb-1">INTERACTIVE SIMULATION PORTAL</span>
           <div className="flex items-center gap-2">
             <span className="font-mono text-xs font-bold text-black uppercase">Active Role View:</span>
-            <span className="bg-[#FF6600] border-2 border-black text-white text-xs font-mono font-bold px-2 py-0.5 uppercase">
+            <span className="bg-black border-2 border-black text-white text-xs font-mono font-bold px-2 py-0.5 uppercase">
               {activeRole} Interface
             </span>
           </div>
@@ -474,8 +474,8 @@ export default function InitiativeSandbox() {
               onClick={() => handleRoleChange(role)}
               className={`px-3 py-1.5 border-2 border-black font-mono text-xs font-black uppercase transition-all ${
                 activeRole === role
-                  ? "bg-black text-[#FF6600] shadow-none"
-                  : "bg-white text-black hover:bg-[#ffeaa7] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] cursor-pointer"
+                  ? "bg-black text-white shadow-none"
+                  : "bg-white text-black hover:bg-zinc-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] cursor-pointer"
               }`}
             >
               <span>{role} Console</span>
@@ -497,11 +497,11 @@ export default function InitiativeSandbox() {
             <div className="space-y-6" id="startup_console_block">
               {/* Header */}
               <div className="border-4 border-black bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden">
-                <div className="absolute top-0 right-0 bg-[#FF6600] text-white font-mono text-[9px] font-black uppercase px-3 py-1 border-b-2 border-l-2 border-black">
+                <div className="absolute top-0 right-0 bg-black text-white font-mono text-[9px] font-black uppercase px-3 py-1 border-b-2 border-l-2 border-black">
                   SECURE FOUNDER DEPOSIT
                 </div>
-                <h3 className="font-display font-black text-xl uppercase tracking-tight flex items-center gap-2 mb-2">
-                  <Activity className="w-5 h-5 text-[#FF6600]" />
+                <h3 className="font-syne font-bold text-xl uppercase tracking-tight flex items-center gap-2 mb-2">
+                  <Activity className="w-5 h-5 text-black" />
                   <span>Institutional Readiness Profile</span>
                 </h3>
                 <p className="text-xs text-gray-600 leading-relaxed mb-4 font-sans font-medium">
@@ -519,7 +519,7 @@ export default function InitiativeSandbox() {
                         placeholder="e.g. Phoenix Logistics"
                         value={newEntity.name}
                         onChange={(e) => setNewEntity({ ...newEntity, name: e.target.value })}
-                        className="w-full text-xs font-mono font-bold border-2 border-black p-2 bg-[#FFF9E6] focus:bg-white outline-none"
+                        className="w-full text-xs font-mono font-bold border-2 border-black p-2 bg-zinc-50 focus:bg-white outline-none"
                         required
                       />
                     </div>
@@ -559,7 +559,7 @@ export default function InitiativeSandbox() {
                       placeholder="e.g. Decentralized solar grid software billing infrastructure optimized for Tripoli districts."
                       value={newEntity.description}
                       onChange={(e) => setNewEntity({ ...newEntity, description: e.target.value })}
-                      className="w-full text-xs font-sans font-medium border-2 border-black p-2 bg-[#FFF9E6] focus:bg-white outline-none"
+                      className="w-full text-xs font-sans font-medium border-2 border-black p-2 bg-zinc-50 focus:bg-white outline-none"
                     />
                   </div>
 
@@ -591,7 +591,7 @@ export default function InitiativeSandbox() {
                   <button
                     type="submit"
                     disabled={formSubmitting}
-                    className="w-full bg-black text-[#FF6600] hover:text-white border-2 border-black font-mono font-black uppercase py-2 text-xs cursor-pointer transition-all shadow-[2px_2px_0px_0px_rgba(255,102,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                    className="w-full bg-black text-white hover:bg-zinc-900 border-2 border-black font-mono font-black uppercase py-2 text-xs cursor-pointer transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
                   >
                     {formSubmitting ? "FILING PROFILE METRICS..." : "DEPOSIT READINESS APP FROM (+961)"}
                   </button>
@@ -648,13 +648,13 @@ export default function InitiativeSandbox() {
                         placeholder="e.g. Tripoli Solar Microgrid Feasibility.pdf"
                         value={docUpload.name}
                         onChange={(e) => setDocUpload({ ...docUpload, name: e.target.value })}
-                        className="w-full text-xs font-mono font-bold border-2 border-black p-1.5 bg-[#FFF9E6]"
+                        className="w-full text-xs font-mono font-bold border-2 border-black p-1.5 bg-zinc-50"
                         required
                       />
                     </div>
                     <button
                       type="submit"
-                      className="bg-black text-white hover:bg-[#FF6600] border-2 border-black px-4 font-mono font-black text-xs uppercase"
+                      className="bg-black text-white hover:bg-zinc-800 border-2 border-black px-4 font-mono font-black text-xs uppercase"
                     >
                       SECURE
                     </button>
@@ -748,7 +748,7 @@ export default function InitiativeSandbox() {
                           }
                         }}
                         disabled={matchingInProgress}
-                        className="bg-black text-[#FF6600] hover:text-white border-2 border-black font-black px-4 uppercase cursor-pointer"
+                        className="bg-black text-white hover:bg-zinc-900 border-2 border-black font-black px-4 uppercase cursor-pointer"
                       >
                         {matchingInProgress ? "COMPUTING EMBEDDING..." : "CALCULATE"}
                       </button>
@@ -825,7 +825,7 @@ export default function InitiativeSandbox() {
                                   <button
                                     key={doc.id}
                                     onClick={() => triggerDataroomInspect(doc.id)}
-                                    className="px-2 py-1 bg-white border border-black hover:bg-[#FFF9E6] text-[10px] font-mono uppercase font-black text-black flex items-center gap-1 cursor-pointer"
+                                    className="px-2 py-1 bg-white border border-black hover:bg-zinc-100 text-[10px] font-mono uppercase font-black text-black flex items-center gap-1 cursor-pointer"
                                   >
                                     <FileSpreadsheet className="w-3.5 h-3.5 text-black" />
                                     <span>{doc.document_type}</span>
@@ -870,11 +870,11 @@ export default function InitiativeSandbox() {
           {activeRole === "Scout" && (
             <div className="space-y-6" id="scout_console_block">
               <div className="border-4 border-black bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-display font-black text-xl uppercase tracking-tight flex items-center gap-2 mb-2">
-                  <Bookmark className="w-5 h-5 text-[#FF6600]" />
+                <h3 className="font-syne font-bold text-xl uppercase tracking-tight flex items-center gap-2 mb-2">
+                  <Bookmark className="w-5 h-5 text-black" />
                   <span>Innovation Scout Market Intelligence</span>
                 </h3>
-                <p className="text-xs text-gray-600 mb-6 leading-relaxed">
+                <p className="text-xs text-gray-600 mb-6 leading-relaxed normal-case">
                   Distinct access portal designed for university graduates acting as Node Research Officers. Scouts document macro sector studies
                   mapping out green circular economies and BDL liquidity failovers in response to ESCWA frameworks.
                 </p>
@@ -882,7 +882,7 @@ export default function InitiativeSandbox() {
                 {/* Reports repository list */}
                 <div className="space-y-4">
                   {research.map((report) => (
-                    <div key={report.id} className="border-2 border-black p-4 bg-white hover:bg-amber-50 transition-all">
+                    <div key={report.id} className="border-2 border-black p-4 bg-white hover:bg-zinc-50 transition-all">
                       <div className="flex justify-between items-start gap-2 border-b border-black pb-2 mb-3">
                         <div>
                           <h4 className="font-mono text-sm font-black text-black uppercase">{report.title}</h4>
@@ -892,12 +892,12 @@ export default function InitiativeSandbox() {
                           OPEN SCOUT REPORT
                         </span>
                       </div>
-                      <p className="text-xs font-sans text-gray-700 leading-relaxed font-bold mb-3">
+                      <p className="text-xs font-sans text-gray-700 leading-relaxed font-bold mb-3 normal-case">
                         {report.summary}
                       </p>
                       
                       {/* Deep text study */}
-                      <div className="text-[11px] font-sans bg-amber-50 border border-amber-200 p-3 leading-relaxed text-slate-800">
+                      <div className="text-[11px] font-sans bg-zinc-50 border border-zinc-200 p-3 leading-relaxed text-slate-800 normal-case font-medium">
                         <p>{report.content}</p>
                       </div>
                     </div>
@@ -915,21 +915,21 @@ export default function InitiativeSandbox() {
               {/* CMS control panel */}
               <div className="border-4 border-black bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-display font-black text-xl uppercase tracking-tight flex items-center gap-2">
-                    <Shield className="w-5 h-5 text-[#FF6600]" />
+                  <h3 className="font-syne font-bold text-xl uppercase tracking-tight flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-black" />
                     <span>NCEI Administrative Audit System</span>
                   </h3>
-                  <span className="text-xs bg-red-100 text-red-800 border border-red-400 font-mono font-black py-0.5 px-2 uppercase rounded">
+                  <span className="text-xs bg-zinc-100 text-zinc-800 border border-zinc-400 font-mono font-black py-0.5 px-2 uppercase rounded">
                     Audit-Ready CMS
                   </span>
                 </div>
-                <p className="text-xs text-gray-600 mb-6 leading-relaxed">
+                <p className="text-xs text-gray-600 mb-6 leading-relaxed normal-case">
                   Assess submitted readiness profiles. NCEI specialists approve metrics (TAM, Traction, exit strategies) 
                   resulting in standard verified status before investor global publication networks can see them.
                 </p>
 
                 {/* Audit verify form */}
-                <form onSubmit={handleVerifyAudit} className="border-2 border-black bg-[#FFF9E6] p-4 mb-8 space-y-4">
+                <form onSubmit={handleVerifyAudit} className="border-2 border-black bg-zinc-100 p-4 mb-8 space-y-4">
                   <h4 className="font-mono text-xs font-black uppercase text-black">🛡️ Set Readiness Scores & verified Flag</h4>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
@@ -963,7 +963,7 @@ export default function InitiativeSandbox() {
                       <button
                         type="submit"
                         disabled={formSubmitting}
-                        className="w-full bg-black text-[#FF6600] border-2 border-black p-1.5 font-mono text-xs font-black uppercase hover:text-white cursor-pointer"
+                        className="w-full bg-black text-white hover:bg-zinc-900 border-2 border-black p-1.5 font-mono text-xs font-black uppercase cursor-pointer"
                       >
                         {formSubmitting ? "FILING AUDIT..." : "ENDORSE & VERIFY"}
                       </button>
@@ -1025,10 +1025,9 @@ export default function InitiativeSandbox() {
             </div>
           )}
 
-          {/* Institutional milestones tracker logs common view */}
           <div className="border-4 border-black bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-            <h3 className="font-display font-black text-lg uppercase tracking-tight flex items-center gap-1.5 mb-2">
-              <Activity className="w-5 h-5 text-[#FF6600] stroke-[2.5]" />
+            <h3 className="font-syne font-bold text-lg uppercase tracking-tight flex items-center gap-1.5 mb-2">
+              <Activity className="w-5 h-5 text-black stroke-[2.5]" />
               <span>Initiative Active Milestones & Settlement Logs</span>
             </h3>
             <p className="text-xs text-gray-500 mb-4 font-sans font-medium">
@@ -1043,12 +1042,12 @@ export default function InitiativeSandbox() {
                   <div key={m.match_id} className="p-3 bg-white text-xs font-mono font-bold flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="bg-black text-[#FF6600] px-1.5 text-[9px] uppercase font-black uppercase">
+                        <span className="bg-black text-white px-1.5 text-[9px] uppercase font-black uppercase">
                           MATCH-{m.match_id.substring(2, 6).toUpperCase()}
                         </span>
                         <span className="text-black uppercase">{entName} 🤝 {invName}</span>
                       </div>
-                      <p className="text-[10px] text-gray-500 font-sans italic">{m.ncei_notes}</p>
+                      <p className="text-[10px] text-gray-500 font-sans italic normal-case font-medium">{m.ncei_notes}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-[11px] bg-gray-100 px-1.5 py-0.5 border border-gray-300">
@@ -1058,7 +1057,7 @@ export default function InitiativeSandbox() {
                         m.status === "Accepted"
                           ? "bg-emerald-100 text-emerald-800 border-emerald-400"
                           : m.status === "Vetted"
-                          ? "bg-[#FFE8CC] text-[#FF6600] border-[#FFBE7A]"
+                          ? "bg-zinc-100 text-zinc-800 border-zinc-400"
                           : "bg-amber-100 text-amber-800 border-amber-400"
                       }`}>
                         {m.status}
@@ -1072,22 +1071,21 @@ export default function InitiativeSandbox() {
 
         </div>
 
-        {/* RIGHT COLUMN: INSTITUTIONAL INTERMEDIARY AGENT CHATBOX */}
-        <div className="lg:col-span-4 space-y-6">
-          <div className="border-4 border-black bg-[#1A1A1A] text-white p-5 shadow-[4px_4px_0px_0px_rgba(255,102,0,1)] flex flex-col h-[650px] relative overflow-hidden">
+        <div className="lg:col-span-4 space-y-6 animate-fade-in">
+          <div className="border-4 border-black bg-[#121212] text-white p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col h-[650px] relative overflow-hidden">
             
             {/* Header */}
-            <div className="border-b-2 border-[#FF6600] pb-3 mb-4 flex items-center justify-between">
+            <div className="border-b-2 border-zinc-800 pb-3 mb-4 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Cpu className="w-5 h-5 text-[#FF6600] animate-pulse" />
+                <Cpu className="w-5 h-5 text-white animate-pulse" />
                 <div>
-                  <h4 className="font-display font-black text-sm uppercase tracking-tight text-[#FF6600]">
+                  <h4 className="font-syne font-bold text-sm uppercase tracking-tight text-white">
                     Institutional Agent
                   </h4>
                   <span className="text-[9px] font-mono text-gray-400">NCEI DIRECT INTERMEDIARY v2.1</span>
                 </div>
               </div>
-              <div className="bg-emerald-950 text-emerald-400 font-mono text-[9px] font-bold uppercase border border-emerald-500 px-1.5">
+              <div className="bg-zinc-900 text-zinc-400 font-mono text-[9px] font-bold uppercase border border-zinc-800 px-1.5">
                 ● ONLINE Proxy
               </div>
             </div>
@@ -1102,14 +1100,14 @@ export default function InitiativeSandbox() {
                   }`}
                 >
                   <div
-                    className={`max-w-[90%] p-3 border-2 font-medium leading-relaxed ${
+                    className={`max-w-[90%] p-3 border-2 font-medium leading-relaxed normal-case ${
                       chat.sender === "user"
-                        ? "bg-[#FF6600] text-white border-black shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
-                        : "bg-[#2A2A2A] text-gray-100 border-[#FF6600]"
+                        ? "bg-white text-black border-white shadow-[2px_2px_0px_0px_rgba(255,255,255,0.15)]"
+                        : "bg-zinc-900 text-gray-100 border-zinc-800"
                     }`}
                   >
                     {chat.sender === "bot" && chat.category && (
-                      <span className="text-[9px] font-mono font-black text-[#FF6600] uppercase block mb-1.5 tracking-wider">
+                      <span className="text-[9px] font-mono font-bold text-zinc-400 uppercase block mb-1.5 tracking-wider">
                         🤖 [{chat.category}] ACTION PARSED
                       </span>
                     )}
@@ -1122,8 +1120,8 @@ export default function InitiativeSandbox() {
               ))}
 
               {chatLoading && (
-                <div className="flex items-center gap-2 bg-[#2A2A2A] border-2 border-dashed border-[#FF6600] p-3 text-gray-200">
-                  <Cpu className="w-4.5 h-4.5 text-[#FF6600] animate-spin" />
+                <div className="flex items-center gap-2 bg-zinc-900 border-2 border-dashed border-zinc-800 p-3 text-gray-200">
+                  <Cpu className="w-4.5 h-4.5 text-white animate-spin" />
                   <span className="font-mono text-[11px] font-black uppercase text-gray-300">
                     Routing query through RAG pipeline...
                   </span>
@@ -1132,19 +1130,19 @@ export default function InitiativeSandbox() {
             </div>
 
             {/* Input form */}
-            <form onSubmit={handleChatSubmit} className="border-t-2 border-[#FF6600] pt-4 mt-auto">
+            <form onSubmit={handleChatSubmit} className="border-t-2 border-zinc-800 pt-4 mt-auto text-black">
               <div className="flex gap-1.5">
                 <input
                   type="text"
                   placeholder="Ask agent, e.g. 'Generate match', 'NDA rules'..."
                   value={chatMessage}
                   onChange={(e) => setChatMessage(e.target.value)}
-                  className="flex-1 bg-black text-[#FF6600] border-2 border-black focus:border-[#FF6600] p-2.5 outline-none font-mono font-bold text-xs"
+                  className="flex-1 bg-zinc-900 text-white border-2 border-zinc-800 focus:border-zinc-700 p-2.5 outline-none font-mono font-bold text-xs"
                 />
                 <button
                   type="submit"
                   disabled={chatLoading}
-                  className="bg-[#FF6600] hover:bg-white text-black hover:text-black border-2 border-black font-mono font-black px-4 flex items-center justify-center cursor-pointer transition-all"
+                  className="bg-white hover:bg-zinc-200 text-black border-2 border-white font-mono font-black px-4 flex items-center justify-center cursor-pointer transition-all"
                 >
                   <Send className="w-4 h-4" />
                 </button>

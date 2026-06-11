@@ -47,18 +47,18 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
   };
 
   return (
-    <header className="bg-white text-black border-b-4 border-black sticky top-0 z-40 py-4" id="main_header_961">
+    <header className="bg-white text-black border-b-4 border-black sticky top-0 z-40 py-4 font-sans" id="main_header_961">
       <div className="max-w-7xl mx-auto px-4 flex flex-col gap-4">
         {/* Row 1: Logo & Live Marketplace Ticker */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Logo Section */}
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleTabClick("news")} id="header_logo_comb">
-            <div className="bg-[#FF6600] text-white font-display font-black text-xl w-12 h-12 flex items-center justify-center border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] tracking-tighter">
+            <div className="bg-black text-white font-syne font-black text-xl w-12 h-12 flex items-center justify-center border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] tracking-tighter">
               961
             </div>
             <div>
-              <h1 className="font-display font-black text-2xl uppercase tracking-tighter leading-none flex items-center gap-1.5 text-black">
-                Combinator <span className="text-xs bg-black text-[#FF6600] px-1.5 py-0.5 font-mono tracking-normal font-bold lowercase">xyz</span>
+              <h1 className="font-syne font-black text-2xl uppercase tracking-tighter leading-none flex items-center gap-1.5 text-black">
+                Combinator <span className="text-[10px] bg-black text-white px-1.5 py-0.5 font-mono tracking-normal font-bold lowercase">xyz</span>
               </h1>
               <p className="text-[10px] text-gray-500 font-mono mt-1 uppercase tracking-wider font-bold">Lebanese Startup Hub & Tech News (+961)</p>
             </div>
@@ -67,12 +67,12 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
           {/* Live Marketplace Ticker */}
           <div className="hidden lg:flex items-center gap-3 text-[10px] font-mono bg-white border-2 border-black p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" id="header_live_ticker">
             <div className="flex items-center gap-1 font-bold text-black">
-              <span className="w-2.5 h-2.5 bg-[#FF6600] border border-black inline-block animate-pulse"></span>
+              <span className="w-2.5 h-2.5 bg-black border border-black inline-block animate-pulse"></span>
               <span>ECO CLEARANCE: FRESH CLEARING LIVE</span>
             </div>
             <div className="border-l-2 border-black h-3.5"></div>
-            <div className="flex items-center gap-1 font-bold text-gray-700">
-              <TrendingUp className="w-3.5 h-3.5 text-[#FF6600] stroke-[3]" />
+            <div className="flex items-center gap-1 font-bold text-black bg-zinc-100 px-1.5 py-0.5 border border-black">
+              <TrendingUp className="w-3.5 h-3.5 text-black stroke-[3]" />
               <span>SALARY INDEX: $2,850/MO AVG</span>
             </div>
           </div>
@@ -88,10 +88,10 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
             <button
               id="tab_btn_news"
               onClick={() => handleTabClick("news")}
-              className={`px-3 py-1.5 border-2 border-black font-bold transition-all ${
+              className={`px-3 py-1.5 border-2 border-black font-black transition-all cursor-pointer ${
                 currentTab === "news"
-                  ? "bg-[#FF6600] text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                  : "bg-white text-black hover:bg-[#F6F6EF] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-white text-black hover:bg-zinc-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
               }`}
             >
               <span>News</span>
@@ -100,10 +100,10 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
             <button
               id="tab_btn_ask"
               onClick={() => handleTabClick("ask")}
-              className={`px-3 py-1.5 border-2 border-black font-bold transition-all ${
+              className={`px-3 py-1.5 border-2 border-black font-black transition-all cursor-pointer ${
                 currentTab === "ask"
-                  ? "bg-[#FF6600] text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                  : "bg-white text-black hover:bg-[#F6F6EF] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-white text-black hover:bg-zinc-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
               }`}
             >
               <span>Ask 961</span>
@@ -112,10 +112,10 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
             <button
               id="tab_btn_show"
               onClick={() => handleTabClick("show")}
-              className={`px-3 py-1.5 border-2 border-black font-bold transition-all ${
+              className={`px-3 py-1.5 border-2 border-black font-black transition-all cursor-pointer ${
                 currentTab === "show"
-                  ? "bg-[#FF6600] text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                  : "bg-white text-black hover:bg-[#F6F6EF] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-white text-black hover:bg-zinc-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
               }`}
             >
               <span>Show 961</span>
@@ -124,14 +124,16 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
             <button
               id="tab_btn_startups"
               onClick={() => handleTabClick("startups")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 border-2 border-black font-bold transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 border-2 border-black font-black transition-all cursor-pointer ${
                 currentTab === "startups"
-                  ? "bg-[#FF6600] text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                  : "bg-white text-black hover:bg-[#F6F6EF] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-white text-black hover:bg-zinc-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
               }`}
             >
               <span>Startups</span>
-              <span className="text-[10px] bg-black text-white px-1.5 py-0.2 border border-black font-mono">
+              <span className={`text-[10px] px-1.5 py-0.2 border font-mono ${
+                currentTab === "startups" ? "bg-white text-black border-white" : "bg-black text-white border-black"
+              }`}>
                 {stats.startupsCount}
               </span>
             </button>
@@ -139,14 +141,16 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
             <button
               id="tab_btn_jobs"
               onClick={() => handleTabClick("jobs")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 border-2 border-black font-bold transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 border-2 border-black font-black transition-all cursor-pointer ${
                 currentTab === "jobs"
-                  ? "bg-[#FF6600] text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                  : "bg-white text-black hover:bg-[#F6F6EF] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-white text-black hover:bg-zinc-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
               }`}
             >
               <span>Jobs</span>
-              <span className="text-[10px] bg-black text-white px-1.5 py-0.2 border border-black font-mono">
+              <span className={`text-[10px] px-1.5 py-0.2 border font-mono ${
+                currentTab === "jobs" ? "bg-white text-black border-white" : "bg-black text-white border-black"
+              }`}>
                 {stats.jobsCount}
               </span>
             </button>
@@ -154,10 +158,10 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
             <button
               id="tab_btn_pitch"
               onClick={() => handleTabClick("pitch-lab")}
-              className={`px-3 py-1.5 border-2 border-black font-black transition-all ${
+              className={`px-3 py-1.5 border-2 border-black font-black transition-all cursor-pointer ${
                 currentTab === "pitch-lab"
-                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(255,102,0,1)]"
-                  : "bg-[#FFF9E6] text-black hover:bg-[#FFEAA7] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-zinc-100 text-black hover:bg-black hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
               }`}
             >
               <span>Pitch Lab (AI)</span>
@@ -168,23 +172,23 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
               onClick={() => handleTabClick("sandbox")}
               className={`px-3 py-1.5 border-2 border-black font-black transition-all flex items-center gap-1 cursor-pointer ${
                 currentTab === "sandbox"
-                  ? "bg-black text-[#FF6600] shadow-[2px_2px_0px_0px_rgba(255,102,0,1)]"
-                  : "bg-[#FFF9E6] text-black hover:bg-[#FFEAA7] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-zinc-100 text-black hover:bg-zinc-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
               }`}
             >
-              <Shield className="w-4 h-4 text-[#FF6600]" />
+              <Shield className="w-4 h-4 text-black" fill="currentColor" />
               <span>Sandbox</span>
             </button>
 
-            {/* New 961 Combinator Program Menu Dropdown */}
+            {/* 961 Combinator Dropdown Tab Layout */}
             <div className="relative inline-block text-left" id="dropdown_z961_menu_container" ref={dropdownRef}>
               <button
                 id="tab_btn_z961_dropdown"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className={`flex items-center gap-1 px-3 py-1.5 border-2 border-black font-black transition-all cursor-pointer ${
                   isZ961Active
-                    ? "bg-[#FF6600] text-white shadow-[2.5px_2.5px_0px_0px_rgba(0,0,0,1)]"
-                    : "bg-[#FFF9E6] text-black hover:bg-[#ffeaa7] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                    ? "bg-black text-white shadow-[2.5px_2.5px_0px_0px_rgba(0,0,0,1)]"
+                    : "bg-zinc-100 text-black hover:bg-zinc-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                 }`}
               >
                 <span>961 Combinator</span>
@@ -199,18 +203,18 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
                   <div className="divide-y-2 divide-black">
                     <button
                       onClick={() => handleTabClick("prospectus")}
-                      className={`w-full text-left px-3 py-2 hover:bg-[#FFF9E6] font-black uppercase flex items-center justify-between ${
-                        currentTab === "prospectus" ? "bg-[#FFF9E6] text-[#FF6600]" : ""
+                      className={`w-full text-left px-3 py-2.5 hover:bg-zinc-100 font-extrabold uppercase flex items-center justify-between cursor-pointer ${
+                        currentTab === "prospectus" ? "bg-zinc-100 font-black border-l-4 border-black" : ""
                       }`}
                     >
                       <span>Prospectus</span>
-                      <Sparkles className="w-3.5 h-3.5 text-[#FF6600]" />
+                      <Sparkles className="w-3.5 h-3.5 text-black" />
                     </button>
 
                     <button
                       onClick={() => handleTabClick("policy")}
-                      className={`w-full text-left px-3 py-2 hover:bg-[#FFF9E6] font-black uppercase flex items-center justify-between ${
-                        currentTab === "policy" ? "bg-[#FFF9E6] text-[#FF6600]" : ""
+                      className={`w-full text-left px-3 py-2.5 hover:bg-zinc-100 font-extrabold uppercase flex items-center justify-between cursor-pointer ${
+                        currentTab === "policy" ? "bg-zinc-100 font-black border-l-4 border-black" : ""
                       }`}
                     >
                       <span>Policy & Framework</span>
@@ -219,18 +223,18 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
 
                     <button
                       onClick={() => handleTabClick("values")}
-                      className={`w-full text-left px-3 py-2 hover:bg-[#FFF9E6] font-black uppercase flex items-center justify-between ${
-                        currentTab === "values" ? "bg-[#FFF9E6] text-[#FF6600]" : ""
+                      className={`w-full text-left px-3 py-2.5 hover:bg-zinc-100 font-extrabold uppercase flex items-center justify-between cursor-pointer ${
+                        currentTab === "values" ? "bg-zinc-100 font-black border-l-4 border-black" : ""
                       }`}
                     >
                       <span>Core Values</span>
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-black" />
                     </button>
 
                     <button
                       onClick={() => handleTabClick("resources")}
-                      className={`w-full text-left px-3 py-2 hover:bg-[#FFF9E6] font-black uppercase flex items-center justify-between ${
-                        currentTab === "resources" ? "bg-[#FFF9E6] text-[#FF6600]" : ""
+                      className={`w-full text-left px-3 py-2.5 hover:bg-zinc-100 font-extrabold uppercase flex items-center justify-between cursor-pointer ${
+                        currentTab === "resources" ? "bg-zinc-100 font-black border-l-4 border-black" : ""
                       }`}
                     >
                       <span>Resource Papers</span>
@@ -243,8 +247,8 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
           </nav>
 
           {/* Premium Search input component */}
-          <div className="flex items-center gap-2 bg-white border-2 border-black px-3 py-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus-within:ring-2 focus-within:ring-[#FF6600] transition-shadow text-xs font-mono w-full md:w-72" id="global_search_container">
-            <Search className="w-4 h-4 text-[#FF6600] shrink-0" />
+          <div className="flex items-center gap-2 bg-white border-2 border-black px-3 py-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus-within:ring-2 focus-within:ring-black transition-shadow text-xs font-mono w-full md:w-72" id="global_search_container">
+            <Search className="w-4 h-4 text-black shrink-0" />
             <input
               id="global_search_input"
               type="text"
@@ -256,7 +260,7 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
             {searchQuery && (
               <button 
                 onClick={() => setSearchQuery("")} 
-                className="text-black hover:text-[#FF6600] p-0.5 cursor-pointer"
+                className="text-black hover:text-zinc-500 p-0.5 cursor-pointer"
                 title="Clear Search"
               >
                 <X className="w-3.5 h-3.5" />
