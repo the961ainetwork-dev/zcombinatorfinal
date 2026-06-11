@@ -1,7 +1,20 @@
-import React from "react";
-import { Sparkles, BookOpen, Target, Network, Layers, Users, Eye } from "lucide-react";
+import React, { useState } from "react";
+import { Sparkles, BookOpen, Target, Network, Layers, Users, Eye, Mail, Flame, ArrowRight } from "lucide-react";
 
-export default function Prospectus() {
+interface ProspectusProps {
+  onVisitMag?: () => void;
+}
+
+export default function Prospectus({ onVisitMag }: ProspectusProps) {
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleLocalSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setSubscribed(true);
+    localStorage.setItem("z961_mag_subscriber_email", email);
+  };
   const prioritySectors = [
     { name: "FinTech & Digital Payments", desc: "Wallets, merchant enablement, remittance infrastructure", emoji: "💳" },
     { name: "Agri-Tech & Agri-Food", desc: "Supply chain modernization and food security", emoji: "🌾" },
@@ -33,22 +46,124 @@ export default function Prospectus() {
   return (
     <div className="space-y-8 text-black font-sans uppercase animate-fade-in" id="prospectus_page_container">
       {/* Hero Banner */}
-      <div className="bg-zinc-100 border-4 border-black p-6 sm:p-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden">
+      <div className="bg-zinc-100 border-4 border-black p-6 sm:p-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden" id="prospectus_hero_banner">
         <div className="absolute top-2 right-2 bg-black text-white font-mono text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider border border-black">
           Institutional Document
         </div>
-        <div className="flex items-center gap-3 mb-4">
-          <span className="p-2 bg-black text-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-mono font-black">
-            PROSPECTUS
-          </span>
-          <span className="font-mono text-xs font-bold text-gray-750 tracking-wider">NCEI LEBANON</span>
+        
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6" id="prospectus_header_row">
+          <div className="flex-1 space-y-4">
+            <div className="flex items-center gap-3">
+              <span className="p-2 bg-black text-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-mono font-black text-xs sm:text-sm">
+                PROSPECTUS
+              </span>
+              <span className="font-mono text-xs font-bold text-gray-750 tracking-wider">NCEI LEBANON</span>
+            </div>
+            
+            <h2 className="font-syne font-black text-xl sm:text-3xl lg:text-4xl uppercase tracking-tight leading-tight" id="prospectus_title_heading">
+              z961combinator A Matchpreneur Linkage Program with Investors Capital
+            </h2>
+            
+            <p className="text-xs sm:text-sm font-mono text-gray-800 max-w-2xl font-bold uppercase" id="prospectus_title_sub">
+              A Strategic Outreach & Integration Plan program through multi-channel diplomatic, digital, and institutional engagement.
+            </p>
+          </div>
+          
+          {/* Right-sided Nurtured By & Logo */}
+          <div className="flex flex-row sm:flex-row lg:flex-col items-center gap-4 p-4 bg-zinc-950 border-3 border-black text-white min-w-[280px] shrink-0 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden" id="nurtured_by_ncei_side_badge">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.15),transparent_70%)] pointer-events-none"></div>
+            
+            <div className="text-left lg:text-center w-full z-10">
+              <span className="text-[9px] font-mono font-extrabold text-orange-400 tracking-[0.2em] block uppercase">
+                STRATEGIC PARTNER
+              </span>
+              <span className="text-xs font-syne font-black text-white block uppercase mt-0.5 tracking-wider">
+                NURTURED BY NCEI
+              </span>
+            </div>
+            
+            {/* Custom high-fidelity CSS NCEI Badge */}
+            <div className="relative w-32 h-32 rounded-full bg-neutral-950 border-2 border-orange-500/80 shadow-[0_0_15px_rgba(249,115,22,0.3)] flex flex-col items-center justify-center p-3 select-none shrink-0" id="html_ncei_badge">
+              {/* Dash ring inside */}
+              <div className="absolute inset-1.5 rounded-full border border-dashed border-orange-500/50"></div>
+              
+              <div className="text-center z-10 flex flex-col items-center">
+                <span className="text-[7.5px] font-mono font-extrabold text-orange-500 tracking-[0.25em] uppercase leading-none block mb-1">
+                  LEBANON
+                </span>
+                <span className="text-2xl font-syne font-black text-white tracking-widest leading-none block mb-1">
+                  NCEI
+                </span>
+                <div className="w-12 h-[1.5px] bg-orange-500 mb-1"></div>
+                <span className="text-[6px] font-mono text-zinc-300 font-extrabold tracking-wider leading-tight block uppercase">
+                  THE NATIONAL COUNCIL
+                </span>
+                <span className="text-[6px] font-mono text-zinc-300 font-extrabold tracking-wider leading-tight block uppercase">
+                  FOR ENTERPRISE &
+                </span>
+                <span className="text-[6px] font-mono text-zinc-300 font-extrabold tracking-wider leading-tight block uppercase">
+                  INNOVATION
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
-        <h2 className="font-syne font-bold text-2xl sm:text-4xl uppercase tracking-tight leading-tight max-w-3xl">
-          z961combinator: Lebanon Diaspora-Ecosystem Linkage Program
-        </h2>
-        <p className="text-sm font-mono mt-4 text-gray-800 max-w-2xl font-bold uppercase">
-          Bridging the Lebanese domestic startup ecosystem with the global diaspora network.
-        </p>
+      </div>
+
+      {/* NEW AVANT-GARDE HOME PROMO: "THE MAG" WITH SUBSCRIBE NEWSLETTER DEDICATED INPUT */}
+      <div className="border-4 border-black bg-zinc-950 text-white p-6 shadow-[5px_5px_0px_0px_rgba(249,115,22,1)] grid grid-cols-1 md:grid-cols-12 gap-6 items-center" id="home_mag_promo_banner">
+        <div className="md:col-span-7 space-y-3">
+          <div className="flex items-center gap-2 font-mono text-[10px] sm:text-xs text-orange-500 font-extrabold uppercase">
+            <Flame className="w-4 h-4 fill-orange-550 animate-pulse text-orange-500" />
+            <span>JUST OUT: THE MAG EDITION XYZ • DEEP ECOSYSTEM BRIEFS</span>
+          </div>
+          
+          <h3 className="font-syne font-black text-xl sm:text-2xl uppercase tracking-tight leading-none text-white">
+            THE MAG: Algorithmic Clears & Policy Insights
+          </h3>
+          
+          <p className="text-[11px] sm:text-xs font-serif text-zinc-400 italic normal-case leading-snug">
+            Sovereign digital aesthetics, diaspora trust frameworks, and direct developer compensation pipelines. Compiled bi-weekly.
+          </p>
+        </div>
+
+        <div className="md:col-span-5 space-y-4" id="home_mag_subscription_form_container">
+          {!subscribed ? (
+            <form onSubmit={handleLocalSubscribe} className="flex flex-col sm:flex-row items-stretch gap-2">
+              <div className="relative w-full bg-zinc-900 border border-zinc-800 flex items-center px-2.5 gap-2 text-white">
+                <Mail className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
+                <input
+                  type="email"
+                  required
+                  placeholder="SUBSCRIBE WITH YOUR EMAIL..."
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full py-2.5 bg-transparent text-[10px] font-mono font-bold uppercase placeholder-zinc-650 outline-none text-white"
+                />
+              </div>
+              <button
+                type="submit"
+                className="bg-orange-600 text-white hover:bg-orange-500 transition-colors font-mono text-[10px] font-black uppercase text-center py-2.5 px-4 cursor-pointer tracking-wider shrink-0"
+              >
+                JOIN ARRAY
+              </button>
+            </form>
+          ) : (
+            <div className="p-3 bg-zinc-900/50 border border-orange-500/40 text-left font-mono text-[10px] text-orange-400 font-bold uppercase leading-relaxed">
+              <span>SUCCESSFUL ENLISTMENT • CHECKOUT THE MAG PORTAL BELOW</span>
+            </div>
+          )}
+
+          <div className="flex justify-end">
+            <button
+              onClick={() => onVisitMag?.()}
+              className="inline-flex items-center gap-1.5 font-mono text-[10px] font-black text-white hover:text-orange-400 uppercase tracking-widest transition-all cursor-pointer group"
+            >
+              <span>EXPLORE THE MAG DIRECTLY</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-orange-500" />
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Grid Layout */}

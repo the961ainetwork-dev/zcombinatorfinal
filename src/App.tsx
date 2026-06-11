@@ -13,6 +13,7 @@ import HeroSection from "./components/HeroSection";
 import NdaRegistration from "./components/NdaRegistration";
 import TorRules from "./components/TorRules";
 import FaqHub from "./components/FaqHub";
+import TheMag from "./components/TheMag";
 import { Story, Startup, Job } from "./types";
 import { Info, Mail, Phone, MapPin, Loader2, Sparkles } from "lucide-react";
 
@@ -303,7 +304,7 @@ export default function App() {
     }
   ];
 
-  const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources" | "sandbox" | "nda" | "tor" | "faq">("prospectus");
+  const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources" | "sandbox" | "nda" | "tor" | "faq" | "mag">("prospectus");
   const [stories, setStories] = useState<Story[]>(INITIAL_STORIES);
   const [startups, setStartups] = useState<Startup[]>(INITIAL_STARTUPS);
   const [jobs, setJobs] = useState<Job[]>(INITIAL_JOBS);
@@ -313,6 +314,7 @@ export default function App() {
   const [initLoading, setInitLoading] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
   const [errorStatus, setErrorStatus] = useState("");
+  const [dismissedSyncError, setDismissedSyncError] = useState(false);
 
   // Upvote history tracked locally in localStorage to block double voting
   const [upvotedStories, setUpvotedStories] = useState<string[]>([]);
@@ -360,6 +362,9 @@ export default function App() {
       if (storiesData && storiesData.length > 0) setStories(storiesData);
       if (startupsData && startupsData.length > 0) setStartups(startupsData);
       if (jobsData && jobsData.length > 0) setJobs(jobsData);
+      
+      // Successfully fetched, clear any errors
+      setErrorStatus("");
     } catch (err: any) {
       console.warn("API Sync failure - using client fallback seeds:", err);
       setErrorStatus(err.message || "Failed to establish full data synchronizations.");
@@ -517,18 +522,34 @@ export default function App() {
           </div>
         )}
         
-        {errorStatus && (
-          <div className="mb-4 bg-[#FFD1CE] border-2 border-black p-3 text-xs font-mono font-bold flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-black">
-            <div className="flex items-center gap-2">
-              <Info className="w-5 h-5 text-red-600 shrink-0" />
-              <span>OFFLINE FALLBACK FEED ENABLED (LOCAL RESILIENCE INDEX IS LIVE): {errorStatus}</span>
+        {errorStatus && !dismissedSyncError && (
+          <div className="mb-4 bg-zinc-950 text-white border-2 border-black p-3.5 text-xs font-mono font-bold flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden" id="ambient_sync_banner">
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-550/10 via-transparent to-transparent pointer-events-none"></div>
+            <div className="flex items-center gap-2.5 z-10">
+              <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse shrink-0"></span>
+              <span className="tracking-wide">
+                LOCAL RESILIENCE FEED ACTIVE: {errorStatus} (Offline Sandbox Fallback Enabled)
+              </span>
             </div>
-            <button
-              onClick={loadInitialData}
-              className="bg-white text-black border-2 border-black text-[10px] uppercase font-black px-2.5 py-1 hover:bg-gray-100 cursor-pointer"
-            >
-              Retry Sync
-            </button>
+            <div className="flex items-center gap-2 z-10 shrink-0">
+              <button
+                onClick={() => {
+                  setDismissedSyncError(false);
+                  loadInitialData();
+                }}
+                className="bg-white text-black border border-black text-[9px] uppercase font-black px-2.5 py-1 hover:bg-zinc-250 cursor-pointer transition-colors"
+                title="Retry Database Synchronization"
+              >
+                Retry Sync
+              </button>
+              <button
+                onClick={() => setDismissedSyncError(true)}
+                className="bg-zinc-805 text-zinc-400 hover:text-white border border-zinc-700 text-[9px] uppercase font-black px-2.5 py-1 hover:bg-zinc-800 cursor-pointer transition-colors"
+                title="Dismiss Warning"
+              >
+                Dismiss
+              </button>
+            </div>
           </div>
         )}
 
@@ -596,7 +617,14 @@ export default function App() {
 
           {currentTab === "pitch-lab" && <PitchLab />}
 
-          {currentTab === "prospectus" && <Prospectus />}
+          {currentTab === "prospectus" && (
+            <Prospectus
+              onVisitMag={() => {
+                setTab("mag");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            />
+          )}
 
           {currentTab === "policy" && (
             <PolicyFramework
@@ -633,6 +661,8 @@ export default function App() {
           {currentTab === "tor" && <TorRules />}
 
           {currentTab === "faq" && <FaqHub />}
+
+          {currentTab === "mag" && <TheMag />}
         </div>
       </main>
 

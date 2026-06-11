@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Briefcase, Landmark, MessageSquare, Newspaper, Sparkles, TrendingUp, ShieldCheck, Scale, Search, X, Home, BookOpen, AlertCircle, FileSpreadsheet, HelpCircle } from "lucide-react";
+import { Briefcase, Landmark, MessageSquare, Newspaper, Sparkles, TrendingUp, ShieldCheck, Scale, Search, X, Home, BookOpen, AlertCircle, FileSpreadsheet, HelpCircle, Flame } from "lucide-react";
 
 interface HeaderProps {
   currentTab: string;
@@ -36,123 +36,148 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
         <div className="max-w-7xl mx-auto px-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
           
           {/* Top Menu Links */}
-          <nav className="flex flex-wrap items-center gap-x-1 gap-y-1.5 text-[11px] font-bold uppercase tracking-wider" id="tier1_navbar">
+          <nav className="flex flex-wrap items-center gap-x-1.5 gap-y-1.5 text-[13px] font-black uppercase tracking-wider" id="tier1_navbar">
             <button
               onClick={() => handleTabClick("prospectus")}
-              className={`px-2.5 py-1 transition-all cursor-pointer hover:text-white flex items-center gap-1 border border-transparent ${
+              className={`px-3 py-1.5 transition-all cursor-pointer flex items-center gap-1.5 border bg-black text-white ${
                 currentTab === "prospectus"
-                  ? "bg-zinc-800 text-white border-zinc-700"
-                  : "text-zinc-400"
+                  ? "border-white bg-zinc-900 font-extrabold"
+                  : "border-zinc-800 hover:border-zinc-600 text-zinc-100"
               }`}
               id="top_tab_prospectus"
             >
-              <Home className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <Home className="w-3.5 h-3.5 text-zinc-300 shrink-0" />
               <span>Prospectus</span>
             </button>
 
-            <span className="text-zinc-700 hidden sm:inline">|</span>
-
             <button
               onClick={() => handleTabClick("news")}
-              className={`px-2.5 py-1 transition-all cursor-pointer hover:text-white flex items-center gap-1 border border-transparent ${
+              className={`px-3 py-1.5 transition-all cursor-pointer flex items-center gap-1.5 border bg-black text-white ${
                 currentTab === "news"
-                  ? "bg-zinc-800 text-white border-zinc-700"
-                  : "text-zinc-400"
+                  ? "border-white bg-zinc-900 font-extrabold"
+                  : "border-zinc-800 hover:border-zinc-600 text-zinc-100"
               }`}
               id="top_tab_news"
             >
-              <Newspaper className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <Newspaper className="w-3.5 h-3.5 text-zinc-300 shrink-0" />
               <span>Ecosystem News</span>
             </button>
 
-            <span className="text-zinc-700 hidden sm:inline">|</span>
-
             <button
               onClick={() => handleTabClick("ask")}
-              className={`px-2.5 py-1 transition-all cursor-pointer hover:text-white flex items-center gap-1 border border-transparent ${
+              className={`px-3 py-1.5 transition-all cursor-pointer flex items-center gap-1.5 border bg-black text-white ${
                 currentTab === "ask"
-                  ? "bg-zinc-800 text-white border-zinc-700"
-                  : "text-zinc-400"
+                  ? "border-white bg-zinc-900 font-extrabold"
+                  : "border-zinc-800 hover:border-zinc-600 text-zinc-100"
               }`}
               id="top_tab_ask"
             >
-              <MessageSquare className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <MessageSquare className="w-3.5 h-3.5 text-zinc-300 shrink-0" />
               <span>Ask 961</span>
             </button>
 
-            <span className="text-zinc-700 hidden sm:inline">|</span>
-
             <button
               onClick={() => handleTabClick("show")}
-              className={`px-2.5 py-1 transition-all cursor-pointer hover:text-white flex items-center gap-1 border border-transparent ${
+              className={`px-3 py-1.5 transition-all cursor-pointer flex items-center gap-1.5 border bg-black text-white ${
                 currentTab === "show"
-                  ? "bg-zinc-800 text-white border-zinc-700"
-                  : "text-zinc-400"
+                  ? "border-white bg-zinc-900 font-extrabold"
+                  : "border-zinc-800 hover:border-zinc-600 text-zinc-100"
               }`}
               id="top_tab_show"
             >
-              <Sparkles className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <Sparkles className="w-3.5 h-3.5 text-zinc-300 shrink-0" />
               <span>Show 961</span>
             </button>
 
-            <span className="text-zinc-700 hidden sm:inline">|</span>
-
             <button
               onClick={() => handleTabClick("policy")}
-              className={`px-2.5 py-1 transition-all cursor-pointer hover:text-white flex items-center gap-1 border border-transparent ${
+              className={`px-3 py-1.5 transition-all cursor-pointer flex items-center gap-1.5 border bg-black text-white ${
                 currentTab === "policy"
-                  ? "bg-zinc-800 text-white border-zinc-700"
-                  : "text-zinc-400"
+                  ? "border-white bg-zinc-900 font-extrabold"
+                  : "border-zinc-800 hover:border-zinc-600 text-zinc-100"
               }`}
               id="top_tab_policy"
             >
-              <Landmark className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <Landmark className="w-3.5 h-3.5 text-zinc-300 shrink-0" />
               <span>Policy & Framework</span>
             </button>
 
-            <span className="text-zinc-700 hidden sm:inline">|</span>
-
             <button
               onClick={() => handleTabClick("values")}
-              className={`px-2.5 py-1 transition-all cursor-pointer hover:text-white flex items-center gap-1 border border-transparent ${
+              className={`px-3 py-1.5 transition-all cursor-pointer flex items-center gap-1.5 border bg-black text-white ${
                 currentTab === "values"
-                  ? "bg-zinc-800 text-white border-zinc-700"
-                  : "text-zinc-400"
+                  ? "border-white bg-zinc-900 font-extrabold"
+                  : "border-zinc-800 hover:border-zinc-600 text-zinc-100"
               }`}
               id="top_tab_values"
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <ShieldCheck className="w-3.5 h-3.5 text-zinc-300 shrink-0" />
               <span>Core Values</span>
             </button>
 
-            <span className="text-zinc-700 hidden sm:inline">|</span>
-
             <button
               onClick={() => handleTabClick("resources")}
-              className={`px-2.5 py-1 transition-all cursor-pointer hover:text-white flex items-center gap-1 border border-transparent ${
+              className={`px-3 py-1.5 transition-all cursor-pointer flex items-center gap-1.5 border bg-black text-white ${
                 currentTab === "resources"
-                  ? "bg-zinc-800 text-white border-zinc-700"
-                  : "text-zinc-400"
+                  ? "border-white bg-zinc-900 font-extrabold"
+                  : "border-zinc-800 hover:border-zinc-600 text-zinc-100"
               }`}
               id="top_tab_resources"
             >
-              <BookOpen className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <BookOpen className="w-3.5 h-3.5 text-zinc-300 shrink-0" />
               <span>Resource Papers</span>
             </button>
 
-            <span className="text-zinc-700 hidden sm:inline">|</span>
+            <button
+              onClick={() => handleTabClick("nda")}
+              className={`px-3 py-1.5 transition-all cursor-pointer flex items-center gap-1.5 border bg-black text-white ${
+                currentTab === "nda"
+                  ? "border-white bg-zinc-900 font-extrabold"
+                  : "border-zinc-800 hover:border-zinc-600 text-zinc-100"
+              }`}
+              id="top_tab_nda"
+            >
+              <FileSpreadsheet className="w-3.5 h-3.5 text-zinc-300 shrink-0" />
+              <span>NDA Registration</span>
+            </button>
+
+            <button
+              onClick={() => handleTabClick("tor")}
+              className={`px-3 py-1.5 transition-all cursor-pointer flex items-center gap-1.5 border bg-black text-white ${
+                currentTab === "tor"
+                  ? "border-white bg-zinc-900 font-extrabold"
+                  : "border-zinc-800 hover:border-zinc-600 text-zinc-100"
+              }`}
+              id="top_tab_tor"
+            >
+              <Scale className="w-3.5 h-3.5 text-zinc-300 shrink-0" />
+              <span>TOR Rules</span>
+            </button>
 
             <button
               onClick={() => handleTabClick("faq")}
-              className={`px-2.5 py-1 transition-all cursor-pointer hover:text-white flex items-center gap-1 border border-transparent ${
+              className={`px-3 py-1.5 transition-all cursor-pointer flex items-center gap-1.5 border bg-black text-white ${
                 currentTab === "faq"
-                  ? "bg-zinc-800 text-white border-zinc-700"
-                  : "text-zinc-400"
+                  ? "border-white bg-zinc-900 font-extrabold"
+                  : "border-zinc-800 hover:border-zinc-600 text-zinc-100"
               }`}
               id="top_tab_faq"
             >
-              <HelpCircle className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <HelpCircle className="w-3.5 h-3.5 text-zinc-300 shrink-0" />
               <span>FAQ</span>
+            </button>
+
+            <button
+              onClick={() => handleTabClick("mag")}
+              className={`px-3 py-1.5 transition-all cursor-pointer flex items-center gap-1.5 border bg-black text-white ${
+                currentTab === "mag"
+                  ? "border-orange-500 bg-zinc-900 text-orange-400 font-extrabold"
+                  : "border-zinc-800 hover:border-zinc-600 text-orange-500 font-bold"
+              }`}
+              id="top_tab_mag"
+            >
+              <Flame className="w-3.5 h-3.5 shrink-0" />
+              <span>THE MAG</span>
             </button>
           </nav>
 
@@ -280,32 +305,6 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
               <span>Sandbox</span>
             </button>
 
-            {/* NEW: NDA Registration Page Link */}
-            <button
-              id="tab_btn_nda"
-              onClick={() => handleTabClick("nda")}
-              className={`px-3 py-1.5 border-2 border-black font-black transition-all flex items-center gap-1 cursor-pointer ${
-                currentTab === "nda"
-                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                  : "bg-white text-black hover:bg-zinc-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
-              }`}
-            >
-              <span>NDA Registration</span>
-            </button>
-
-            {/* NEW: TOR Terms & Participation Link */}
-            <button
-              id="tab_btn_tor"
-              onClick={() => handleTabClick("tor")}
-              className={`px-3 py-1.5 border-2 border-black font-black transition-all flex items-center gap-1 cursor-pointer ${
-                currentTab === "tor"
-                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                  : "bg-white text-black hover:bg-zinc-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
-              }`}
-            >
-              <span>TOR Rules</span>
-            </button>
-
             {/* NEW: FAQ Help Center Link */}
             <button
               id="tab_btn_faq"
@@ -318,6 +317,21 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
             >
               <HelpCircle className="w-4 h-4 text-black" />
               <span>FAQ</span>
+            </button>
+
+            {/* NEW: THE MAG Magazine Portal Link */}
+            <button
+              id="tab_btn_mag"
+              onClick={() => handleTabClick("mag")}
+              className={`px-3 py-1.5 border-2 border-black font-black transition-all flex items-center gap-1 cursor-pointer ${
+                currentTab === "mag"
+                  ? "bg-orange-600 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-orange-50 text-orange-950 hover:bg-orange-100 shadow-[2px_2px_0px_0px_rgba(249,115,22,0.4)] hover:translate-x-[1px] hover:translate-y-[1px]"
+              }`}
+            >
+              <Flame className="w-4 h-4 text-orange-600 fill-orange-400 group-hover:animate-bounce" />
+              <span>THE MAG</span>
+              <span className="text-[9px] bg-red-600 text-white font-mono px-1 border border-black uppercase font-bold animate-pulse">NEW</span>
             </button>
           </nav>
 

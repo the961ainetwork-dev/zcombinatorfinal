@@ -5,7 +5,7 @@ import { Shield, Cpu, Lock, Award, ChevronLeft, ChevronRight, Activity, Trending
 export default function HeroSection() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const totalSlides = 4;
+  const totalSlides = 5;
 
   useEffect(() => {
     if (isPaused) return;
@@ -323,7 +323,216 @@ export default function HeroSection() {
 
         {activeSlide === 2 && (
           <motion.div
-            key="slide2"
+            key="slide2_matchoreneur"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.5 }}
+            className="p-6 md:p-10 lg:p-12 relative z-10 w-full min-h-[460px] flex flex-col justify-center bg-zinc-950 overflow-hidden"
+            id="hero_slide_matchoreneur_flow"
+          >
+            {/* Background glowing horizon scene as depicted in the image */}
+            <div className="absolute inset-0 z-0 bg-black overflow-hidden pointer-events-none">
+              {/* Radial gradient background representing the glowing horizon */}
+              <div className="absolute bottom-[-150px] left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-zinc-400/10 blur-[120px] rounded-full"></div>
+              {/* Star-like dots overlay */}
+              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]"></div>
+              
+              {/* Glowing Mesh Spheres at the Horizon (replicating image center) */}
+              <div className="absolute bottom-[-40px] left-1/2 -translate-x-1/2 flex items-end justify-center gap-2 opacity-35">
+                <div className="w-48 h-24 rounded-t-full bg-slate-900 border-t border-zinc-650 flex items-center justify-center relative overflow-hidden">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(255,255,255,0.2),transparent_70%)]"></div>
+                  <div className="w-full h-[1px] bg-zinc-500 absolute bottom-0"></div>
+                </div>
+                <div className="w-64 h-32 rounded-t-full bg-slate-900 border-t-2 border-zinc-500 flex items-center justify-center relative overflow-hidden -mx-10 scale-110">
+                  <div className="absolute inset-3 rounded-t-full border border-dashed border-zinc-400 opacity-50"></div>
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(255,255,255,0.3),transparent_70%)]"></div>
+                  <div className="w-full h-[1px] bg-zinc-450 absolute bottom-0"></div>
+                </div>
+                <div className="w-48 h-24 rounded-t-full bg-slate-900 border-t border-zinc-650 flex items-center justify-center relative overflow-hidden">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(255,255,255,0.2),transparent_70%)]"></div>
+                  <div className="w-full h-[1px] bg-zinc-500 absolute bottom-0"></div>
+                </div>
+              </div>
+
+              {/* Digital landscape horizon wire lines */}
+              <div className="absolute bottom-0 inset-x-0 h-16 border-t border-zinc-800/60 bg-gradient-to-t from-zinc-950 to-transparent flex flex-col justify-end">
+                <div className="w-full h-[1px] bg-zinc-900/80"></div>
+              </div>
+            </div>
+
+            {/* Overarching Header for the slide to ground it in Lebanon Startups context */}
+            <div className="relative z-10 text-left mb-6 space-y-1 max-w-4xl">
+              <span className="text-[10px] sm:text-xs font-mono font-extrabold text-amber-400 tracking-[0.2em] uppercase bg-black px-2.5 py-1 border border-zinc-850">
+                MATCHORENEUR PROVEN FLOW
+              </span>
+              <h2 className="text-xl sm:text-2xl lg:text-3.5xl font-syne font-black uppercase text-white leading-tight tracking-tight">
+                z961combinator A Matchpreneur Linkage Program with Investors Capital
+              </h2>
+            </div>
+
+            {/* 4 Cards Grid exactly as shown in the picture */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 w-full relative z-10" id="matchoreneur_process_grid">
+              
+              {/* Card 1 */}
+              <div className="bg-white text-black p-5 border-3 border-black shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)] flex flex-col justify-between text-left relative overflow-hidden hover:scale-[1.01] transition-transform min-h-[300px]" id="step_card_1">
+                <div>
+                  <div className="flex items-baseline justify-between mb-1">
+                    <span className="font-syne font-black text-2xl tracking-tighter">01</span>
+                    <span className="w-1.5 h-1.5 bg-black"></span>
+                  </div>
+                  <h3 className="font-syne font-black text-[13px] sm:text-[14px] uppercase tracking-wider border-b border-black pb-1 mb-2 text-black">
+                    APPLY & SUBMIT
+                  </h3>
+                  <p className="text-[11px] text-zinc-800 font-bold leading-normal">
+                    Founders submit readiness profiles, business plans, and feasibility studies. Full transparency required.
+                  </p>
+                </div>
+                <div className="mt-4">
+                  <div className="border-t border-zinc-300 my-2"></div>
+                  <span className="font-mono text-[9px] font-black text-zinc-500 uppercase block mb-1 tracking-wider">Required</span>
+                  <ul className="grid grid-cols-1 gap-1 text-[11px] font-extrabold text-zinc-950">
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-black"></span>
+                      <span>Financial projections</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-black"></span>
+                      <span>Market analysis</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-black"></span>
+                      <span>Team credentials</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-black"></span>
+                      <span>Exit strategy</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Card 2 */}
+              <div className="bg-white text-black p-5 border-3 border-black shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)] flex flex-col justify-between text-left relative overflow-hidden hover:scale-[1.01] transition-transform min-h-[300px]" id="step_card_2">
+                <div>
+                  <div className="flex items-baseline justify-between mb-1">
+                    <span className="font-syne font-black text-2xl tracking-tighter">02</span>
+                    <span className="w-1.5 h-1.5 bg-black"></span>
+                  </div>
+                  <h3 className="font-syne font-black text-[13px] sm:text-[14px] uppercase tracking-wider border-b border-black pb-1 mb-2 text-black">
+                    AI ANALYSIS
+                  </h3>
+                  <p className="text-[11px] text-zinc-800 font-bold leading-normal">
+                    Automated readiness scoring. Vector embeddings for semantic matching. Pattern recognition. Instant feedback.
+                  </p>
+                </div>
+                <div className="mt-4">
+                  <div className="border-t border-zinc-300 my-2"></div>
+                  <span className="font-mono text-[9px] font-black text-zinc-500 uppercase block mb-1 tracking-wider">Metrics</span>
+                  <ul className="grid grid-cols-1 gap-1 text-[11px] font-extrabold text-zinc-950">
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-black"></span>
+                      <span>Readiness Score (0-100)</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-black"></span>
+                      <span>TAM Analysis</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-black"></span>
+                      <span>Competitive Position</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-black"></span>
+                      <span>Risk Assessment</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Card 3 */}
+              <div className="bg-white text-black p-5 border-3 border-black shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)] flex flex-col justify-between text-left relative overflow-hidden hover:scale-[1.01] transition-transform min-h-[300px]" id="step_card_3">
+                <div>
+                  <div className="flex items-baseline justify-between mb-1">
+                    <span className="font-syne font-black text-2xl tracking-tighter">03</span>
+                    <span className="w-1.5 h-1.5 bg-black"></span>
+                  </div>
+                  <h3 className="font-syne font-black text-[13px] sm:text-[14px] uppercase tracking-wider border-b border-black pb-1 mb-2 text-black">
+                    NCEI VERIFICATION
+                  </h3>
+                  <p className="text-[11px] text-zinc-800 font-bold leading-normal">
+                    Expert review. Human-in-the-loop validation. Institutional credibility seal. NCEI certified.
+                  </p>
+                </div>
+                <div className="mt-4">
+                  <div className="border-t border-zinc-300 my-2"></div>
+                  <span className="font-mono text-[9px] font-black text-zinc-500 uppercase block mb-1 tracking-wider">Approval</span>
+                  <ul className="grid grid-cols-1 gap-1 text-[11px] font-extrabold text-zinc-950">
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-black"></span>
+                      <span>Expert panel review</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-black"></span>
+                      <span>Due diligence</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-black"></span>
+                      <span>NCEI certification</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-black"></span>
+                      <span>Ready to pitch</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Card 4 */}
+              <div className="bg-white text-black p-5 border-3 border-black shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)] flex flex-col justify-between text-left relative overflow-hidden hover:scale-[1.01] transition-transform min-h-[300px]" id="step_card_4">
+                <div>
+                  <div className="flex items-baseline justify-between mb-1">
+                    <span className="font-syne font-black text-2xl tracking-tighter">04</span>
+                    <span className="w-1.5 h-1.5 bg-black"></span>
+                  </div>
+                  <h3 className="font-syne font-black text-[13px] sm:text-[14px] uppercase tracking-wider border-b border-black pb-1 mb-2 text-black">
+                    MATCH & CONNECT
+                  </h3>
+                  <p className="text-[11px] text-zinc-800 font-bold leading-normal">
+                    Push to investor dashboards. Facilitate introductions. Secure deal negotiation. Close funding.
+                  </p>
+                </div>
+                <div className="mt-4">
+                  <div className="border-t border-zinc-300 my-2"></div>
+                  <span className="font-mono text-[9px] font-black text-zinc-500 uppercase block mb-1 tracking-wider">Outcome</span>
+                  <ul className="grid grid-cols-1 gap-1 text-[11px] font-extrabold text-zinc-950">
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-black"></span>
+                      <span>Investor introductions</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-black"></span>
+                      <span>Secure data rooms</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-black"></span>
+                      <span>Negotiation support</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-black"></span>
+                      <span>Deal closure</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+          </motion.div>
+        )}
+
+        {activeSlide === 3 && (
+          <motion.div
+            key="slide3_fresh_usd"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
@@ -419,9 +628,9 @@ export default function HeroSection() {
           </motion.div>
         )}
 
-        {activeSlide === 3 && (
+        {activeSlide === 4 && (
           <motion.div
-            key="slide3"
+            key="slide4_ncei"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
@@ -488,7 +697,7 @@ export default function HeroSection() {
                       <div className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse" />
                     </div>
                     <div>
-                      <span className="text-[9px] font-mono text-zinc-450 block uppercase font-bold">NCEI ACTIVE TRUST AGENT</span>
+                      <span className="text-[9px] font-mono text-zinc-455 block uppercase font-bold">NCEI ACTIVE TRUST AGENT</span>
                       <span className="text-[10px] text-zinc-200 font-sans block font-semibold">Institutional Sandbox Certified Node</span>
                     </div>
                   </div>
