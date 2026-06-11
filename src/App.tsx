@@ -13,13 +13,300 @@ import { Story, Startup, Job } from "./types";
 import { Info, Mail, Phone, MapPin, Loader2, Sparkles } from "lucide-react";
 
 export default function App() {
+  // --- Precheck client fallback seeds to guarantee instantaneous paint and 100% menu navigation resilience ---
+  const INITIAL_STORIES: Story[] = [
+    {
+      id: "story-1",
+      title: "Lebanese Remote Software Engineers bring in an estimated $180M fresh USD annually",
+      url: "https://economylebanon.org/tech-fresh-dollars",
+      author: "mbarazy",
+      timestamp: "2 hours ago",
+      points: 84,
+      commentsCount: 3,
+      category: "tech",
+      voters: [],
+      comments: [
+        {
+          id: "c-11",
+          author: "charbel_t",
+          text: "This is saving some entire households. Remote work bypassing physical constraints is the absolute best thing that happened to Lebanese talent in the last decade.",
+          timestamp: "1 hour ago",
+        },
+        {
+          id: "c-12",
+          author: "nour_k",
+          text: "True, but setting up direct fresh USD wires is still painful. Many rely on alternative setups or global virtual banks.",
+          timestamp: "45 mins ago",
+        },
+        {
+          id: "c-13",
+          author: "elias_m",
+          text: "Fintech solutions clearing fresh USD in Lebanon are rising. See BDL circular 165.",
+          timestamp: "20 mins ago",
+        }
+      ]
+    },
+    {
+      id: "story-2",
+      title: "How Toters managed offline logistics under hyper-inflation and continuous fuel crises",
+      url: "https://z961combinator.xyz/case-study-toters",
+      author: "startup_guru",
+      timestamp: "5 hours ago",
+      points: 125,
+      commentsCount: 2,
+      category: "economy",
+      voters: [],
+      comments: [
+        {
+          id: "c-14",
+          author: "fadi_b",
+          text: "The resilience of their dispatch algorithm is insane. When fuel prices fluctuated daily, they dynamically computed rates using real-time solar tracking integrations and bulk pre-purchases.",
+          timestamp: "3 hours ago",
+        },
+        {
+          id: "c-15",
+          author: "beirut_coder",
+          text: "They are basically the Uber of Lebanon but with better survival instincts. Hats off.",
+          timestamp: "2 hours ago",
+        }
+      ]
+    },
+    {
+      id: "story-3",
+      title: "Ask 961: What legal entity structure is best for receiving international SaaS funds?",
+      text: "I am building a SaaS for global customers in Byblos. Stripe isn't directly supported for Lebanese banks. What are my best alternatives? Delaware C-Corp? UK LTD with PSP gateway? Airwallex? Let's discuss our options.",
+      author: "habib_k",
+      timestamp: "8 hours ago",
+      points: 43,
+      commentsCount: 2,
+      category: "ask",
+      voters: [],
+      comments: [
+        {
+          id: "c-16",
+          author: "tech_lawyer_lb",
+          text: "A UK LTD paired with Wise/Airwallex is currently the fastest to register. Delaware is solid but tax compliance makes it heavier unless you are raising institutional VC money.",
+          timestamp: "6 hours ago",
+        },
+        {
+          id: "c-17",
+          author: "saas_guy99",
+          text: "I used an Estonian e-Residency. It is very straightforward, although opening the banking layer takes some paperwork and travel/virtual interviews.",
+          timestamp: "4 hours ago",
+        }
+      ]
+    },
+    {
+      id: "story-4",
+      title: "BDL Circular 165: A silent revolution in enabling digital fresh bank clearings",
+      url: "https://centralbank.gov.lb/circular-165-fresh",
+      author: "economist_lb",
+      timestamp: "10 hours ago",
+      points: 67,
+      commentsCount: 1,
+      category: "economy",
+      voters: [],
+      comments: [
+        {
+          id: "c-18",
+          author: "karim_finance",
+          text: "It basically created a mirror fresh-checking clearance system. This has greatly minimized the physical cash carrying risk for major tech businesses in Lebanon.",
+          timestamp: "7 hours ago",
+        }
+      ]
+    },
+    {
+      id: "story-5",
+      title: "Show 961: Cedarscreen – Open-source hardware nodes tracking micro-pollution in central Beirut",
+      url: "https://github.com/cedarcoder/cedarscreen",
+      author: "cedarcoder",
+      timestamp: "12 hours ago",
+      points: 98,
+      commentsCount: 2,
+      category: "show",
+      voters: [],
+      comments: [
+        {
+          id: "c-19",
+          author: "green_peace_lb",
+          text: "Unbelievable work. Standard government data is rare, so having granular particulate monitors helps with civic research.",
+          timestamp: "9 hours ago",
+        }
+      ]
+    },
+    {
+      id: "story-6",
+      title: "Beqaa Valley AgTech startup uses solar-powered automated drip loops to reduce water waste by 50%",
+      url: "https://agrytech.lb/solar-drip-loops",
+      author: "rindala_a",
+      timestamp: "1 day ago",
+      points: 112,
+      commentsCount: 1,
+      category: "tech",
+      voters: [],
+      comments: [
+        {
+          id: "c-20",
+          author: "agro_expert",
+          text: "Agriculture is our most valuable sector next to tourism, but irrigation fuel bills were killing the margins. Solar IoT is the perfect remedy.",
+          timestamp: "18 hours ago",
+        }
+      ]
+    },
+  ];
+
+  const INITIAL_STARTUPS: Startup[] = [
+    {
+      id: "s1",
+      name: "Toters",
+      tagline: "The premier on-demand delivery and Q-commerce app in Lebanon",
+      description: "Toters connects users with local merchants, delivering food, groceries, retail goods, and pharmacy items in real-time. Built entirely on an adaptive logistics routing engine designed to operate dynamically.",
+      logo: "🚚",
+      industry: "Logistics / Q-Commerce",
+      stage: "Series B",
+      city: "Beirut",
+      website: "https://toters.app",
+      funding: "$18.5M raised",
+      founder: "Tamim Khalfa & Nael Halaby",
+      founded: "2017",
+      teamSize: 320
+    },
+    {
+      id: "s2",
+      name: "Anghami",
+      tagline: "The leading music streaming platform of the Middle East",
+      description: "First legal music streaming platform and digital distribution company in the Arab world, letting users listen to millions of Arabic and international tracks. Now listed on NASDAQ.",
+      logo: "🎵",
+      industry: "Media & Entertainment",
+      stage: "IPO",
+      city: "Beirut / Abu Dhabi",
+      website: "https://anghami.com",
+      funding: "NASDAQ Listed",
+      founder: "Eddy Maroun & Elie Habib",
+      founded: "2012",
+      teamSize: 180
+    },
+    {
+      id: "s3",
+      name: "Purse Pay",
+      tagline: "Automated USD payroll and compliance for offshore Lebanese tech freelancers",
+      description: "A fast-growing fintech company enabling global contract builders to bypass physical barriers, receiving fresh international bank cards and clearing funds directly into Lebanese banks.",
+      logo: "💳",
+      industry: "Fintech",
+      stage: "Seed",
+      city: "Beirut",
+      website: "https://pursepay.example.xyz",
+      funding: "$1.2M seed",
+      founder: "Samer Baroud & Nour El Dine",
+      founded: "2024",
+      teamSize: 14
+    },
+    {
+      id: "s4",
+      name: "AgriDrone Bio",
+      tagline: "Precision drone crop monitoring for high-yield Beqaa agriculture",
+      description: "Utilizes thermal multispectral cameras mounted on drones to analyze crop moisture, pest infestation, and nitrogen requirements, lowering insecticide costs by up to 35% using focused delivery.",
+      logo: "☘️",
+      industry: "AgriTech",
+      stage: "Pre-seed",
+      city: "Zahle",
+      website: "https://agridronebio.example.com",
+      funding: "$250K raised",
+      founder: "Farid Abou Sleiman",
+      founded: "2023",
+      teamSize: 8
+    },
+    {
+      id: "s5",
+      name: "Synkers",
+      tagline: "Connecting students and high-quality mentors instantly",
+      description: "Edtech platform delivering personalized tutoring and curriculum support in real-time through an interactive matching app. Scaled successfully across Jordan and the Gulf.",
+      logo: "🎓",
+      industry: "EdTech",
+      stage: "Series A",
+      city: "Byblos",
+      website: "https://synkers.com",
+      funding: "$2.1M raised",
+      founder: "Audrey Nakad & Zeina Sultani",
+      founded: "2016",
+      teamSize: 45
+    },
+    {
+      id: "s6",
+      name: "GreenCedars Energy",
+      tagline: "SaaS platform powering decentralized solar micro-grids",
+      description: "Helps local neighborhoods lease, manage, and distribute solar electricity collaboratively. It tracks individual household load constraints to optimize batteries and minimize diesel costs.",
+      logo: "☀️",
+      industry: "Energy / Cleantech",
+      stage: "Seed",
+      city: "Tripoli",
+      website: "https://greencedarsenergy.example.com",
+      funding: "$800K raised",
+      founder: "Rayan Al-Sayegh",
+      founded: "2024",
+      teamSize: 12
+    }
+  ];
+
+  const INITIAL_JOBS: Job[] = [
+    {
+      id: "j1",
+      title: "Senior Full Stack Dev (Laravel / React)",
+      company: "Toters app",
+      logo: "🚚",
+      type: "Full-Time",
+      location: "Beirut, Lebanon (Hybrid)",
+      salary: "$2,800 - $3,800 fresh / month",
+      description: "We are seeking a Senior Developer experienced in scaling high-load real-time REST nodes. You will spearhead our merchant dashboard revitalization, utilizing React 19 and scalable SQL query optimization.",
+      skills: ["React", "Laravel", "PostgreSQL", "Redis", "AWS"],
+      timestamp: "1 day ago"
+    },
+    {
+      id: "j2",
+      title: "Backend Services Lead (Node.js / Express)",
+      company: "Purse Pay",
+      logo: "💳",
+      type: "Remote / Beirut Office",
+      location: "Beirut, Lebanon (Remote-friendly)",
+      salary: "$3,000 - $4,200 fresh / month",
+      description: "Join our fintech team to build highly secure bank proxy integrations. Experience in handling cryptographic keys, financial transaction ledgers, and standard REST/GraphQL compliance is critically valued.",
+      skills: ["Node.js", "Express", "TypeScript", "Cryptography", "PostgreSQL"],
+      timestamp: "2 days ago"
+    },
+    {
+      id: "j3",
+      title: "AgriTech IoT Embedded Designer",
+      company: "AgriDrone Bio",
+      logo: "☘️",
+      type: "Contract",
+      location: "Zahle / Beqaa (On-Site Field Testing)",
+      salary: "$1,800 - $2,500 fresh / month",
+      description: "Developing robust circuit hardware connecting drone cameras with ESP32 multi-nodes. You will conduct tests in the fields and deploy compact, battery-efficient telemetry firmware.",
+      skills: ["C++", "ESP32", "IoT Sensors", "Microcontrollers", "PCB Design"],
+      timestamp: "4 days ago"
+    },
+    {
+      id: "j4",
+      title: "React Native Core Developer",
+      company: "Synkers Ltd",
+      logo: "🎓",
+      type: "Full-time (Remote)",
+      location: "Byblos, Lebanon (Remote)",
+      salary: "$2,200 - $3,000 fresh / month",
+      description: "Expanding our mobile tutoring platform to accommodate real-time streaming class dashboards. Refactoring the mobile app core into modular, optimized component trees.",
+      skills: ["React Native", "TypeScript", "Redux", "WebSockets"],
+      timestamp: "1 week ago"
+    }
+  ];
+
   const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources" | "sandbox">("news");
-  const [stories, setStories] = useState<Story[]>([]);
-  const [startups, setStartups] = useState<Startup[]>([]);
-  const [jobs, setJobs] = useState<Job[]>([]);
+  const [stories, setStories] = useState<Story[]>(INITIAL_STORIES);
+  const [startups, setStartups] = useState<Startup[]>(INITIAL_STARTUPS);
+  const [jobs, setJobs] = useState<Job[]>(INITIAL_JOBS);
 
   // Loading States
-  const [initLoading, setInitLoading] = useState(true);
+  const [initLoading, setInitLoading] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
   const [errorStatus, setErrorStatus] = useState("");
 
   // Upvote history tracked locally in localStorage to block double voting
@@ -48,7 +335,7 @@ export default function App() {
   }, []);
 
   const loadInitialData = async () => {
-    setInitLoading(true);
+    setIsSyncing(true);
     setErrorStatus("");
     try {
       const [storiesRes, startupsRes, jobsRes] = await Promise.all([
@@ -65,14 +352,14 @@ export default function App() {
       const startupsData = await startupsRes.json();
       const jobsData = await jobsRes.json();
 
-      setStories(storiesData);
-      setStartups(startupsData);
-      setJobs(jobsData);
+      if (storiesData && storiesData.length > 0) setStories(storiesData);
+      if (startupsData && startupsData.length > 0) setStartups(startupsData);
+      if (jobsData && jobsData.length > 0) setJobs(jobsData);
     } catch (err: any) {
-      console.error(err);
+      console.warn("API Sync failure - using client fallback seeds:", err);
       setErrorStatus(err.message || "Failed to establish full data synchronizations.");
     } finally {
-      setInitLoading(false);
+      setIsSyncing(false);
     }
   };
 
@@ -212,101 +499,106 @@ export default function App() {
 
       {/* Main Core Content Container */}
       <main className="max-w-7xl mx-auto px-4 py-8 flex-1 w-full" id="root_main_content">
-        {initLoading ? (
-          <div className="flex flex-col items-center justify-center py-20 bg-[#FFF9E6] border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-[#FF6600] text-center p-8 max-w-lg mx-auto" id="syncing_loader">
-            <Loader2 className="w-10 h-10 text-[#FF6600] animate-spin mb-3" />
-            <h3 className="font-display font-black text-lg text-black uppercase tracking-tight">Synchronizing database...</h3>
-            <p className="text-xs text-gray-700 font-mono mt-1 font-bold">DOWNLOADING REGIONAL FEEDS & CLEARING INDEX RATES (+961)</p>
+        {/* Subtle synchronization info */}
+        {isSyncing && (
+          <div className="mb-4 bg-[#FFF9E6] border-2 border-black p-3 text-xs font-mono font-bold flex items-center justify-between shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-[#FF6600]">
+            <span className="flex items-center gap-2">
+              <Loader2 className="w-4 h-4 text-[#FF6600] animate-spin" />
+              <span>SYNCING PLATFORM DATABASE PROTOCOLS WITH BEIRUT DESK (+961)...</span>
+            </span>
           </div>
-        ) : errorStatus ? (
-          <div className="bg-[#FFD1CE] border-4 border-black p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] text-black max-w-md mx-auto space-y-3 text-center" id="syncing_error">
-            <Info className="w-8 h-8 text-[#FF6600] mx-auto" />
-            <h3 className="font-display font-black text-base text-black uppercase">Pipeline Offline</h3>
-            <p className="text-xs font-mono font-bold leading-relaxed">{errorStatus}</p>
+        )}
+        
+        {errorStatus && (
+          <div className="mb-4 bg-[#FFD1CE] border-2 border-black p-3 text-xs font-mono font-bold flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-black">
+            <div className="flex items-center gap-2">
+              <Info className="w-5 h-5 text-red-600 shrink-0" />
+              <span>OFFLINE FALLBACK FEED ENABLED (LOCAL RESILIENCE INDEX IS LIVE): {errorStatus}</span>
+            </div>
             <button
               onClick={loadInitialData}
-              className="mt-2 bg-white text-black border-2 border-black font-mono font-bold uppercase px-4 py-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[0.5px] hover:translate-y-[0.5px] hover:shadow-none transition-all cursor-pointer text-xs"
+              className="bg-white text-black border-2 border-black text-[10px] uppercase font-black px-2.5 py-1 hover:bg-gray-100 cursor-pointer"
             >
               Retry Sync
             </button>
           </div>
-        ) : (
-          <div className="animate-fade-in" id="active_view_root">
-            {/* View dispatch matching tab selection */}
-            {currentTab === "news" && (
-              <NewsAggregator
-                stories={stories}
-                setStories={setStories}
-                categoryFilter="all"
-                onUpvote={handleUpvote}
-                onSubmitStory={handleSubmitStory}
-                onAddComment={handleAddComment}
-              />
-            )}
-
-            {currentTab === "ask" && (
-              <NewsAggregator
-                stories={stories}
-                setStories={setStories}
-                categoryFilter="ask"
-                onUpvote={handleUpvote}
-                onSubmitStory={handleSubmitStory}
-                onAddComment={handleAddComment}
-              />
-            )}
-
-            {currentTab === "show" && (
-              <NewsAggregator
-                stories={stories}
-                setStories={setStories}
-                categoryFilter="show"
-                onUpvote={handleUpvote}
-                onSubmitStory={handleSubmitStory}
-                onAddComment={handleAddComment}
-              />
-            )}
-
-            {currentTab === "startups" && (
-              <StartupDirectory startups={startups} onSubmitStartup={handleSubmitStartup} />
-            )}
-
-            {currentTab === "jobs" && <JobsBoard jobs={jobs} onSubmitJob={handleSubmitJob} />}
-
-            {currentTab === "pitch-lab" && <PitchLab />}
-
-            {currentTab === "prospectus" && <Prospectus />}
-
-            {currentTab === "policy" && (
-              <PolicyFramework
-                onApplyNow={() => {
-                  setTab("startups");
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-                onEngage={() => {
-                  setTab("jobs");
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-              />
-            )}
-
-            {currentTab === "values" && (
-              <CoreValues
-                onApplyNow={() => {
-                  setTab("startups");
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-                onLearnMore={() => {
-                  setTab("prospectus");
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-              />
-            )}
-
-            {currentTab === "resources" && <ResourcesHub />}
-
-            {currentTab === "sandbox" && <InitiativeSandbox />}
-          </div>
         )}
+
+        <div className="animate-fade-in" id="active_view_root">
+          {/* View dispatch matching tab selection */}
+          {currentTab === "news" && (
+            <NewsAggregator
+              stories={stories}
+              setStories={setStories}
+              categoryFilter="all"
+              onUpvote={handleUpvote}
+              onSubmitStory={handleSubmitStory}
+              onAddComment={handleAddComment}
+            />
+          )}
+
+          {currentTab === "ask" && (
+            <NewsAggregator
+              stories={stories}
+              setStories={setStories}
+              categoryFilter="ask"
+              onUpvote={handleUpvote}
+              onSubmitStory={handleSubmitStory}
+              onAddComment={handleAddComment}
+            />
+          )}
+
+          {currentTab === "show" && (
+            <NewsAggregator
+              stories={stories}
+              setStories={setStories}
+              categoryFilter="show"
+              onUpvote={handleUpvote}
+              onSubmitStory={handleSubmitStory}
+              onAddComment={handleAddComment}
+            />
+          )}
+
+          {currentTab === "startups" && (
+            <StartupDirectory startups={startups} onSubmitStartup={handleSubmitStartup} />
+          )}
+
+          {currentTab === "jobs" && <JobsBoard jobs={jobs} onSubmitJob={handleSubmitJob} />}
+
+          {currentTab === "pitch-lab" && <PitchLab />}
+
+          {currentTab === "prospectus" && <Prospectus />}
+
+          {currentTab === "policy" && (
+            <PolicyFramework
+              onApplyNow={() => {
+                setTab("startups");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              onEngage={() => {
+                setTab("jobs");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            />
+          )}
+
+          {currentTab === "values" && (
+            <CoreValues
+              onApplyNow={() => {
+                setTab("startups");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              onLearnMore={() => {
+                setTab("prospectus");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            />
+          )}
+
+          {currentTab === "resources" && <ResourcesHub />}
+
+          {currentTab === "sandbox" && <InitiativeSandbox />}
+        </div>
       </main>
 
       {/* Clean elegant footer */}
