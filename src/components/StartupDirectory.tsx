@@ -5,10 +5,19 @@ import { Search, Plus, X, Globe, Landmark, Users, Calendar, Award, Building, Dol
 interface StartupDirectoryProps {
   startups: Startup[];
   onSubmitStartup: (startupData: Omit<Startup, "id" | "founded">) => Promise<void>;
+  searchQuery?: string;
+  setSearchQuery?: (val: string) => void;
 }
 
-export default function StartupDirectory({ startups, onSubmitStartup }: StartupDirectoryProps) {
-  const [searchQuery, setSearchQuery] = useState("");
+export default function StartupDirectory({
+  startups,
+  onSubmitStartup,
+  searchQuery: externalSearchQuery,
+  setSearchQuery: setExternalSearchQuery,
+}: StartupDirectoryProps) {
+  const [localSearchQuery, setLocalSearchQuery] = useState("");
+  const searchQuery = externalSearchQuery !== undefined ? externalSearchQuery : localSearchQuery;
+  const setSearchQuery = setExternalSearchQuery !== undefined ? setExternalSearchQuery : setLocalSearchQuery;
   const [selectedIndustry, setSelectedIndustry] = useState("all");
   const [selectedStage, setSelectedStage] = useState("all");
   const [selectedCity, setSelectedCity] = useState("all");

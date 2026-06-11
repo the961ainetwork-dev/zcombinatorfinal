@@ -303,6 +303,7 @@ export default function App() {
   const [stories, setStories] = useState<Story[]>(INITIAL_STORIES);
   const [startups, setStartups] = useState<Startup[]>(INITIAL_STARTUPS);
   const [jobs, setJobs] = useState<Job[]>(INITIAL_JOBS);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Loading States
   const [initLoading, setInitLoading] = useState(false);
@@ -488,6 +489,7 @@ export default function App() {
         currentTab={currentTab}
         setTab={(tab) => {
           setTab(tab);
+          setSearchQuery(""); // Clear search on tab transition
           // Auto-scroll to top of active page layout
           window.scrollTo({ top: 0, behavior: "smooth" });
         }}
@@ -495,6 +497,8 @@ export default function App() {
           startupsCount: startups.length,
           jobsCount: jobs.length,
         }}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
       />
 
       {/* Main Core Content Container */}
@@ -534,6 +538,8 @@ export default function App() {
               onUpvote={handleUpvote}
               onSubmitStory={handleSubmitStory}
               onAddComment={handleAddComment}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
             />
           )}
 
@@ -545,6 +551,8 @@ export default function App() {
               onUpvote={handleUpvote}
               onSubmitStory={handleSubmitStory}
               onAddComment={handleAddComment}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
             />
           )}
 
@@ -556,14 +564,28 @@ export default function App() {
               onUpvote={handleUpvote}
               onSubmitStory={handleSubmitStory}
               onAddComment={handleAddComment}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
             />
           )}
 
           {currentTab === "startups" && (
-            <StartupDirectory startups={startups} onSubmitStartup={handleSubmitStartup} />
+            <StartupDirectory
+              startups={startups}
+              onSubmitStartup={handleSubmitStartup}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
           )}
 
-          {currentTab === "jobs" && <JobsBoard jobs={jobs} onSubmitJob={handleSubmitJob} />}
+          {currentTab === "jobs" && (
+            <JobsBoard
+              jobs={jobs}
+              onSubmitJob={handleSubmitJob}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
+          )}
 
           {currentTab === "pitch-lab" && <PitchLab />}
 

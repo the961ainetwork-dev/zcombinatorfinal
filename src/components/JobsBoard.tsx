@@ -5,10 +5,19 @@ import { Search, MapPin, DollarSign, Calendar, Copy, ChevronRight, Check, X, Spa
 interface JobsBoardProps {
   jobs: Job[];
   onSubmitJob: (jobData: Omit<Job, "id" | "timestamp">) => Promise<void>;
+  searchQuery?: string;
+  setSearchQuery?: (val: string) => void;
 }
 
-export default function JobsBoard({ jobs, onSubmitJob }: JobsBoardProps) {
-  const [searchQuery, setSearchQuery] = useState("");
+export default function JobsBoard({
+  jobs,
+  onSubmitJob,
+  searchQuery: externalSearchQuery,
+  setSearchQuery: setExternalSearchQuery,
+}: JobsBoardProps) {
+  const [localSearchQuery, setLocalSearchQuery] = useState("");
+  const searchQuery = externalSearchQuery !== undefined ? externalSearchQuery : localSearchQuery;
+  const setSearchQuery = setExternalSearchQuery !== undefined ? setExternalSearchQuery : setLocalSearchQuery;
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [showAddJobModal, setShowAddJobModal] = useState(false);
 

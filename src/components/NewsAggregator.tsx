@@ -15,6 +15,8 @@ interface NewsAggregatorProps {
     category: "tech" | "economy" | "ask" | "show";
   }) => Promise<void>;
   onAddComment: (storyId: string, commentData: { author: string; text: string }) => Promise<void>;
+  searchQuery?: string;
+  setSearchQuery?: (val: string) => void;
 }
 
 export default function NewsAggregator({
@@ -24,8 +26,12 @@ export default function NewsAggregator({
   onUpvote,
   onSubmitStory,
   onAddComment,
+  searchQuery: externalSearchQuery,
+  setSearchQuery: setExternalSearchQuery,
 }: NewsAggregatorProps) {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [localSearchQuery, setLocalSearchQuery] = useState("");
+  const searchQuery = externalSearchQuery !== undefined ? externalSearchQuery : localSearchQuery;
+  const setSearchQuery = setExternalSearchQuery !== undefined ? setExternalSearchQuery : setLocalSearchQuery;
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
 
@@ -42,8 +48,36 @@ export default function NewsAggregator({
   const [commentAuthor, setCommentAuthor] = useState("");
   const [commentError, setCommentError] = useState("");
 
-  // Filter and Search Stories
-  const filteredStories = stories.filter((story) => {
+  const [sortBy, setSortBy] = useState<"newest" | "points" | "comments">("newest");
+
+  // Helper to parse relative timestamp into milliseconds estimate
+  const parseRelativeTime = (timestamp: string): number => {
+    if (!timestamp) return 0;
+    const lower = timestamp.toLowerCase().trim();
+    if (lower === "just now" || lower.includes("just now")) {
+      return Date.now();
+    }
+    const matchMin = lower.match(/(\d+)\s*(min|minute|mins)/);
+    if (matchMin) {
+      return Date.now() - parseInt(matchMin[1], 10) * 60 * 1000;
+    }
+    const matchHour = lower.match(/(\d+)\s*(hour|hr|hours)/);
+    if (matchHour) {
+      return Date.now() - parseInt(matchHour[1], 10) * 60 * 60 * 1000;
+    }
+    const matchDay = lower.match(/(\d+)\s*(day|days|dy)/);
+    if (matchDay) {
+      return Date.now() - parseInt(matchDay[1], 10) * 24 * 60 * 60 * 1000;
+    }
+    const parsed = Date.parse(timestamp);
+    if (!isNaN(parsed)) {
+      return parsed;
+    }
+    return 0;
+  };
+
+  // Filter and Search Stories (Stage 1 & 2)
+  const rawFilteredStories = stories.filter((story) => {
     // Stage 1: Category Filter
     if (categoryFilter !== "all" && story.category !== categoryFilter) return false;
 
@@ -56,6 +90,24 @@ export default function NewsAggregator({
       return matchTitle || matchAuthor || matchText;
     }
     return true;
+  });
+
+  // Sort raw filtered stories based on active mode
+  const filteredStories = [...rawFilteredStories].sort((a, b) => {
+    if (sortBy === "points") {
+      return b.points - a.points;
+    } else if (sortBy === "comments") {
+      return b.commentsCount - a.commentsCount;
+    } else {
+      // "newest" sorting
+      const timeA = parseRelativeTime(a.timestamp);
+      const timeB = parseRelativeTime(b.timestamp);
+      if (timeB !== timeA) {
+        return timeB - timeA;
+      }
+      // Fallback
+      return b.id.localeCompare(a.id);
+    }
   });
 
   // Handle Post Submit
@@ -176,6 +228,50 @@ export default function NewsAggregator({
                 <X className="w-3.5 h-3.5" />
               </button>
             )}
+          </div>
+
+          {/* Premium Neo-Brutalist Sorting Toggles */}
+          <div className="flex items-center gap-1.5 bg-[#F6F6EF] border-2 border-black p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-[10px] font-mono leading-none" id="stories_sorting_toggle_box">
+            <span className="px-1 font-bold text-gray-500 uppercase select-none">Sort:</span>
+            
+            <button
+              type="button"
+              id="sort_filter_newest"
+              onClick={() => setSortBy("newest")}
+              className={`px-2 py-1.5 font-black border transition-all cursor-pointer ${
+                sortBy === "newest"
+                  ? "bg-black text-[#FF6600] border-black"
+                  : "bg-white text-black border-black hover:bg-orange-50 hover:translate-x-[0.5px] hover:translate-y-[0.5px]"
+              }`}
+            >
+              NEWEST
+            </button>
+            
+            <button
+              type="button"
+              id="sort_filter_points"
+              onClick={() => setSortBy("points")}
+              className={`px-2 py-1.5 font-black border transition-all cursor-pointer ${
+                sortBy === "points"
+                  ? "bg-black text-[#FF6600] border-black"
+                  : "bg-white text-black border-black hover:bg-orange-50 hover:translate-x-[0.5px] hover:translate-y-[0.5px]"
+              }`}
+            >
+              POINTS
+            </button>
+            
+            <button
+              type="button"
+              id="sort_filter_comments"
+              onClick={() => setSortBy("comments")}
+              className={`px-2 py-1.5 font-black border transition-all cursor-pointer ${
+                sortBy === "comments"
+                  ? "bg-black text-[#FF6600] border-black"
+                  : "bg-white text-black border-black hover:bg-orange-50 hover:translate-x-[0.5px] hover:translate-y-[0.5px]"
+              }`}
+            >
+              COMMENTS
+            </button>
           </div>
 
           <button
