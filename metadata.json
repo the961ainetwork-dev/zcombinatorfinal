@@ -1,0 +1,6 @@
+{
+  "name": "961 Combinator",
+  "description": "Premium Hacker News and Y Combinator clone for the Lebanese tech, business, and economic ecosystem (+961).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
