@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Startup } from "../types";
 import { Search, Plus, X, Globe, Landmark, Users, Calendar, Award, Building, DollarSign } from "lucide-react";
+import CohortGrowthChart from "./CohortGrowthChart";
 
 interface StartupDirectoryProps {
   startups: Startup[];
@@ -188,12 +189,37 @@ export default function StartupDirectory({
         </div>
       </div>
 
+      {/* Dynamic Growth Trajectory Visualization */}
+      <CohortGrowthChart startups={startups} />
+
+      {/* Official Cohort System Announcement Banner */}
+      <div className="border-4 border-black bg-orange-50 p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4" id="cohort_announcement_banner">
+        <div className="space-y-1 text-left">
+          <span className="bg-orange-600 text-white font-mono text-[9px] font-black uppercase px-2.5 py-0.5 rounded-none border border-black inline-block tracking-wider">
+            SYSTEM NOTICE • OFFICIAL COHORT COUPLING
+          </span>
+          <h3 className="font-syne font-black text-lg uppercase tracking-tight text-orange-600">
+            Cohort Tracking Active
+          </h3>
+          <p className="text-xs font-semibold text-zinc-800 normal-case font-mono">
+            Registered startups to our cohort system will be listed here.
+          </p>
+        </div>
+      </div>
+
       {/* Grid of Startup Cards (Bento grid style) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="startups_cards_grid">
         {filteredStartups.length === 0 ? (
-          <div className="col-span-full py-16 text-center bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-gray-550" id="empty_startups_prompt">
-            <p className="font-black text-lg uppercase font-display text-black">No matching startups listed</p>
-            <p className="text-xs mt-1 font-mono">Be the catalyst. Click "Register Startup" to pin your progress!</p>
+          <div className="col-span-full py-20 text-center bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]" id="empty_startups_prompt">
+            <span className="w-14 h-14 bg-zinc-100 border-2 border-black flex items-center justify-center text-3xl mx-auto mb-4 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              📋
+            </span>
+            <p className="font-black text-xl uppercase font-syne text-orange-600">
+              Registered startups to our cohort system will be listed here
+            </p>
+            <p className="text-xs mt-2 font-mono text-gray-500 uppercase tracking-wide">
+              Submit your company credentials via "Register Startup" to log into the database
+            </p>
           </div>
         ) : (
           filteredStartups.map((startup) => (

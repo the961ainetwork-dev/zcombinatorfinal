@@ -49,6 +49,38 @@ export default function JobsBoard({
   const jobTypes = ["all", "Full-time", "Part-time", "Contract", "Remote", "Internship"];
   const locations = ["all", "Beirut", "Tripoli", "Byblos", "Remote"];
 
+  const [sortBy, setSortBy] = useState<"newest" | "points" | "comments">("newest");
+
+  // Helper to parse relative timestamp into milliseconds estimate for job sorting
+  const parseRelativeTime = (timestamp: string): number => {
+    if (!timestamp) return 0;
+    const lower = timestamp.toLowerCase().trim();
+    if (lower === "just now" || lower.includes("just now")) {
+      return Date.now();
+    }
+    const matchMin = lower.match(/(\d+)\s*(min|minute|mins)/);
+    if (matchMin) {
+      return Date.now() - parseInt(matchMin[1], 10) * 60 * 1000;
+    }
+    const matchHour = lower.match(/(\d+)\s*(hour|hr|hours)/);
+    if (matchHour) {
+      return Date.now() - parseInt(matchHour[1], 10) * 60 * 65 * 1000;
+    }
+    const matchDay = lower.match(/(\d+)\s*(day|days|dy)/);
+    if (matchDay) {
+      return Date.now() - parseInt(matchDay[1], 10) * 24 * 60 * 60 * 1000;
+    }
+    const matchWeek = lower.match(/(\d+)\s*(week|weeks|wk)/);
+    if (matchWeek) {
+      return Date.now() - parseInt(matchWeek[1], 10) * 7 * 24 * 60 * 60 * 1000;
+    }
+    const parsed = Date.parse(timestamp);
+    if (!isNaN(parsed)) {
+      return parsed;
+    }
+    return 0;
+  };
+
   const filteredJobs = jobs.filter((job) => {
     const matchSearch =
       job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -60,6 +92,21 @@ export default function JobsBoard({
       selectedLocation === "all" || job.location.toLowerCase() === selectedLocation.toLowerCase();
 
     return matchSearch && matchType && matchLoc;
+  });
+
+  const sortedJobs = [...filteredJobs].sort((a, b) => {
+    if (sortBy === "points") {
+      return (b.points || 0) - (a.points || 0);
+    } else if (sortBy === "comments") {
+      return (b.commentsCount || 0) - (a.commentsCount || 0);
+    } else {
+      const timeA = parseRelativeTime(a.timestamp);
+      const timeB = parseRelativeTime(b.timestamp);
+      if (timeB !== timeA) {
+        return timeB - timeA;
+      }
+      return b.id.localeCompare(a.id);
+    }
   });
 
   const handleJobSubmit = async (e: React.FormEvent) => {
@@ -186,6 +233,21 @@ Location: Lebanon (+961)`;
             )}
           </div>
 
+          {/* Premium Neo-Brutalist Sorting Dropdown */}
+          <div className="flex items-center gap-2 bg-white border-2 border-black px-3 py-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[0.5px] hover:translate-y-[0.5px] transition-all text-xs font-mono" id="jobs_sorting_dropdown_box">
+            <span className="font-bold text-gray-500 uppercase select-none shrink-0">Sort:</span>
+            <select
+              id="jobs_sort_select"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as "newest" | "points" | "comments")}
+              className="bg-transparent border-none outline-none font-black uppercase text-black cursor-pointer pr-1"
+            >
+              <option value="newest" className="bg-white text-black font-mono">Newest</option>
+              <option value="points" className="bg-white text-black font-mono">Most Points</option>
+              <option value="comments" className="bg-white text-black font-mono">Most Commented</option>
+            </select>
+          </div>
+
           <button
             id="post_job_board_btn"
             onClick={() => setShowAddJobModal(true)}
@@ -198,13 +260,13 @@ Location: Lebanon (+961)`;
 
         {/* Jobs List Grid */}
         <div className="space-y-3.5" id="jobs_list_grid">
-          {filteredJobs.length === 0 ? (
+          {sortedJobs.length === 0 ? (
             <div className="bg-white border-2 border-black p-12 text-center text-gray-500 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]" id="empty_jobs_prompt">
               <p className="font-extrabold text-lg uppercase font-syne text-black">No job listings found</p>
               <p className="text-xs mt-1 font-mono">Check back later or register a startup vacancy yourself!</p>
             </div>
           ) : (
-            filteredJobs.map((job) => {
+            sortedJobs.map((job) => {
               const isSelected = selectedJob?.id === job.id;
               return (
                 <div
@@ -228,7 +290,7 @@ Location: Lebanon (+961)`;
                       </h3>
                       <p className="text-xs text-gray-700 font-mono font-bold uppercase tracking-wide mt-0.5">{job.company}</p>
 
-                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-gray-500 font-mono mt-1 w-full">
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 text-xs text-gray-500 font-mono mt-1 w-full">
                         <span className="flex items-center gap-0.5 font-bold text-black bg-zinc-100 border border-black px-1.5 py-0.2">
                           <MapPin className="w-3 h-3 text-black" />
                           <span>{job.location.toUpperCase()}</span>
@@ -236,6 +298,14 @@ Location: Lebanon (+961)`;
                         <span className="text-black font-extrabold tracking-tight bg-zinc-100 border border-zinc-400 px-1 py-0.2 uppercase text-[10px]">{job.salary.toUpperCase()}</span>
                         <span>•</span>
                         <span>{job.timestamp}</span>
+                        <span>•</span>
+                        <span className="text-orange-700 font-bold bg-orange-50 border border-orange-200 px-1.5 py-0.2 uppercase text-[10px]" title="Community Upvote Points">
+                          ▲ {job.points || 1} PTS
+                        </span>
+                        <span>•</span>
+                        <span className="text-zinc-700 font-medium bg-zinc-50 border border-zinc-300 px-1.5 py-0.2 uppercase text-[10px]" title="Inquiries & Comments">
+                          💬 {job.commentsCount || 0} COM
+                        </span>
                       </div>
                     </div>
                   </div>

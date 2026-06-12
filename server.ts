@@ -71,6 +71,8 @@ interface Job {
   description: string;
   skills: string[];
   timestamp: string;
+  points?: number;
+  commentsCount?: number;
 }
 
 // --- Pre-seeded databases ---
@@ -319,7 +321,9 @@ let jobs: Job[] = [
     salary: "$2,800 - $3,800 fresh / month",
     description: "We are seeking a Senior Developer experienced in scaling high-load real-time REST nodes. You will spearhead our merchant dashboard revitalization, utilizing React 19 and scalable SQL query optimization.",
     skills: ["React", "Laravel", "PostgreSQL", "Redis", "AWS"],
-    timestamp: "1 day ago"
+    timestamp: "1 day ago",
+    points: 24,
+    commentsCount: 8
   },
   {
     id: "j2",
@@ -331,7 +335,9 @@ let jobs: Job[] = [
     salary: "$3,000 - $4,200 fresh / month",
     description: "Join our fintech team to build highly secure bank proxy integrations. Experience in handling cryptographic keys, financial transaction ledgers, and standard REST/GraphQL compliance is critically valued.",
     skills: ["Node.js", "Express", "TypeScript", "Cryptography", "PostgreSQL"],
-    timestamp: "2 days ago"
+    timestamp: "2 days ago",
+    points: 42,
+    commentsCount: 3
   },
   {
     id: "j3",
@@ -343,7 +349,9 @@ let jobs: Job[] = [
     salary: "$1,800 - $2,500 fresh / month",
     description: "Developing robust circuit hardware connecting drone cameras with ESP32 multi-nodes. You will conduct tests in the fields and deploy compact, battery-efficient telemetry firmware.",
     skills: ["C++", "ESP32", "IoT Sensors", "Microcontrollers", "PCB Design"],
-    timestamp: "4 days ago"
+    timestamp: "4 days ago",
+    points: 15,
+    commentsCount: 9
   },
   {
     id: "j4",
@@ -355,7 +363,9 @@ let jobs: Job[] = [
     salary: "$2,200 - $3,000 fresh / month",
     description: "Expanding our mobile tutoring platform to accommodate real-time streaming class dashboards. Refactoring the mobile app core into modular, optimized component trees.",
     skills: ["React Native", "TypeScript", "Redux", "WebSockets"],
-    timestamp: "1 week ago"
+    timestamp: "1 week ago",
+    points: 8,
+    commentsCount: 2
   }
 ];
 
@@ -508,6 +518,8 @@ app.post("/api/jobs", (req, res) => {
     description,
     skills: Array.isArray(skills) ? skills : ["React", "Node.js"],
     timestamp: "Just now",
+    points: 1,
+    commentsCount: 0,
   };
 
   jobs = [newJob, ...jobs];
@@ -1258,6 +1270,400 @@ Active Sandboxed collaborations are tracked below. Statuses:
     userContext,
     activeEntity
   });
+});
+
+
+// =========================================================================
+// --- USER SIGNUP, REGISTRATION & ADMIN MANAGEMENT SYSTEMS ---
+// =========================================================================
+
+interface StartupRegistration {
+  id: string;
+  userId: string;
+  email: string;
+  username: string;
+  step: number;
+  completed: boolean;
+  createdAt: string;
+  updatedAt: string;
+  // PART 1: FOUNDER & TEAM DOSSIER
+  founderNames?: string;
+  founderBio?: string;
+  teamExpertise?: string;
+  linkedinUrls?: string;
+  // PART 2: PROJECT & IDEATION
+  projectName?: string;
+  developmentStage?: string;
+  timeframeScalability?: string;
+  fundingHistory?: string;
+  tamSomAssessment?: string;
+  // PART 3: ECONOMIC ALIGNMENT & MACRO-DEVELOPMENT
+  nationalImpact?: string;
+  exportPotentialPay?: string;
+  jobCreation?: string;
+  sdgIntegration?: string;
+  resilienceSustainability?: string;
+  // PART 4: FINANCIALS, STRATEGY & THE ASK
+  totalCapitalRequired?: string;
+  capitalAllocation?: string;
+  investmentVehicle?: string;
+  nonCapitalServices?: string;
+  marketingPlan?: string;
+  // PART 5: RISK MITIGATION & EXIT STRATEGY
+  operationalResilience?: string;
+  financialHedging?: string;
+  exitObjective?: string;
+  targetBuyerUniverse?: string;
+  // PART 6: SUPPORTING DOCUMENTATION
+  documentLinks?: string;
+  // TERMS
+  acceptedTerms?: boolean;
+}
+
+export interface InstitutionalEngagement {
+  id: string;
+  userId?: string;
+  contactName: string;
+  contactEmail: string;
+  organizationName: string;
+  identity: string;
+  objectives: string[];
+  ticketSize: string;
+  operationalFocus: string;
+  prioritySectors: string[];
+  stagePreference: string;
+  impactGoals: string;
+  willingnessToEngage: string;
+  institutionalRequirements: string;
+  riskAppetite: number;
+  localRetention: string;
+  collaboration: string;
+  acceptedTerms: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+let institutionalEngagements: InstitutionalEngagement[] = [
+  {
+    id: "inst-1",
+    userId: "",
+    contactName: "Jean-Marc Jabre",
+    contactEmail: "jm.jabre@levantcapital.com",
+    organizationName: "Levant Horizon Ventures",
+    identity: "VC/Investment Firm",
+    objectives: ["Capital Deployment", "Strategic Partnership"],
+    ticketSize: "$250k+",
+    operationalFocus: "GCC & Western Europe",
+    prioritySectors: ["FinTech", "ICT/AI", "Agri-Tech"],
+    stagePreference: "MVP/Early Revenue",
+    impactGoals: "Job Creation & Food Security through AgTech exports",
+    willingnessToEngage: "Active: Attend live 'Institutional Tank' pitch sessions",
+    institutionalRequirements: "Requires standard Cayman Master-Feeder structuring, compliance under KYC directives.",
+    riskAppetite: 4,
+    localRetention: "Yes, absolutely",
+    collaboration: "Yes, very interested",
+    acceptedTerms: true,
+    createdAt: "2026-06-09T08:15:00Z",
+    updatedAt: "2026-06-09T08:15:00Z"
+  },
+  {
+    id: "inst-2",
+    userId: "",
+    contactName: "Nadia Ghorra",
+    contactEmail: "n.ghorra@un-development.org",
+    organizationName: "International Impact Alliance (NGO)",
+    identity: "International Institutional Partner (NGO/Development Body)",
+    objectives: ["Technical Mentorship", "Strategic Partnership", "CSR/Impact"],
+    ticketSize: "N/A - Non-investor",
+    operationalFocus: "Beirut & Geneva",
+    prioritySectors: ["Agri-Tech", "MedTech", "Creative/Professional Services"],
+    stagePreference: "Prototype",
+    impactGoals: "SDG 8 (Job Creation & Decent Work), SDG 5 (Gender Parity)",
+    willingnessToEngage: "Strategic: Provide mentorship or serve as an industry advisor",
+    institutionalRequirements: "Grant-aligned reporting, strictly tracked local operations audit.",
+    riskAppetite: 2,
+    localRetention: "Yes, absolutely",
+    collaboration: "Yes, very interested",
+    acceptedTerms: true,
+    createdAt: "2026-06-10T11:45:00Z",
+    updatedAt: "2026-06-10T11:45:00Z"
+  }
+];
+
+let registeredUsers: { id: string; email: string; username: string; password?: string }[] = [
+  { id: "u-1", email: "farid@agridrone.xyz", username: "Farid Abou Sleiman", password: "password123" },
+  { id: "u-2", email: "rayan@greencedars.com", username: "Rayan Al-Sayegh", password: "password123" }
+];
+
+let startupRegistrations: StartupRegistration[] = [
+  {
+    id: "reg-1",
+    userId: "u-1",
+    email: "farid@agridrone.xyz",
+    username: "Farid Abou Sleiman",
+    step: 7,
+    completed: true,
+    createdAt: "2026-06-08T10:00:00Z",
+    updatedAt: "2026-06-08T14:22:00Z",
+    founderNames: "Farid Abou Sleiman, Dr. Toufic Warde",
+    founderBio: "Farid Abou Sleiman: AUB MSc Agricultural Technologies. 10 years experience in Drone avionics.\nDr. Toufic Warde: PhD Crop Science from UC Davis.",
+    teamExpertise: "Sensor telemetry integration & microgrid routing protocols. Extremely skilled field operations team.",
+    linkedinUrls: "https://linkedin.com/in/farid-agri-drone, https://linkedin.com/in/toufic-warde",
+    projectName: "AgriDrone Bio",
+    developmentStage: "MVP Testing",
+    timeframeScalability: "MVP already deployed. Break-even projected in 12 months. Local expansion by Q4 2026.",
+    fundingHistory: "$250K angel capital raised from regional agri-tech partners.",
+    tamSomAssessment: "TAM: $45M across Levant region. SOM: $12M over next 3 years based on local customer pipelines.",
+    nationalImpact: "Substitutes imported chemical fertilizers. Reduces diesel dependency for inspection setups.",
+    exportPotentialPay: "Potential servicing contracts into GCC Jordan. 3-year export FX projection of $2.5M USD.",
+    jobCreation: "14 skilled telemetry operators and agronomy field engineers over two years.",
+    sdgIntegration: "Goal 2 (Zero Hunger), Goal 9 (Industry, Innovation and Infrastructure), Goal 13 (Climate Action).",
+    resilienceSustainability: "Complete solar backup micro-arrays power the localized drone inspection modules.",
+    totalCapitalRequired: "350000",
+    capitalAllocation: "R&D: 40% | Operational deployment: 30% | Marketing: 15% | Hiring: 15%",
+    investmentVehicle: "SAFE (Simple Agreement for Future Equity)",
+    nonCapitalServices: "Licensing assistance, foreign partnership introduction, strategic legal counsel.",
+    marketingPlan: "Direct-to-farm model supported by agricultural cooperatives in Beqaa.",
+    operationalResilience: "Multiple drone batteries, redundant backup sensors, and local secure maintenance desk.",
+    financialHedging: "Pre-billing in fresh USD linked directly to international clearing accounts.",
+    exitObjective: "Acquisition by regional Agri-Intelligence Conglomerate.",
+    targetBuyerUniverse: "Regional Agritech Conglomerates, Global GIS enterprises, or GCC Sovereign Wealth agricultural funds.",
+    documentLinks: "Pitch Deck: https://z961combinator.xyz/agridrone-pitchdeck.pdf\nFinancials: https://z961combinator.xyz/agridrone-financials.pdf",
+    acceptedTerms: true
+  }
+];
+
+// --- AUTHENTICATION ENDPOINTS ---
+
+app.post("/api/auth/signup", (req, res) => {
+  const { email, username, password } = req.body;
+  if (!email || !username || !password) {
+    return res.status(400).json({ error: "Email, Username, and Password are required." });
+  }
+  const exists = registeredUsers.some(u => u.email.toLowerCase() === email.toLowerCase());
+  if (exists) {
+    return res.status(400).json({ error: "User with this email already exists." });
+  }
+  
+  const newUser = { id: `u-${Date.now()}`, email, username, password };
+  registeredUsers.push(newUser);
+  
+  // Create their initial empty Registration object
+  const newReg: StartupRegistration = {
+    id: `reg-${Date.now()}`,
+    userId: newUser.id,
+    email: newUser.email,
+    username: newUser.username,
+    step: 1,
+    completed: false,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
+  startupRegistrations.push(newReg);
+
+  res.status(201).json({ id: newUser.id, email: newUser.email, username: newUser.username });
+});
+
+app.post("/api/auth/signin", (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and Password are required." });
+  }
+  const user = registeredUsers.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+  if (!user) {
+    return res.status(401).json({ error: "Invalid credentials." });
+  }
+  res.json({ id: user.id, email: user.email, username: user.username });
+});
+
+// --- USER STARTUP REGISTRATION ENDPOINTS ---
+
+app.get("/api/registration/my/:userId", (req, res) => {
+  const reqUserId = req.params.userId;
+  let reg = startupRegistrations.find(r => r.userId === reqUserId);
+  if (!reg) {
+    const user = registeredUsers.find(u => u.id === reqUserId);
+    if (!user) {
+      return res.status(404).json({ error: "User or registration profile not found." });
+    }
+    reg = {
+      id: `reg-${Date.now()}`,
+      userId: reqUserId,
+      email: user.email,
+      username: user.username,
+      step: 1,
+      completed: false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    startupRegistrations.push(reg);
+  }
+  res.json(reg);
+});
+
+app.post("/api/registration/save", (req, res) => {
+  const { userId, data } = req.body;
+  if (!userId) {
+    return res.status(400).json({ error: "User ID is required." });
+  }
+  const regIndex = startupRegistrations.findIndex(r => r.userId === userId);
+  if (regIndex === -1) {
+    return res.status(404).json({ error: "Registration record matching this user not found." });
+  }
+  
+  startupRegistrations[regIndex] = {
+    ...startupRegistrations[regIndex],
+    ...data,
+    updatedAt: new Date().toISOString()
+  };
+  res.json(startupRegistrations[regIndex]);
+});
+
+// --- ADMIN SYSTEM ENDPOINTS (Maan70939779 Password Verified) ---
+
+app.get("/api/admin/registrations", (req, res) => {
+  const adminPassword = req.headers["x-admin-password"];
+  if (adminPassword !== "Maan70939779") {
+    return res.status(401).json({ error: "Unauthorized access: Invalid admin authorization password." });
+  }
+  res.json(startupRegistrations);
+});
+
+app.put("/api/admin/registrations/:id", (req, res) => {
+  const adminPassword = req.headers["x-admin-password"];
+  if (adminPassword !== "Maan70939779") {
+    return res.status(401).json({ error: "Unauthorized." });
+  }
+  const regIndex = startupRegistrations.findIndex(r => r.id === req.params.id);
+  if (regIndex === -1) {
+    return res.status(404).json({ error: "Registration profile not found to update." });
+  }
+  
+  startupRegistrations[regIndex] = {
+    ...startupRegistrations[regIndex],
+    ...req.body,
+    updatedAt: new Date().toISOString()
+  };
+  res.json(startupRegistrations[regIndex]);
+});
+
+app.delete("/api/admin/registrations/:id", (req, res) => {
+  const adminPassword = req.headers["x-admin-password"];
+  if (adminPassword !== "Maan70939779") {
+    return res.status(401).json({ error: "Unauthorized." });
+  }
+  const regIndex = startupRegistrations.findIndex(r => r.id === req.params.id);
+  if (regIndex === -1) {
+    return res.status(404).json({ error: "Registration details not found to delete." });
+  }
+  startupRegistrations.splice(regIndex, 1);
+  res.json({ success: true });
+});
+
+// Manage Stories in NewsAggregator via Admin
+app.put("/api/admin/stories/:id", (req, res) => {
+  const adminPassword = req.headers["x-admin-password"];
+  if (adminPassword !== "Maan70939779") {
+    return res.status(401).json({ error: "Unauthorized." });
+  }
+  const storyIndex = stories.findIndex(s => s.id === req.params.id);
+  if (storyIndex === -1) {
+    return res.status(404).json({ error: "Site story not found to edit." });
+  }
+  stories[storyIndex] = {
+    ...stories[storyIndex],
+    ...req.body,
+    comments: stories[storyIndex].comments || [] // preserve comments
+  };
+  res.json(stories[storyIndex]);
+});
+
+app.delete("/api/admin/stories/:id", (req, res) => {
+  const adminPassword = req.headers["x-admin-password"];
+  if (adminPassword !== "Maan70939779") {
+    return res.status(401).json({ error: "Unauthorized." });
+  }
+  const storyIndex = stories.findIndex(s => s.id === req.params.id);
+  if (storyIndex === -1) {
+    return res.status(404).json({ error: "Story not found to delete." });
+  }
+  stories.splice(storyIndex, 1);
+  res.json({ success: true });
+});
+
+
+// --- INSTITUTIONAL ENGAGEMENT ENDPOINTS ---
+
+app.post("/api/institutional/submit", (req, res) => {
+  const data = req.body;
+  if (!data || !data.contactEmail || !data.contactName) {
+    return res.status(400).json({ error: "Contact Name and Email are required to register institutional engagement." });
+  }
+
+  const newEngagement: InstitutionalEngagement = {
+    id: `inst-${Date.now()}`,
+    userId: data.userId || "",
+    contactName: data.contactName,
+    contactEmail: data.contactEmail,
+    organizationName: data.organizationName || "",
+    identity: data.identity || "",
+    objectives: Array.isArray(data.objectives) ? data.objectives : [],
+    ticketSize: data.ticketSize || "",
+    operationalFocus: data.operationalFocus || "",
+    prioritySectors: Array.isArray(data.prioritySectors) ? data.prioritySectors : [],
+    stagePreference: data.stagePreference || "",
+    impactGoals: data.impactGoals || "",
+    willingnessToEngage: data.willingnessToEngage || "",
+    institutionalRequirements: data.institutionalRequirements || "",
+    riskAppetite: Number(data.riskAppetite) || 3,
+    localRetention: data.localRetention || "",
+    collaboration: data.collaboration || "",
+    acceptedTerms: !!data.acceptedTerms,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
+
+  institutionalEngagements.push(newEngagement);
+  res.status(201).json(newEngagement);
+});
+
+app.get("/api/admin/institutionals", (req, res) => {
+  const adminPassword = req.headers["x-admin-password"];
+  if (adminPassword !== "Maan70939779") {
+    return res.status(401).json({ error: "Unauthorized access: Invalid admin authorization password." });
+  }
+  res.json(institutionalEngagements);
+});
+
+app.put("/api/admin/institutionals/:id", (req, res) => {
+  const adminPassword = req.headers["x-admin-password"];
+  if (adminPassword !== "Maan70939779") {
+    return res.status(401).json({ error: "Unauthorized." });
+  }
+  const index = institutionalEngagements.findIndex(e => e.id === req.params.id);
+  if (index === -1) {
+    return res.status(404).json({ error: "Institutional engagement profile not found to update." });
+  }
+
+  institutionalEngagements[index] = {
+    ...institutionalEngagements[index],
+    ...req.body,
+    updatedAt: new Date().toISOString()
+  };
+  res.json(institutionalEngagements[index]);
+});
+
+app.delete("/api/admin/institutionals/:id", (req, res) => {
+  const adminPassword = req.headers["x-admin-password"];
+  if (adminPassword !== "Maan70939779") {
+    return res.status(401).json({ error: "Unauthorized." });
+  }
+  const index = institutionalEngagements.findIndex(e => e.id === req.params.id);
+  if (index === -1) {
+    return res.status(404).json({ error: "Institutional engagement profile not found to delete." });
+  }
+  institutionalEngagements.splice(index, 1);
+  res.json({ success: true });
 });
 
 

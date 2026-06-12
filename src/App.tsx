@@ -14,6 +14,10 @@ import NdaRegistration from "./components/NdaRegistration";
 import TorRules from "./components/TorRules";
 import FaqHub from "./components/FaqHub";
 import TheMag from "./components/TheMag";
+import SignupWizard from "./components/SignupWizard";
+import AdminPanel from "./components/AdminPanel";
+import InstitutionalEngagement from "./components/InstitutionalEngagement";
+import GetStarted from "./components/GetStarted";
 import { Story, Startup, Job } from "./types";
 import { Info, Mail, Phone, MapPin, Loader2, Sparkles } from "lucide-react";
 
@@ -160,98 +164,7 @@ export default function App() {
     },
   ];
 
-  const INITIAL_STARTUPS: Startup[] = [
-    {
-      id: "s1",
-      name: "Toters",
-      tagline: "The premier on-demand delivery and Q-commerce app in Lebanon",
-      description: "Toters connects users with local merchants, delivering food, groceries, retail goods, and pharmacy items in real-time. Built entirely on an adaptive logistics routing engine designed to operate dynamically.",
-      logo: "🚚",
-      industry: "Logistics / Q-Commerce",
-      stage: "Series B",
-      city: "Beirut",
-      website: "https://toters.app",
-      funding: "$18.5M raised",
-      founder: "Tamim Khalfa & Nael Halaby",
-      founded: "2017",
-      teamSize: 320
-    },
-    {
-      id: "s2",
-      name: "Anghami",
-      tagline: "The leading music streaming platform of the Middle East",
-      description: "First legal music streaming platform and digital distribution company in the Arab world, letting users listen to millions of Arabic and international tracks. Now listed on NASDAQ.",
-      logo: "🎵",
-      industry: "Media & Entertainment",
-      stage: "IPO",
-      city: "Beirut / Abu Dhabi",
-      website: "https://anghami.com",
-      funding: "NASDAQ Listed",
-      founder: "Eddy Maroun & Elie Habib",
-      founded: "2012",
-      teamSize: 180
-    },
-    {
-      id: "s3",
-      name: "Purse Pay",
-      tagline: "Automated USD payroll and compliance for offshore Lebanese tech freelancers",
-      description: "A fast-growing fintech company enabling global contract builders to bypass physical barriers, receiving fresh international bank cards and clearing funds directly into Lebanese banks.",
-      logo: "💳",
-      industry: "Fintech",
-      stage: "Seed",
-      city: "Beirut",
-      website: "https://pursepay.example.xyz",
-      funding: "$1.2M seed",
-      founder: "Samer Baroud & Nour El Dine",
-      founded: "2024",
-      teamSize: 14
-    },
-    {
-      id: "s4",
-      name: "AgriDrone Bio",
-      tagline: "Precision drone crop monitoring for high-yield Beqaa agriculture",
-      description: "Utilizes thermal multispectral cameras mounted on drones to analyze crop moisture, pest infestation, and nitrogen requirements, lowering insecticide costs by up to 35% using focused delivery.",
-      logo: "☘️",
-      industry: "AgriTech",
-      stage: "Pre-seed",
-      city: "Zahle",
-      website: "https://agridronebio.example.com",
-      funding: "$250K raised",
-      founder: "Farid Abou Sleiman",
-      founded: "2023",
-      teamSize: 8
-    },
-    {
-      id: "s5",
-      name: "Synkers",
-      tagline: "Connecting students and high-quality mentors instantly",
-      description: "Edtech platform delivering personalized tutoring and curriculum support in real-time through an interactive matching app. Scaled successfully across Jordan and the Gulf.",
-      logo: "🎓",
-      industry: "EdTech",
-      stage: "Series A",
-      city: "Byblos",
-      website: "https://synkers.com",
-      funding: "$2.1M raised",
-      founder: "Audrey Nakad & Zeina Sultani",
-      founded: "2016",
-      teamSize: 45
-    },
-    {
-      id: "s6",
-      name: "GreenCedars Energy",
-      tagline: "SaaS platform powering decentralized solar micro-grids",
-      description: "Helps local neighborhoods lease, manage, and distribute solar electricity collaboratively. It tracks individual household load constraints to optimize batteries and minimize diesel costs.",
-      logo: "☀️",
-      industry: "Energy / Cleantech",
-      stage: "Seed",
-      city: "Tripoli",
-      website: "https://greencedarsenergy.example.com",
-      funding: "$800K raised",
-      founder: "Rayan Al-Sayegh",
-      founded: "2024",
-      teamSize: 12
-    }
-  ];
+  const INITIAL_STARTUPS: Startup[] = [];
 
   const INITIAL_JOBS: Job[] = [
     {
@@ -264,7 +177,9 @@ export default function App() {
       salary: "$2,800 - $3,800 fresh / month",
       description: "We are seeking a Senior Developer experienced in scaling high-load real-time REST nodes. You will spearhead our merchant dashboard revitalization, utilizing React 19 and scalable SQL query optimization.",
       skills: ["React", "Laravel", "PostgreSQL", "Redis", "AWS"],
-      timestamp: "1 day ago"
+      timestamp: "1 day ago",
+      points: 24,
+      commentsCount: 8,
     },
     {
       id: "j2",
@@ -276,7 +191,9 @@ export default function App() {
       salary: "$3,000 - $4,200 fresh / month",
       description: "Join our fintech team to build highly secure bank proxy integrations. Experience in handling cryptographic keys, financial transaction ledgers, and standard REST/GraphQL compliance is critically valued.",
       skills: ["Node.js", "Express", "TypeScript", "Cryptography", "PostgreSQL"],
-      timestamp: "2 days ago"
+      timestamp: "2 days ago",
+      points: 42,
+      commentsCount: 3,
     },
     {
       id: "j3",
@@ -288,7 +205,9 @@ export default function App() {
       salary: "$1,800 - $2,500 fresh / month",
       description: "Developing robust circuit hardware connecting drone cameras with ESP32 multi-nodes. You will conduct tests in the fields and deploy compact, battery-efficient telemetry firmware.",
       skills: ["C++", "ESP32", "IoT Sensors", "Microcontrollers", "PCB Design"],
-      timestamp: "4 days ago"
+      timestamp: "4 days ago",
+      points: 15,
+      commentsCount: 9,
     },
     {
       id: "j4",
@@ -300,15 +219,32 @@ export default function App() {
       salary: "$2,200 - $3,000 fresh / month",
       description: "Expanding our mobile tutoring platform to accommodate real-time streaming class dashboards. Refactoring the mobile app core into modular, optimized component trees.",
       skills: ["React Native", "TypeScript", "Redux", "WebSockets"],
-      timestamp: "1 week ago"
+      timestamp: "1 week ago",
+      points: 8,
+      commentsCount: 2,
     }
   ];
 
-  const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources" | "sandbox" | "nda" | "tor" | "faq" | "mag">("prospectus");
+  const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources" | "sandbox" | "nda" | "tor" | "faq" | "mag" | "register" | "admin" | "institutional" | "get-started">("get-started");
   const [stories, setStories] = useState<Story[]>(INITIAL_STORIES);
   const [startups, setStartups] = useState<Startup[]>(INITIAL_STARTUPS);
   const [jobs, setJobs] = useState<Job[]>(INITIAL_JOBS);
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Global High-Contrast Theme State
+  const [theme, setTheme] = useState<"light" | "night">(() => {
+    const saved = localStorage.getItem("Z961_theme");
+    return saved === "light" || saved === "night" ? saved : "light";
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("Z961_theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "night" : "light"));
+  };
 
   // Loading States
   const [initLoading, setInitLoading] = useState(false);
@@ -322,7 +258,26 @@ export default function App() {
   // Local user token id
   const [userId, setUserId] = useState<string>("");
 
+  // User auth state details
+  const [activeUserId, setActiveUserId] = useState<string>("");
+  const [activeUsername, setActiveUsername] = useState<string>("");
+  const [activeEmail, setActiveEmail] = useState<string>("");
+
   useEffect(() => {
+    // Check pathnames to sync routing tabs inside this single page application
+    const path = window.location.pathname;
+    if (path === "/admin") {
+      setTab("admin");
+    } else if (path === "/register") {
+      setTab("register");
+    } else if (path === "/institutional") {
+      setTab("institutional");
+    } else if (path === "/get-started") {
+      setTab("get-started");
+    } else {
+      setTab("get-started");
+    }
+
     // Generate simple unique client userId or grab from cache
     let id = localStorage.getItem("961_comb_user_token");
     if (!id) {
@@ -330,6 +285,16 @@ export default function App() {
       localStorage.setItem("961_comb_user_token", id);
     }
     setUserId(id);
+
+    // Retrieve logged user details
+    const cachedUserId = localStorage.getItem("Z961_user_id");
+    const cachedUsername = localStorage.getItem("Z961_username");
+    const cachedEmail = localStorage.getItem("Z961_email");
+    if (cachedUserId && cachedUsername && cachedEmail) {
+      setActiveUserId(cachedUserId);
+      setActiveUsername(cachedUsername);
+      setActiveEmail(cachedEmail);
+    }
 
     // Grab list of already upvoted stories
     const savedUpvotes = localStorage.getItem("961_comb_voted_stories");
@@ -340,6 +305,26 @@ export default function App() {
     // Trigger REST Fetch
     loadInitialData();
   }, []);
+
+  const handleAuthSuccess = (id: string, name: string, email: string) => {
+    setActiveUserId(id);
+    setActiveUsername(name);
+    setActiveEmail(email);
+    localStorage.setItem("Z961_user_id", id);
+    localStorage.setItem("Z961_username", name);
+    localStorage.setItem("Z961_email", email);
+  };
+
+  const handleAuthLogout = () => {
+    setActiveUserId("");
+    setActiveUsername("");
+    setActiveEmail("");
+    localStorage.removeItem("Z961_user_id");
+    localStorage.removeItem("Z961_username");
+    localStorage.removeItem("Z961_email");
+    setTab("prospectus");
+    window.history.pushState({}, "", "/");
+  };
 
   const loadInitialData = async () => {
     setIsSyncing(true);
@@ -499,7 +484,20 @@ export default function App() {
         setTab={(tab) => {
           setTab(tab);
           setSearchQuery(""); // Clear search on tab transition
-          // Auto-scroll to top of active page layout
+          
+          // Browser history path synchronizer
+          if (tab === "admin") {
+            window.history.pushState({}, "", "/admin");
+          } else if (tab === "register") {
+            window.history.pushState({}, "", "/register");
+          } else if (tab === "institutional") {
+            window.history.pushState({}, "", "/institutional");
+          } else if (tab === "get-started") {
+            window.history.pushState({}, "", "/get-started");
+          } else {
+            window.history.pushState({}, "", "/");
+          }
+          
           window.scrollTo({ top: 0, behavior: "smooth" });
         }}
         stats={{
@@ -508,6 +506,8 @@ export default function App() {
         }}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
+        theme={theme}
+        toggleTheme={toggleTheme}
       />
 
       {/* Main Core Content Container */}
@@ -663,6 +663,36 @@ export default function App() {
           {currentTab === "faq" && <FaqHub />}
 
           {currentTab === "mag" && <TheMag />}
+
+          {currentTab === "register" && (
+            <SignupWizard
+              onSuccess={handleAuthSuccess}
+              activeUserId={activeUserId}
+              activeUsername={activeUsername}
+              activeEmail={activeEmail}
+              onLogout={handleAuthLogout}
+            />
+          )}
+
+          {currentTab === "admin" && (
+            <AdminPanel
+              stories={stories}
+              setStories={setStories}
+              onReloadData={loadInitialData}
+            />
+          )}
+
+          {currentTab === "institutional" && (
+            <InstitutionalEngagement
+              activeUserId={activeUserId}
+              activeUsername={activeUsername}
+              activeEmail={activeEmail}
+            />
+          )}
+
+          {currentTab === "get-started" && (
+            <GetStarted setTab={setTab} />
+          )}
         </div>
       </main>
 

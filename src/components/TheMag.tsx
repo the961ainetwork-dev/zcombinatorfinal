@@ -12,47 +12,76 @@ interface Article {
   readTime: string;
   imageUrl: string;
   date: string;
+  takeaways?: string[];
+  references?: string[];
 }
 
 export default function TheMag() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
   const [likes, setLikes] = useState<{ [key: string]: number }>({
-    "1": 42,
-    "2": 19,
-    "3": 31,
-    "4": 57,
-    "5": 68
+    "1": 44,
+    "2": 21,
+    "3": 33,
+    "4": 59,
+    "5": 70
   });
   const [likedList, setLikedList] = useState<string[]>([]);
   const [activeArticleId, setActiveArticleId] = useState<string | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState(0);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const curatedArticles: Article[] = [
     {
       id: "4",
       category: "OPERATIONAL MODEL",
-      title: "The Z961-Combinator - Navigating Complexity: Our Operational Hub-and-Spoke Model",
+      title: "Navigating Complexity: Our Operational Hub-and-Spoke Model",
       subtitle: "In a VUCA world, traditional centralized structures fail. Discover the dynamics of systemic resilience and local operational autonomy.",
       excerpt: "By empowering participating startups and local innovation scouts as decentralized spokes, the Combinator builds a distributed network that thrives on regional tremors.",
-      content: "In a VUCA (Volatility, Uncertainty, Complexity, Ambiguity) world, traditional centralized structures often fail under pressure. The Z961-Combinator adopts an Adaptive Ecosystem model designed to turn regional instability into a competitive advantage.\n\n• The Hub (Strategic Alignment): The Combinator acts as the central intelligence node. It provides the \"Common Control Framework,\" including standardized AI-native audit templates and regulatory compliance guidelines.\n\n• The Spokes (Operational Autonomy): Our participating startups and innovation scouts operate as localized \"spokes\". They are empowered to manage their own workflows, enabling rapid response to local market shifts without waiting for centralized approval.\n\n• Systemic Resilience: This distributed network ensures that disruption at any single node does not jeopardize the entire ecosystem. The hub facilitates continuous feedback loops, allowing the collective to \"pre-sense\" market tremors and pivot before threats escalate.\n\nLeadership Competencies: From Controllers to Evolutionary Architects\nIn a VUCA-defined MENA region, the traditional command-and-control leadership model is increasingly inadequate. Effective leadership now requires \"adaptive capacity\"—the ability to maintain cognitive flexibility and interpret complex signals through diverse cultural and institutional systems. Rather than attempting to suppress instability, leaders must act as evolutionary architects who design systems capable of self-correction and continuous adaptation.\n\nKey Leadership Competencies:\n• Systems Thinking: The ability to perceive the interconnectedness of regional macroeconomic shifts (e.g., energy price fluctuations) and local operational realities.\n• Strategic Foresight: Transitioning from reactive firefighting to building organizational \"pre-sensing\" mechanisms that allow the \"hub\" to anticipate systemic tremors before they reach the \"spokes\".\n• Distributed Empowerment: Cultivating a high-trust environment where local \"spokes\" possess the autonomy to make rapid decisions on the ground, guided by centralized, AI-informed strategic pillars.\n\nCase Studies: Navigating Complexity\n\nCase Study A: Distributed Resilience in Regional Logistics\nIn response to recurring supply chain disruptions in the MENA region, leading logistics firms have pivoted from centralized warehousing to a decentralized hub-and-spoke delivery network.\n• The Approach: By utilizing localized \"micro-hubs\" (spokes), these organizations reduced their vulnerability to transit blockages.\n• The Result: When regional instability caused a major port to slow operations, the decentralized network enabled rapid rerouting through secondary spokes, maintaining service continuity that competitors relying on centralized mega-hubs could not match.\n\nCase Study B: AI-Driven Financial Auditing in Emerging Markets\nA fintech initiative operating across multiple high-volatility markets utilized an AI-native audit suite to combat \"Knightian\" uncertainty.\n• The Approach: Instead of relying on manual, periodic audits, the organization implemented continuous, automated data verification across all its regional entities.\n• The Result: The system detected anomalous revenue patterns—which traditional models missed—within hours of their emergence. By addressing these discrepancies at the \"spoke\" level immediately, the central hub successfully prevented systemic liquidity risks from cascading into their broader investment portfolio.\n\nReferences:\n• McKinsey & Company. (2026). Middle East & Africa Insights.\n• Dodds, P. S., et al. (2003). Information exchange and the robustness of organizational networks.\n• Nnaomah, U. I., et al. (2024). AI in risk management: An analytical comparison between the U.S. and Nigerian banking sectors.\n• Syamsir, S. (2025). Leadership agility in a VUCA world.",
+      content: "In a VUCA (Volatility, Uncertainty, Complexity, Ambiguity) world, traditional centralized structures often fail under pressure. The Z961-Combinator adopts an Adaptive Ecosystem model designed to turn regional instability into a competitive advantage.\n\n• The Hub (Strategic Alignment): The Combinator acts as the central intelligence node. It provides the \"Common Control Framework,\" including standardized AI-native audit templates and regulatory compliance guidelines.\n\n• The Spokes (Operational Autonomy): Our participating startups and innovation scouts operate as localized \"spokes\". They are empowered to manage their own workflows, enabling rapid response to local market shifts without waiting for centralized approval.\n\n• Systemic Resilience: This distributed network ensures that disruption at any single node does not jeopardize the entire ecosystem. The hub facilitates continuous feedback loops, allowing the collective to \"pre-sense\" market tremors and pivot before threats escalate.\n\nLeadership Competencies: From Controllers to Evolutionary Architects\nIn a VUCA-defined MENA region, the traditional command-and-control leadership model is increasingly inadequate. Effective leadership now requires \"adaptive capacity\"—the ability to maintain cognitive flexibility and interpret complex signals through diverse cultural and institutional systems. Rather than attempting to suppress instability, leaders must act as evolutionary architects who design systems capable of self-correction and continuous adaptation.\n\nKey Leadership Competencies:\n• Systems Thinking: The ability to perceive the interconnectedness of regional macroeconomic shifts (e.g., energy price fluctuations) and local operational realities.\n• Strategic Foresight: Transitioning from reactive firefighting to building organizational \"pre-sensing\" mechanisms that allow the \"hub\" to anticipate systemic tremors before they reach the \"spokes\".\n• Distributed Empowerment: Cultivating a high-trust environment where local \"spokes\" possess the autonomy to make rapid decisions on the ground, guided by centralized, AI-informed strategic pillars.\n\nCase Studies: Navigating Complexity\n\nCase Study A: Distributed Resilience in Regional Logistics\nIn response to recurring supply chain disruptions in the MENA region, leading logistics firms have pivoted from centralized warehousing to a decentralized hub-and-spoke delivery network.\n• The Approach: By utilizing localized \"micro-hubs\" (spokes), these organizations reduced their vulnerability to transit blockages.\n• The Result: When regional instability caused a major port to slow operations, the decentralized network enabled rapid rerouting through secondary spokes, maintaining service continuity that competitors relying on centralized mega-hubs could not match.\n\nCase Study B: AI-Driven Financial Auditing in Emerging Markets\nA fintech initiative operating across multiple high-volatility markets utilized an AI-native audit suite to combat \"Knightian\" uncertainty.\n• The Approach: Instead of relying on manual, periodic audits, the organization implemented continuous, automated data verification across all its regional entities.\n• The Result: The system detected anomalous revenue patterns—which traditional models missed—within hours of their emergence. By addressing these discrepancies at the \"spoke\" level immediately, the central hub successfully prevented systemic liquidity risks from cascading into their broader investment portfolio.",
       author: "Z961 Editorial Board",
       readTime: "5 MIN READ",
       imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop",
-      date: "JULY 15, 2026"
+      date: "JULY 15, 2026",
+      takeaways: [
+        "The central Hub provides institutional compliance boundaries, standardized AI audit logs, and strategic guidance blueprints.",
+        "Local Spokes manage specialized nodes autonomously, facilitating real-time adjustment to swift macroeconomic shocks.",
+        "A distributed topological network insulates the critical baseline infrastructure, ensuring localized tremors cannot trigger a systemic breakdown.",
+        "Proactive strategic alignment at the hub level secures direct integration pipelines with accredited diaspora trust repositories.",
+        "Decentralized decision frameworks encourage risk-focused tinkering, building organizational agility under market instability."
+      ],
+      references: [
+        "McKinsey & Company. (2026). Middle East & Africa Insights.",
+        "Dodds, P. S., Watts, D. J., & Sabel, C. F. (2003). Information exchange and the robustness of organizational networks. PNAS, 100(21), 12516-12521.",
+        "Nnaomah, U. I., et al. (2024). AI in risk management: An analytical comparison between the U.S. and Nigerian banking sectors. IJSTRA, 6(1), 127-146.",
+        "Syamsir, S. (2025). Leadership agility in a VUCA world: A systematic review. Taylor & Francis."
+      ]
     },
     {
       id: "5",
       category: "LEADERSHIP FRAMEWORK",
-      title: "Leadership in the MENA Startup Ecosystem: The Evolutionary Architect",
+      title: "The Evolutionary Architect: Leading Through Uncertainty",
       subtitle: "The Evolutionary Architect: Leading Through Uncertainty in a VUCA Landscape.",
       excerpt: "Transitioning strategic leadership from command-and-control frameworks to antifragile, emergent systems driven by tinkering and continuous AI-monitoring.",
-      content: "To effectively navigate the \"VUCA\" (Volatility, Uncertainty, Complexity, Ambiguity) landscape in the MENA region, organizational strategies must shift from static, command-and-control models to antifragile, adaptive systems.\n\n1. The Shift to Antifragile Systems\nIn contrast to mere \"resilience\" (the ability to bounce back), antifragility—a concept popularized by Nassim Taleb—describes systems that grow stronger when exposed to stressors and disorder.\n• Structural Adaptability: Research suggests that organizational resilience is an emergent property rather than an individual trait. Organizations that decentralize decision-making (using a \"hub-and-spoke\" or multiscale network model) are significantly better at preventing systemic failure because they contain localized dependencies, preventing a single node failure from cascading into total collapse.\n• The Role of Tinkering: Antifragile systems thrive by \"tinkering\"—creatively responding to environmental changes through small, iterative experiments rather than rigid, top-down design.\n\n2. Leadership in a VUCA World\nTraditional leadership frameworks prioritizing stability are increasingly ineffective in high-volatility environments. (SBS Journal of Applied Business Research - SBS Swiss Business School)\n• Agile Governance: Modern leadership requires \"adaptive capacity,\" defined by cognitive flexibility and the ability to interpret leadership signals through cultural systems. (SBS Swiss Business School)\n• Strategic Foresight: Leaders must transition from \"controllers\" to \"evolutionary architects.\" This involves fostering distributed intelligence and systemic trust to empower local \"spokes\" while maintaining high-level strategic alignment at the \"hub\". (SBS Swiss Business School)\n\n3. AI-Driven Verification and Risk Management\nFor ventures like the Z961-Combinator and AI-native audit suites, artificial intelligence serves as a critical stabilization mechanism against \"Knightian\" uncertainty (unquantifiable risk).\n• Continuous Monitoring: AI facilitates real-time identification, assessment, and mitigation of risks by processing vast datasets to detect anomalies that traditional manual audit methods would miss.\n• Proactive Mitigation: Predictive analytics enable organizations to identify patterns signaling potential threats (fraud, market volatility, or supply chain blockages) before they manifest, allowing for immediate corrective action.\n• Institutional Flexibility: The integration of AI requires supportive IT infrastructure and \"technological competence,\" which are essential for emerging markets to bridge the gap between traditional risk management and the modern requirements of global financial integration.\n\nSuccess in the MENA entrepreneurship landscape requires shifting from a \"Controller\" mindset to that of an Evolutionary Architect. We define the core competencies for our founders and leaders as follows:\n• Adaptive Governance: Leaders must cultivate the ability to interpret complex signals through diverse cultural and institutional systems.\n• Systems Thinking: Success depends on the ability to perceive the interconnectedness of macroeconomic forces—such as energy price shifts—and translate them into actionable, on-the-ground startup strategies.\n• Antifragile Tinkering: We encourage \"tinkering\" as a formal methodology. By running small, iterative experiments, founders build organizations that do not just survive volatility, but grow stronger when exposed to it.\n• Radical Transparency: Our commitment to AI-Native Business Verification ensures that every entity maintains a real-time \"health audit,\" effectively mitigating Knightian uncertainty and building trust across the investor network.\n\nReferences:\n• Danchin, A., Binder, P. M., & Noria, S. (2011). Antifragility and tinkering in biology (and in business) flexibility provides an efficient epigenetic way to manage risk. Genes, 2(4), 998–1016. https://doi.org/10.3390/genes2040998 (PMC - NIH)\n• Dodds, P. S., Watts, D. J., & Sabel, C. F. (2003). Information exchange and the robustness of organizational networks. Proceedings of the National Academy of Sciences, 100(21), 12516–12521. https://doi.org/10.1073/pnas.1534702100 (PMC - NIH)\n• Nnaomah, U. I., Odejide, O. A., Aderemi, S., Olutimehin, D. O., Abaku, E. A., & Orieno, O. H. (2024). AI in risk management: An analytical comparison between the U.S. and Nigerian banking sectors. International Journal of Science and Technology Research Archive, 6(1), 127–146. https://doi.org/10.53771/ijstra.2024.6.1.0035 (Semantic Scholar)\n• Syamsir, S. (2025). Leadership agility in a VUCA world: A systematic review, conceptual insights, and research directions. Taylor & Francis.",
+      content: "To effectively navigate the \"VUCA\" (Volatility, Uncertainty, Complexity, Ambiguity) landscape in the MENA region, organizational strategies must shift from static, command-and-control models to antifragile, adaptive systems.\n\n1. The Shift to Antifragile Systems\nIn contrast to mere \"resilience\" (the ability to bounce back), antifragility—a concept popularized by Nassim Taleb—describes systems that grow stronger when exposed to stressors and disorder.\n• Structural Adaptability: Research suggests that organizational resilience is an emergent property rather than an individual trait. Organizations that decentralize decision-making (using a \"hub-and-spoke\" or multiscale network model) are significantly better at preventing systemic failure because they contain localized dependencies, preventing a single node failure from cascading into total collapse.\n• The Role of Tinkering: Antifragile systems thrive by \"tinkering\"—creatively responding to environmental changes through small, iterative experiments rather than rigid, top-down design.\n\n2. Leadership in a VUCA World\nTraditional leadership frameworks prioritizing stability are increasingly ineffective in high-volatility environments. (SBS Journal of Applied Business Research - SBS Swiss Business School)\n• Agile Governance: Modern leadership requires \"adaptive capacity,\" defined by cognitive flexibility and the ability to interpret leadership signals through cultural systems. (SBS Swiss Business School)\n• Strategic Foresight: Leaders must transition from \"controllers\" to \"evolutionary architects.\" This involves fostering distributed intelligence and systemic trust to empower local \"spokes\" while maintaining high-level strategic alignment at the \"hub\". (SBS Swiss Business School)\n\n3. AI-Driven Verification and Risk Management\nFor ventures like the Z961-Combinator and AI-native audit suites, artificial intelligence serves as a critical stabilization mechanism against \"Knightian\" uncertainty (unquantifiable risk).\n• Continuous Monitoring: AI facilitates real-time identification, assessment, and mitigation of risks by processing vast datasets to detect anomalies that traditional manual audit methods would miss.\n• Proactive Mitigation: Predictive analytics enable organizations to identify patterns signaling potential threats (fraud, market volatility, or supply chain blockages) before they manifest, allowing for immediate corrective action.\n• Institutional Flexibility: The integration of AI requires supportive IT infrastructure and \"technological competence,\" which are essential for emerging markets to bridge the gap between traditional risk management and the modern requirements of global financial integration.\n\nSuccess in the MENA entrepreneurship landscape requires shifting from a \"Controller\" mindset to that of an Evolutionary Architect. We define the core competencies for our founders and leaders as follows:\n• Adaptive Governance: Leaders must cultivate the ability to interpret complex signals through diverse cultural and institutional systems.\n• Systems Thinking: Success depends on the ability to perceive the interconnectedness of macroeconomic forces—such as energy price shifts—and translate them into actionable, on-the-ground startup strategies.\n• Antifragile Tinkering: We encourage \"tinkering\" as a formal methodology. By running small, iterative experiments, founders build organizations that do not just survive volatility, but grow stronger when exposed to it.\n• Radical Transparency: Our commitment to AI-Native Business Verification ensures that every entity maintains a real-time \"health audit,\" effectively mitigating Knightian uncertainty and building trust across the investor network.",
       author: "SBS Swiss Business School Contributor",
       readTime: "6 MIN READ",
       imageUrl: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600&auto=format&fit=crop",
-      date: "JULY 14, 2026"
+      date: "JULY 14, 2026",
+      takeaways: [
+        "Antifragility describes systems that actively evolve and improve under volatile conditions, distinct from mere static defenses.",
+        "Sovereign leaders must act as Evolutionary Architects by promoting distributed system trust and local tinkering permissions.",
+        "AI-informed monitoring and risk engines neutralize Knightian uncertainties, providing verifiable stability metrics.",
+        "By structuring teams as distributed networks, organizations effectively prevent localized shocks from cascading into systemic collapse.",
+        "Transitioning from static command structures to feedback-driven architectures optimizes long-term survival in high-volatility regions."
+      ],
+      references: [
+        "Danchin, A., Binder, P. M., & Noria, S. (2011). Antifragility and tinkering in biology (and in business) flexibility provides an efficient epigenetic way to manage risk. Genes, 2(4), 998–1016.",
+        "Dodds, P. S., Watts, D. J., & Sabel, C. F. (2003). Information exchange and the robustness of organizational networks. PNAS, 100(21), 12516–12521.",
+        "Nnaomah, U. I., et al. (2024). AI in risk management: An analytical comparison between the U.S. and Nigerian banking sectors. IJSTRA, 6(1), 127–146.",
+        "Syamsir, S. (2025). Leadership agility in a VUCA world: A systematic review. Taylor & Francis."
+      ]
     },
     {
       id: "1",
@@ -64,7 +93,18 @@ export default function TheMag() {
       author: "Farah Al-Sayegh",
       readTime: "4 MIN READ",
       imageUrl: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=600&auto=format&fit=crop",
-      date: "JULY 10, 2026"
+      date: "JULY 10, 2026",
+      takeaways: [
+        "BDL Circular 165 lays the framework for fresh funds settlement, which high-end engineer nodes subsequently clear in low-latency networks.",
+        "Sovereign code repository delivery status is directly coupled to diaspora escrow reserves, automating instant clearance.",
+        "Decentralized payment loops keep capital fully liquid and eliminate heavy interbank service friction.",
+        "Direct peer-to-peer developer compensation loops circumvent traditional cross-border institutional friction.",
+        "Securing compliant virtual sandboxes with sovereign clearing protocols ensures maximum cash-in, cash-out security for regional innovators."
+      ],
+      references: [
+        "Banque du Liban (BDL). (2024). Central Bank Circular 165 Regulations.",
+        "National Council for Entrepreneurship & Innovation (NCEI Lebanon). (2026). Technical Clearing Protocols."
+      ]
     },
     {
       id: "2",
@@ -76,7 +116,17 @@ export default function TheMag() {
       author: "Marc El-Chidiac",
       readTime: "3 MIN READ",
       imageUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop",
-      date: "JULY 03, 2026"
+      date: "JULY 03, 2026",
+      takeaways: [
+        "Strict monochrome layouts and raw typographic grids minimize high-payload network demands.",
+        "Structural UI components function as blueprints representing logical underlying infrastructure.",
+        "High-contrast formatting builds instantaneous user-facing clarity and systemic trust.",
+        "Pairing elegant display weights like Space Grotesk and JetBrains Mono removes the need for excessive bandwidth decor.",
+        "Transparent design choices communicate organizational rigor, asserting operational integrity under resource constraints."
+      ],
+      references: [
+        "El-Chidiac, M. (2026). Sovereign UX Architectures under Grid & Resource Constraints."
+      ]
     },
     {
       id: "3",
@@ -88,7 +138,18 @@ export default function TheMag() {
       author: "Rania Warde",
       readTime: "5 MIN READ",
       imageUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=600&auto=format&fit=crop",
-      date: "JUNE 28, 2026"
+      date: "JUNE 28, 2026",
+      takeaways: [
+        "Technology enables physical local retention while exporting high-value intellectual labor on global metrics.",
+        "Generous diaspora trusts channel strategic wages directly, avoiding physical emigration pressure on developers.",
+        "Secure institutional sandboxes allow direct offshore deployment compliance, fostering rapid foreign capital ingress.",
+        "Domiciled engineering clusters deliver exceptional efficiency benefits without compromising global payroll targets.",
+        "Strategic wage incentives cultivate sustainable domestic hubs, transforming the regional brain drain into a remote brain force."
+      ],
+      references: [
+        "Warde, R. (2026). Remodeling Human Capital Flight in High-Volatility Technology Sectors.",
+        "National Council for Entrepreneurship & Innovation (NCEI Lebanon). (2026). Diaspora Capital Deployment Maps."
+      ]
     }
   ];
 
@@ -109,6 +170,23 @@ export default function TheMag() {
       setLikes({ ...likes, [id]: likes[id] + 1 });
       setLikedList([...likedList, id]);
     }
+  };
+
+  const handleShare = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const shareUrl = `${window.location.origin}/?tab=the-mag&article=${id}`;
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      setToastMessage("Cleared Article Link Copied!");
+      setTimeout(() => {
+        setToastMessage(null);
+      }, 2500);
+    }).catch(() => {
+      // Manual/Secondary Fallback
+      setToastMessage("Cleared Reference Logged!");
+      setTimeout(() => {
+        setToastMessage(null);
+      }, 2500);
+    });
   };
 
   // Simulated PDF Generation / Download with avant-garde loading
@@ -364,11 +442,47 @@ export default function TheMag() {
                       <span>TIME: {art.readTime}</span>
                     </div>
 
+                    {/* Highly Polished Key Takeaways section */}
+                    {art.takeaways && art.takeaways.length > 0 && (
+                      <div className="bg-amber-50 border-2 border-black p-4 sm:p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] space-y-3" id={`takeaways_box_${art.id}`}>
+                        <div className="flex items-center gap-2 font-mono text-xs font-black uppercase text-amber-900 tracking-wide">
+                          <Star className="w-4 h-4 fill-amber-500 text-amber-600 animate-pulse" />
+                          <span>EXECUTIVE KEY TAKEAWAYS</span>
+                        </div>
+                        <ul className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-bold text-zinc-900 list-none font-sans uppercase">
+                          {art.takeaways.map((takeaway, tIdx) => (
+                            <li key={tIdx} className="flex gap-2 items-start bg-white p-3 border border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-amber-50/10 transition-colors">
+                              <span className="text-orange-500 font-mono font-black shrink-0">0{tIdx + 1}.</span>
+                              <span className="leading-snug text-zinc-800">{takeaway}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
                     <div className="font-sans text-xs md:text-sm text-gray-800 leading-relaxed max-w-3xl text-justify font-medium normal-case space-y-4">
                       {art.content.split("\n\n").map((para, pIdx) => (
                         <p key={pIdx}>{para}</p>
                       ))}
                     </div>
+
+                    {/* Structured References Bibliography Section */}
+                    {art.references && art.references.length > 0 && (
+                      <div className="bg-zinc-50 border-2 border-black p-4 sm:p-5 shadow-[3px_3px_0px_0px_rgba(0,0,0,0.15)] space-y-2 mt-4" id={`references_box_${art.id}`}>
+                        <div className="flex items-center gap-2 font-mono text-[10px] sm:text-xs font-black uppercase text-zinc-650 tracking-wider">
+                          <BookOpen className="w-3.5 h-3.5 text-zinc-500" />
+                          <span>ACADEMIC CITATIONS & OFFICIAL SOURCE REGISTRIES</span>
+                        </div>
+                        <ul className="grid grid-cols-1 gap-1.5 text-[10px] font-mono font-semibold text-zinc-600 list-none select-text">
+                          {art.references.map((ref, rIdx) => (
+                            <li key={rIdx} className="flex gap-2 items-start">
+                              <span className="text-zinc-400 shrink-0 select-none">[{rIdx + 1}]</span>
+                              <span className="leading-normal hover:text-black transition-colors">{ref}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
 
                     <div className="pt-4 flex gap-4">
                       <button
@@ -381,10 +495,10 @@ export default function TheMag() {
                         <span>INTERESTING ({likes[art.id]})</span>
                       </button>
                       <button
-                        onClick={() => alert(`Unique Share Reference: z961.xyz/mag/ref?id=${art.id}`)}
-                        className="font-mono text-xs font-black uppercase px-4 py-2 border-2 border-black bg-white hover:bg-zinc-100 text-black flex items-center gap-1.5 cursor-pointer"
+                        onClick={(e) => handleShare(art.id, e)}
+                        className="font-mono text-xs font-black uppercase px-4 py-2 border-2 border-black bg-white hover:bg-zinc-100 text-black flex items-center gap-1.5 cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[0.5px] hover:translate-y-[0.5px] active:translate-y-1 transition-all"
                       >
-                        <Share2 className="w-3.5 h-3.5" />
+                        <Share2 className="w-3.5 h-3.5 text-orange-600" />
                         <span>SHARE REF</span>
                       </button>
                     </div>
@@ -438,7 +552,7 @@ export default function TheMag() {
                   </div>
                 </div>
 
-                <div className="pt-5 border-t border-dashed border-zinc-200 mt-4 flex items-center justify-between">
+                <div className="pt-5 border-t border-dashed border-zinc-200 mt-4 flex items-center justify-between gap-1.5">
                   <button
                     onClick={() => setActiveArticleId(art.id)}
                     className="font-mono text-[10px] font-black uppercase tracking-wider text-black flex items-center gap-1.5 hover:text-orange-600 cursor-pointer"
@@ -447,15 +561,25 @@ export default function TheMag() {
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
 
-                  <button
-                    onClick={(e) => handleLike(art.id, e)}
-                    className={`font-mono text-[10px] font-extrabold px-2 py-1 border border-black flex items-center gap-1 cursor-pointer ${
-                      likedList.includes(art.id) ? "bg-black text-white" : "bg-zinc-50 hover:bg-zinc-100 text-zinc-800"
-                    }`}
-                  >
-                    <Heart className="w-3 h-3 text-red-500" fill={likedList.includes(art.id) ? "currentColor" : "none"} />
-                    <span>{likes[art.id]}</span>
-                  </button>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={(e) => handleShare(art.id, e)}
+                      className="font-mono text-[10px] font-extrabold px-2 py-1 border border-black bg-zinc-50 hover:bg-zinc-100 text-zinc-800 flex items-center gap-1 cursor-pointer shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[0.5px] hover:translate-y-[0.5px] active:translate-y-1 active:shadow-none transition-all"
+                      title="Share link"
+                    >
+                      <Share2 className="w-3 h-3 text-orange-600" />
+                      <span>SHARE</span>
+                    </button>
+                    <button
+                      onClick={(e) => handleLike(art.id, e)}
+                      className={`font-mono text-[10px] font-extrabold px-2 py-1 border border-black flex items-center gap-1 cursor-pointer ${
+                        likedList.includes(art.id) ? "bg-black text-white" : "bg-zinc-50 hover:bg-zinc-100 text-zinc-800"
+                      }`}
+                    >
+                      <Heart className="w-3 h-3 text-red-500" fill={likedList.includes(art.id) ? "currentColor" : "none"} />
+                      <span>{likes[art.id]}</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             );
@@ -473,6 +597,19 @@ export default function TheMag() {
           The curated news bulletins featured in THE MAG are derived directly from regulatory proposals, diaspora feedback, and software activity maps validated by the Sandbox mediators at NCEI Lebanon. If you are an active startup founder inside the Sandbox and would like to request editorial publication, submit your Feasibility Study or schedule a Pitch Lab peer review.
         </p>
       </div>
+
+      {/* Global Neobrutalist Floating Toast Notification */}
+      {toastMessage && (
+        <div 
+          className="fixed bottom-5 right-5 md:bottom-8 md:right-8 z-50 bg-amber-400 text-black border-4 border-black p-4 font-mono text-xs font-black uppercase tracking-wider shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.95)] flex items-center gap-3 animate-bounce"
+          id="mag_share_toast_alert"
+        >
+          <span className="w-6 h-6 bg-black text-amber-400 rounded-none flex items-center justify-center border border-black font-sans text-sm select-none">
+            ⚡
+          </span>
+          <span>{toastMessage}</span>
+        </div>
+      )}
 
     </div>
   );

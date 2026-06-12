@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Briefcase, Landmark, MessageSquare, Newspaper, Sparkles, TrendingUp, ShieldCheck, Scale, Search, X, Home, BookOpen, AlertCircle, FileSpreadsheet, HelpCircle, Flame } from "lucide-react";
+import { Briefcase, Landmark, MessageSquare, Newspaper, Sparkles, TrendingUp, ShieldCheck, Scale, Search, X, Home, BookOpen, AlertCircle, FileSpreadsheet, HelpCircle, Flame, Rocket } from "lucide-react";
 
 interface HeaderProps {
   currentTab: string;
@@ -10,9 +10,11 @@ interface HeaderProps {
   };
   searchQuery: string;
   setSearchQuery: (query: string) => void;
+  theme: "light" | "night";
+  toggleTheme: () => void;
 }
 
-export default function Header({ currentTab, setTab, stats, searchQuery, setSearchQuery }: HeaderProps) {
+export default function Header({ currentTab, setTab, stats, searchQuery, setSearchQuery, theme, toggleTheme }: HeaderProps) {
   
   const handleTabClick = (tabName: string) => {
     setTab(tabName);
@@ -153,32 +155,6 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
               <Scale className="w-3.5 h-3.5 text-zinc-300 shrink-0" />
               <span>TOR Rules</span>
             </button>
-
-            <button
-              onClick={() => handleTabClick("faq")}
-              className={`px-3 py-1.5 transition-all cursor-pointer flex items-center gap-1.5 border bg-black text-white ${
-                currentTab === "faq"
-                  ? "border-white bg-zinc-900 font-extrabold"
-                  : "border-zinc-800 hover:border-zinc-600 text-zinc-100"
-              }`}
-              id="top_tab_faq"
-            >
-              <HelpCircle className="w-3.5 h-3.5 text-zinc-300 shrink-0" />
-              <span>FAQ</span>
-            </button>
-
-            <button
-              onClick={() => handleTabClick("mag")}
-              className={`px-3 py-1.5 transition-all cursor-pointer flex items-center gap-1.5 border bg-black text-white ${
-                currentTab === "mag"
-                  ? "border-orange-500 bg-zinc-900 text-orange-400 font-extrabold"
-                  : "border-zinc-800 hover:border-zinc-600 text-orange-500 font-bold"
-              }`}
-              id="top_tab_mag"
-            >
-              <Flame className="w-3.5 h-3.5 shrink-0" />
-              <span>THE MAG</span>
-            </button>
           </nav>
 
           {/* Integrated Search Bar on the Right side of Top Nav */}
@@ -246,6 +222,19 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
           
           <nav className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase z-30" id="tier2_navbar_tabs">
+            <button
+              id="tab_btn_get_started"
+              onClick={() => handleTabClick("get-started")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 border-2 border-black font-black transition-all cursor-pointer ${
+                currentTab === "get-started"
+                  ? "bg-amber-500 text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-white text-black hover:bg-zinc-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
+              }`}
+            >
+              <Rocket className="w-4 h-4 text-black animate-pulse" />
+              <span>Get Started</span>
+            </button>
+
             <button
               id="tab_btn_startups"
               onClick={() => handleTabClick("startups")}
@@ -333,11 +322,63 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
               <span>THE MAG</span>
               <span className="text-[9px] bg-red-600 text-white font-mono px-1 border border-black uppercase font-bold animate-pulse">NEW</span>
             </button>
+
+            {/* NEW: Institutional Engagement Questionnaire Link */}
+            <button
+              id="tab_btn_institutional"
+              onClick={() => handleTabClick("institutional")}
+              className={`px-3 py-1.5 border-2 border-black font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                currentTab === "institutional"
+                  ? "bg-amber-500 text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-amber-50/50 text-amber-950 hover:bg-amber-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
+              }`}
+            >
+              <Landmark className="w-4 h-4 text-amber-600 shrink-0" />
+              <span>Partners Desk</span>
+            </button>
+
+            {/* NEW: Onboarding Startup Registration Questionnaire Link */}
+            <button
+              id="tab_btn_register"
+              onClick={() => handleTabClick("register")}
+              className={`px-3 py-1.5 border-2 border-black font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                currentTab === "register"
+                  ? "bg-amber-500 text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-amber-50 text-amber-950 hover:bg-amber-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
+              }`}
+            >
+              <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
+              <span>Startup Register</span>
+            </button>
+
+            {/* NEW: Admin Panel Link */}
+            <button
+              id="tab_btn_admin"
+              onClick={() => handleTabClick("admin")}
+              className={`px-3 py-1.5 border-2 border-black font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                currentTab === "admin"
+                  ? "bg-rose-600 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-rose-50 text-rose-950 hover:bg-rose-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
+              }`}
+            >
+              <ShieldCheck className="w-4.5 h-4.5 text-rose-800 shrink-0" />
+              <span>Admin Desk</span>
+            </button>
           </nav>
 
-          {/* Quick Context Indicator on lower nav right */}
-          <div className="hidden md:flex items-center gap-2 font-mono text-[9px] text-gray-500 font-extrabold uppercase bg-zinc-50 border border-zinc-200 px-2 py-1 select-none">
-            <span>z961 | NCEI LEBANON</span>
+          {/* Quick Context Indicator on lower nav right with High-Contrast Night Mode Toggle */}
+          <div className="flex items-center gap-2 font-mono text-[9px] font-extrabold uppercase select-none">
+            <div className="hidden md:flex items-center gap-2 text-gray-500 bg-zinc-50 border border-zinc-200 px-2 py-1">
+              <span>z961 | NCEI LEBANON</span>
+            </div>
+            <button
+              id="theme_toggle_btn"
+              onClick={toggleTheme}
+              className="px-2.5 py-1 border border-black bg-white text-black hover:bg-zinc-150 transition-all font-mono text-[10px] uppercase font-black tracking-wider flex items-center gap-1.5 shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none hover:translate-x-[0.5px] cursor-pointer"
+              title="Toggle High-Contrast Night Mode"
+            >
+              {theme === "light" ? "🌙 Night" : "☀️ Light"}
+            </button>
           </div>
 
         </div>

@@ -46,4 +46,6 @@ export interface Job {
   description: string;
   skills: string[];
   timestamp: string;
+  points?: number;
+  commentsCount?: number;
 }

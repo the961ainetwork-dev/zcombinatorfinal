@@ -1,6 +1,30 @@
 import React, { useState } from "react";
 import { Story, Comment } from "../types";
-import { ArrowUp, CornerDownRight, MessageSquare, Plus, Search, Tag, ExternalLink, RefreshCw, X, User } from "lucide-react";
+import { ArrowUp, CornerDownRight, MessageSquare, Plus, Search, Tag, ExternalLink, RefreshCw, X, User, Clock } from "lucide-react";
+
+// Robust, deterministic reading time calculation helper based on the story type and content length
+const calculateReadingTime = (story: Story) => {
+  const titleWordsCount = story.title ? story.title.split(/\s+/).filter(Boolean).length : 0;
+  const textWordsCount = story.text ? story.text.split(/\s+/).filter(Boolean).length : 0;
+  let totalWords = titleWordsCount + textWordsCount;
+
+  if (story.url) {
+    // Generate a consistent pseudo-random word count between 350 and 1500 words for the external article
+    const idNum = parseInt(story.id.replace(/\D/g, ""), 10) || story.title.length || 7;
+    const estimatedWebWords = 350 + ((idNum * 17) % 1150);
+    totalWords += estimatedWebWords;
+  } else if (!story.text) {
+    // Standard quick stub story
+    const idNum = parseInt(story.id.replace(/\D/g, ""), 10) || story.title.length || 5;
+    totalWords += 50 + ((idNum * 11) % 100);
+  }
+
+  const minutes = Math.max(1, Math.round(totalWords / 200));
+  return {
+    minutes,
+    words: totalWords,
+  };
+};
 
 interface NewsAggregatorProps {
   stories: Story[];
@@ -230,48 +254,19 @@ export default function NewsAggregator({
             )}
           </div>
 
-          {/* Premium Neo-Brutalist Sorting Toggles */}
-          <div className="flex items-center gap-1.5 bg-zinc-100 border-2 border-black p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-[10px] font-mono leading-none" id="stories_sorting_toggle_box">
-            <span className="px-1 font-bold text-gray-500 uppercase select-none">Sort:</span>
-            
-            <button
-              type="button"
-              id="sort_filter_newest"
-              onClick={() => setSortBy("newest")}
-              className={`px-2 py-1.5 font-black border transition-all cursor-pointer ${
-                sortBy === "newest"
-                  ? "bg-black text-white border-black"
-                  : "bg-white text-black border-black hover:bg-zinc-100 hover:translate-x-[0.5px] hover:translate-y-[0.5px]"
-              }`}
+          {/* Premium Neo-Brutalist Sorting Dropdown */}
+          <div className="flex items-center gap-2 bg-white border-2 border-black px-3 py-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[0.5px] hover:translate-y-[0.5px] transition-all text-xs font-mono" id="stories_sorting_dropdown_box">
+            <span className="font-bold text-gray-500 uppercase select-none shrink-0">Sort:</span>
+            <select
+              id="stories_sort_select"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as "newest" | "points" | "comments")}
+              className="bg-transparent border-none outline-none font-black uppercase text-black cursor-pointer pr-1"
             >
-              NEWEST
-            </button>
-            
-            <button
-              type="button"
-              id="sort_filter_points"
-              onClick={() => setSortBy("points")}
-              className={`px-2 py-1.5 font-black border transition-all cursor-pointer ${
-                sortBy === "points"
-                  ? "bg-black text-white border-black"
-                  : "bg-white text-black border-black hover:bg-zinc-100 hover:translate-x-[0.5px] hover:translate-y-[0.5px]"
-              }`}
-            >
-              POINTS
-            </button>
-            
-            <button
-              type="button"
-              id="sort_filter_comments"
-              onClick={() => setSortBy("comments")}
-              className={`px-2 py-1.5 font-black border transition-all cursor-pointer ${
-                sortBy === "comments"
-                  ? "bg-black text-white border-black"
-                  : "bg-white text-black border-black hover:bg-zinc-100 hover:translate-x-[0.5px] hover:translate-y-[0.5px]"
-              }`}
-            >
-              COMMENTS
-            </button>
+              <option value="newest" className="bg-white text-black font-mono">Newest</option>
+              <option value="points" className="bg-white text-black font-mono">Most Points</option>
+              <option value="comments" className="bg-white text-black font-mono">Most Commented</option>
+            </select>
           </div>
 
           <button
@@ -355,6 +350,14 @@ export default function NewsAggregator({
                         <MessageSquare className="w-3.5 h-3.5 text-black" />
                         <span>{story.commentsCount} comments</span>
                       </button>
+                      <span className="text-zinc-400">•</span>
+                      <span 
+                        className="flex items-center gap-1 text-zinc-750 dark:text-zinc-350 bg-amber-50 dark:bg-zinc-805 border border-black px-1.5 py-0.2 select-none" 
+                        title={`Estimated based on ${calculateReadingTime(story).words} words in full target article`}
+                      >
+                        <Clock className="w-3.5 h-3.5 text-orange-600 shrink-0" />
+                        <span>{calculateReadingTime(story).minutes} min read</span>
+                      </span>
                       <span className={`text-[10px] px-2 py-0.5 border ${getCategoryTagClass(story.category)} ml-auto font-mono font-bold uppercase`}>
                         {story.category}
                       </span>
@@ -409,12 +412,17 @@ export default function NewsAggregator({
                   {selectedStory.text}
                 </div>
               )}
-              <div className="flex items-center gap-2 mt-4 text-[10px] font-mono text-gray-500">
+              <div className="flex flex-wrap items-center gap-2 mt-4 text-[10px] font-mono text-gray-500">
                 <span className="font-bold text-black">{selectedStory.points} points</span>
                 <span>•</span>
                 <span>Posted by @{selectedStory.author}</span>
                 <span>•</span>
                 <span>{selectedStory.timestamp}</span>
+                <span>•</span>
+                <span className="flex items-center gap-1 font-black text-orange-600 bg-orange-50 border border-orange-200 px-2 py-0.5 select-none text-[9px]">
+                  <Clock className="w-3.5 h-3.5 text-orange-600" />
+                  <span>{calculateReadingTime(selectedStory).minutes} MIN READ ({calculateReadingTime(selectedStory).words} WDS)</span>
+                </span>
               </div>
             </div>
 

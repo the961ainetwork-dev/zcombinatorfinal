@@ -9,78 +9,196 @@
   --font-syne: "Syne", sans-serif;
 }
 
+:root {
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F4F4F5;
+  --bg-card: #FFFFFF;
+  --text-primary: #000000;
+  --text-secondary: #52525B;
+  --border-color: #000000;
+  --shadow-color: rgba(0, 0, 0, 1);
+  --neon-orange: #FF6600;
+}
+
+[data-theme="night"] {
+  --bg-primary: #0A0A0A;
+  --bg-secondary: #18181B;
+  --bg-card: #121212;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A1A1AA;
+  --border-color: #FFFFFF;
+  --shadow-color: rgba(255, 255, 255, 0.95);
+  --neon-orange: #F59E0B;
+}
+
 /* Custom retro styling scrollbars and custom subtle styles */
 body {
   font-family: var(--font-sans);
-  background-color: #FFFFFF; /* High contrast clean background */
-  color: #000000;
+  background-color: var(--bg-primary); /* High contrast clean background */
+  color: var(--text-primary);
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
 /* Neobrutalist Bento Grid Helpers */
 .bento-card {
-  border: 2px solid #000000 !important;
-  box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1) !important;
+  border: 2px solid var(--border-color) !important;
+  box-shadow: 6px 6px 0px 0px var(--shadow-color) !important;
   border-radius: 0px !important; /* Perfect sharp boxy corners */
-  transition: all 0.15s ease-in-out;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  transition: all 0.15s ease-in-out, background-color 0.15s, color 0.15s, border-color 0.15s;
 }
 
 .bento-card-interactive:hover {
   transform: translate(2px, 2px);
-  box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1) !important;
+  box-shadow: 4px 4px 0px 0px var(--shadow-color) !important;
 }
 
 .bento-shadow-sm {
-  box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1) !important;
+  box-shadow: 2px 2px 0px 0px var(--shadow-color) !important;
 }
 
 .bento-shadow-md {
-  box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1) !important;
+  box-shadow: 4px 4px 0px 0px var(--shadow-color) !important;
 }
 
 .bento-shadow-lg {
-  box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1) !important;
+  box-shadow: 6px 6px 0px 0px var(--shadow-color) !important;
 }
 
 .bento-shadow-orange {
-  box-shadow: 6px 6px 0px 0px rgba(255, 102, 0, 1) !important;
+  box-shadow: 6px 6px 0px 0px var(--neon-orange) !important;
 }
 
 .bento-btn {
-  border: 2px solid #000000 !important;
-  box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 1) !important;
+  border: 2px solid var(--border-color) !important;
+  box-shadow: 3px 3px 0px 0px var(--shadow-color) !important;
   border-radius: 0px !important;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
   font-weight: 700;
   text-transform: uppercase;
-  transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out, background-color 0.15s, color 0.15s, border-color 0.15s;
 }
 
 .bento-btn:hover {
   transform: translate(1.5px, 1.5px);
-  box-shadow: 1.5px 1.5px 0px 0px rgba(0, 0, 0, 1) !important;
+  box-shadow: 1.5px 1.5px 0px 0px var(--shadow-color) !important;
+  background-color: var(--bg-secondary);
 }
 
 .bento-btn:active {
   transform: translate(3px, 3px);
-  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 1) !important;
+  box-shadow: 0px 0px 0px 0px var(--shadow-color) !important;
 }
 
 .bento-input {
-  border: 2px solid #000000 !important;
+  border: 2px solid var(--border-color) !important;
   border-radius: 0px !important;
-  color: #000000;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
   outline: none;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
 }
 
 .bento-input:focus {
-  background-color: #ffffff;
-  box-shadow: 2px 2px 0px 0px #FF6600 !important;
+  background-color: var(--bg-primary);
+  box-shadow: 2px 2px 0px 0px var(--neon-orange) !important;
 }
 
 .bento-badge {
-  border: 1px solid #000000 !important;
+  border: 1px solid var(--border-color) !important;
   border-radius: 0px !important;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
   font-family: var(--font-mono);
   font-weight: 700;
+}
+
+/* ================== GLOBAL HIGH-CONTRAST NIGHT MODE INJECTIONS ================== */
+[data-theme="night"] {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Base backgrounds mapping */
+[data-theme="night"] .bg-white,
+[data-theme="night"] [class*="bg-white/"] {
+  background-color: var(--bg-card) !important;
+}
+
+[data-theme="night"] .bg-zinc-50,
+[data-theme="night"] .bg-zinc-100,
+[data-theme="night"] .bg-zinc-150,
+[data-theme="night"] .bg-zinc-200,
+[data-theme="night"] .bg-amber-50,
+[data-theme="night"] .bg-orange-50 {
+  background-color: var(--bg-secondary) !important;
+}
+
+[data-theme="night"] .bg-zinc-950,
+[data-theme="night"] .bg-[#121212],
+[data-theme="night"] .bg-zinc-900 {
+  background-color: #000000 !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Text elements mapping */
+[data-theme="night"] .text-black,
+[data-theme="night"] .text-zinc-900,
+[data-theme="night"] .text-amber-950,
+[data-theme="night"] .text-gray-900 {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="night"] .text-zinc-800,
+[data-theme="night"] .text-zinc-700,
+[data-theme="night"] .text-gray-700,
+[data-theme="night"] .text-gray-750,
+[data-theme="night"] .text-amber-900 {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="night"] .text-zinc-500,
+[data-theme="night"] .text-zinc-450,
+[data-theme="night"] .text-gray-500 {
+  color: #A1A1AA !important;
+}
+
+/* Borders mapping */
+[data-theme="night"] .border-black,
+[data-theme="night"] [class*="border-black/"] {
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="night"] .border-zinc-250,
+[data-theme="night"] .border-zinc-200 {
+  border-color: #27272A !important;
+}
+
+/* High contrast shadow transformations */
+[data-theme="night"] .shadow-\[3px_3px_0px_0px_rgba\(0\,0\,0\,1\)\] {
+  box-shadow: 3px 3px 0px 0px var(--shadow-color) !important;
+}
+[data-theme="night"] .shadow-\[4px_4px_0px_0px_rgba\(0\,0\,0\,1\)\] {
+  box-shadow: 4px 4px 0px 0px var(--shadow-color) !important;
+}
+[data-theme="night"] .shadow-\[2px_2px_0px_0px_rgba\(0\,0\,0\,1\)\] {
+  box-shadow: 2px 2px 0px 0px var(--shadow-color) !important;
+}
+[data-theme="night"] .shadow-\[6px_6px_0px_0px_rgba\(0\,0\,0\,1\)\] {
+  box-shadow: 6px 6px 0px 0px var(--shadow-color) !important;
+}
+[data-theme="night"] .shadow-\[3px_3px_0px_0px_rgba\(249\,115\,22\,0\.4\)\] {
+  box-shadow: 3px 3px 0px 0px rgba(255, 255, 255, 0.2) !important;
+}
+[data-theme="night"] .shadow-\[6px_6px_0px_0px_rgba\(255\,102\,0\,1\)\] {
+  box-shadow: 6px 6px 0px 0px var(--neon-orange) !important;
+}
+
+[data-theme="night"] select.bento-input option {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
 }
 
 /* Smooth transitions */
