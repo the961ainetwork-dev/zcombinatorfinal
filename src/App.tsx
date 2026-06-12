@@ -554,7 +554,30 @@ export default function App() {
         )}
 
         {/* Editorial Hero Banner for primary landing views */}
-        {["prospectus", "news", "ask", "show"].includes(currentTab) && <HeroSection />}
+        {["prospectus", "news", "ask", "show", "policy", "values", "resources", "nda", "tor"].includes(currentTab) && (
+          <HeroSection
+            currentTab={currentTab}
+            setTab={(tab) => {
+              setTab(tab);
+              setSearchQuery(""); // Clear search on tab transition
+              
+              // Browser history path synchronizer
+              if (tab === "admin") {
+                window.history.pushState({}, "", "/admin");
+              } else if (tab === "register") {
+                window.history.pushState({}, "", "/register");
+              } else if (tab === "institutional") {
+                window.history.pushState({}, "", "/institutional");
+              } else if (tab === "get-started") {
+                window.history.pushState({}, "", "/get-started");
+              } else {
+                window.history.pushState({}, "", "/");
+              }
+              
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          />
+        )}
 
         <div className="animate-fade-in" id="active_view_root">
           {/* View dispatch matching tab selection */}

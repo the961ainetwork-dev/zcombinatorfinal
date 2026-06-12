@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Shield, Cpu, Lock, Award, ChevronLeft, ChevronRight, Activity, TrendingUp, Sparkles, FolderKanban } from "lucide-react";
+import { 
+  Shield, Cpu, Lock, Award, ChevronLeft, ChevronRight, Activity, TrendingUp, Sparkles, FolderKanban,
+  Home, Newspaper, MessageSquare, Landmark, ShieldCheck, BookOpen, FileSpreadsheet, Scale
+} from "lucide-react";
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  currentTab: string;
+  setTab: (tab: any) => void;
+}
+
+export default function HeroSection({ currentTab, setTab }: HeroSectionProps) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const totalSlides = 5;
@@ -25,19 +33,90 @@ export default function HeroSection() {
 
   return (
     <div 
-      className="bg-black text-white border-4 border-black relative overflow-hidden flex flex-col justify-between mb-8 select-none"
+      className="bg-black text-white border-4 border-black relative overflow-hidden flex flex-col mb-8 select-none"
       id="hero_up_section"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* Background Subtle Accent Grids (Swiss/Editorial styling) */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-difference z-0">
-        <div className="w-full h-full border-r border-b border-white grid grid-cols-6 grid-rows-4">
-          {Array.from({ length: 24 }).map((_, i) => (
-            <div key={i} className="border-t border-l border-white"></div>
-          ))}
+      <div className="flex flex-col lg:flex-row items-stretch">
+        
+        {/* LEFT MINIMALIST VERTICAL NAVIGATION MENU */}
+        <div className="w-full lg:w-48 bg-[#090909] border-b-2 lg:border-b-0 lg:border-r-2 border-zinc-900 p-4 shrink-0 flex flex-col gap-2 font-mono text-[10px] sm:text-xs z-30" id="hero_left_vertical_menu">
+          <div className="border-b border-zinc-800 pb-1 select-none">
+            <span className="text-[9px] uppercase font-bold text-zinc-500 tracking-widest font-mono">NAV GROUP I</span>
+          </div>
+          
+          <button
+            onClick={() => setTab("prospectus")}
+            className={`w-full flex items-center gap-1.5 px-3 py-2 border transition-all text-left text-[11px] font-black uppercase select-none cursor-pointer ${
+              currentTab === "prospectus"
+                ? "bg-white text-black border-white font-extrabold shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
+                : "bg-black text-zinc-300 border-zinc-805 hover:border-zinc-500 hover:text-white"
+            }`}
+          >
+            <Home className="w-3.5 h-3.5 shrink-0" />
+            <span>Prospectus</span>
+          </button>
+
+          <button
+            onClick={() => setTab("news")}
+            className={`w-full flex items-center gap-1.5 px-3 py-2 border transition-all text-left text-[11px] font-black uppercase select-none cursor-pointer ${
+              currentTab === "news"
+                ? "bg-white text-black border-white font-extrabold shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
+                : "bg-black text-zinc-300 border-zinc-805 hover:border-zinc-500 hover:text-white"
+            }`}
+          >
+            <Newspaper className="w-3.5 h-3.5 shrink-0" />
+            <span>Ecosystem</span>
+          </button>
+
+          <button
+            onClick={() => setTab("ask")}
+            className={`w-full flex items-center gap-1.5 px-3 py-2 border transition-all text-left text-[11px] font-black uppercase select-none cursor-pointer ${
+              currentTab === "ask"
+                ? "bg-white text-black border-white font-extrabold shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
+                : "bg-black text-zinc-300 border-zinc-805 hover:border-zinc-500 hover:text-white"
+            }`}
+          >
+            <MessageSquare className="w-3.5 h-3.5 shrink-0" />
+            <span>Ask 961</span>
+          </button>
+
+          <button
+            onClick={() => setTab("show")}
+            className={`w-full flex items-center gap-1.5 px-3 py-2 border transition-all text-left text-[11px] font-black uppercase select-none cursor-pointer ${
+              currentTab === "show"
+                ? "bg-white text-black border-white font-extrabold shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
+                : "bg-black text-zinc-300 border-zinc-805 hover:border-zinc-500 hover:text-white"
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 shrink-0" />
+            <span>Show 961</span>
+          </button>
+
+          <button
+            onClick={() => setTab("policy")}
+            className={`w-full flex items-center gap-1.5 px-3 py-2 border transition-all text-left text-[11px] font-black uppercase select-none cursor-pointer ${
+              currentTab === "policy"
+                ? "bg-white text-black border-white font-extrabold shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
+                : "bg-black text-zinc-300 border-zinc-805 hover:border-zinc-500 hover:text-white"
+            }`}
+          >
+            <Landmark className="w-3.5 h-3.5 shrink-0" />
+            <span>Framework</span>
+          </button>
         </div>
-      </div>
+
+        {/* COMPACT SLIDESHOW WRAPPER (CENTER COLUMN) */}
+        <div className="flex-1 min-w-0 relative flex flex-col justify-between" id="hero_center_column">
+          {/* Background Subtle Accent Grids (Swiss/Editorial styling) - Wrapped in slider block */}
+          <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-difference z-0">
+            <div className="w-full h-full border-r border-b border-white grid grid-cols-6 grid-rows-4">
+              {Array.from({ length: 24 }).map((_, i) => (
+                <div key={i} className="border-t border-l border-white"></div>
+              ))}
+            </div>
+          </div>
 
       <AnimatePresence mode="wait">
         {activeSlide === 0 && (
@@ -755,6 +834,65 @@ export default function HeroSection() {
             <ChevronRight className="w-5 h-5 stroke-[2.5]" />
           </button>
         </div>
+      </div>
+
+        </div>
+
+        {/* RIGHT MINIMALIST VERTICAL NAVIGATION MENU */}
+        <div className="w-full lg:w-48 bg-[#090909] border-t-2 lg:border-t-0 lg:border-l-2 border-zinc-900 p-4 shrink-0 flex flex-col gap-2 font-mono text-[10px] sm:text-xs z-30" id="hero_right_vertical_menu">
+          <div className="border-b border-zinc-805 pb-1 select-none">
+            <span className="text-[9px] uppercase font-bold text-zinc-500 tracking-widest font-mono">NAV GROUP II</span>
+          </div>
+
+          <button
+            onClick={() => setTab("values")}
+            className={`w-full flex items-center gap-1.5 px-3 py-2 border transition-all text-left text-[11px] font-black uppercase select-none cursor-pointer ${
+              currentTab === "values"
+                ? "bg-white text-black border-white font-extrabold shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
+                : "bg-black text-zinc-300 border-zinc-805 hover:border-zinc-505 hover:text-white"
+            }`}
+          >
+            <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
+            <span>Core Values</span>
+          </button>
+
+          <button
+            onClick={() => setTab("resources")}
+            className={`w-full flex items-center gap-1.5 px-3 py-2 border transition-all text-left text-[11px] font-black uppercase select-none cursor-pointer ${
+              currentTab === "resources"
+                ? "bg-white text-black border-white font-extrabold shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
+                : "bg-black text-zinc-300 border-zinc-805 hover:border-zinc-505 hover:text-white"
+            }`}
+          >
+            <BookOpen className="w-3.5 h-3.5 shrink-0" />
+            <span>Res. Papers</span>
+          </button>
+
+          <button
+            onClick={() => setTab("nda")}
+            className={`w-full flex items-center gap-1.5 px-3 py-2 border transition-all text-left text-[11px] font-black uppercase select-none cursor-pointer ${
+              currentTab === "nda"
+                ? "bg-white text-black border-white font-extrabold shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
+                : "bg-black text-zinc-300 border-zinc-805 hover:border-zinc-505 hover:text-white"
+            }`}
+          >
+            <FileSpreadsheet className="w-3.5 h-3.5 shrink-0" />
+            <span>NDA Register</span>
+          </button>
+
+          <button
+            onClick={() => setTab("tor")}
+            className={`w-full flex items-center gap-1.5 px-3 py-2 border transition-all text-left text-[11px] font-black uppercase select-none cursor-pointer ${
+              currentTab === "tor"
+                ? "bg-white text-black border-white font-extrabold shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
+                : "bg-black text-zinc-300 border-zinc-805 hover:border-zinc-505 hover:text-white"
+            }`}
+          >
+            <Scale className="w-3.5 h-3.5 shrink-0" />
+            <span>TOR Rules</span>
+          </button>
+        </div>
+
       </div>
     </div>
   );
