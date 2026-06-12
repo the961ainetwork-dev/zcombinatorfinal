@@ -526,7 +526,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
             UNLOCKING LEBANON'S VENTURE POTENTIAL
           </h2>
           
-          <p className="text-xs sm:text-sm font-mono text-gray-300 uppercase tracking-wide font-extrabold max-w-3xl leading-relaxed">
+          <p className="text-[17px] sm:text-[19px] font-mono text-gray-300 uppercase tracking-wide font-extrabold max-w-3xl leading-relaxed">
             Bridging Local Engineering Excellence with Global Venture Capital — 2-Day Executive Seminar & Hands-On AI scaling Workshop.
           </p>
 
@@ -596,16 +596,15 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
           <h3 className="font-syne font-bold text-lg sm:text-xl uppercase tracking-tight text-black border-b border-black pb-2 flex items-center gap-2">
             <span>The Exchange Rationale</span>
           </h3>
-          
-          <p className="text-base leading-relaxed text-gray-800 font-medium normal-case select-text">
+           <p className="text-[21px] leading-relaxed text-gray-800 font-medium normal-case select-text">
             While local legacy frameworks continue operating in isolation, the offshore venture marketplace has pivoted towards extreme programmatic efficiency. The Lebanese ecosystem possesses a unique, highly-resourced advantage: a massive talent pool of remote software engineers fluent in modern system architectures and accustomed to handling operations in highly volatile (VUCA) conditions.
           </p>
           
-          <blockquote className="border-l-4 border-black pl-3 py-1 bg-zinc-50 font-mono text-[15px] font-bold text-gray-700 uppercase tracking-tight leading-snug">
+          <blockquote className="border-l-4 border-black pl-3 py-1 bg-zinc-50 font-mono text-[20px] font-bold text-gray-700 uppercase tracking-tight leading-snug">
             "THE INTENSITY OF THE PROBLEMS EXPERIENCED IN BEIRUT CREATES AN OPERATIONAL COMPETITIVE MOAT. SURVIVAL & RESILIENCE IN VOLATILE MARGINS ARE HIGHLY VALUED COMPETENCIES IN THE GLOBAL VENTURE COMMUNITY."
           </blockquote>
           
-          <p className="text-base leading-relaxed text-gray-800 font-medium normal-case select-text">
+          <p className="text-[21px] leading-relaxed text-gray-800 font-medium normal-case select-text">
             This two-day event brings international investors, diaspora advisors from LIFE, and local startup pioneers under one roof to forge clean operational pipelines. We move beyond general theoretical discussion, offering actionable checklists to package, vet, and integrate your codebases directly into the global capital streams.
           </p>
 
@@ -613,12 +612,12 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
             <div className="bg-zinc-50 border border-black p-3" id="feat_day1_card">
               <span className="font-mono text-[10px] bg-black text-white px-1.5 py-0.5 font-bold">DAY ONE Focus</span>
               <h4 className="font-syne font-bold text-xs uppercase mt-2">Venture Economics Playbook</h4>
-              <p className="text-[14px] text-gray-650 font-mono mt-1 font-bold leading-tight">DIASPORA NETWORKING, DATA ROOM DUE DILIGENCE, & MENA SCALING STRATEGIES</p>
+              <p className="text-[19px] text-gray-650 font-mono mt-1 font-bold leading-tight">DIASPORA NETWORKING, DATA ROOM DUE DILIGENCE, & MENA SCALING STRATEGIES</p>
             </div>
             <div className="bg-zinc-50 border border-black p-3" id="feat_day2_card">
               <span className="font-mono text-[10px] bg-orange-600 text-white px-1.5 py-0.5 font-bold">DAY TWO Focus</span>
               <h4 className="font-syne font-bold text-xs uppercase mt-2">AI-Powered scale workshop</h4>
-              <p className="text-[14px] text-gray-650 font-mono mt-1 font-bold leading-tight">HANDS-ON BLUEPRINTS: ZAPIER RUNS, KNOWLEDGE BRAINS, & CONTENT SYSTEMS</p>
+              <p className="text-[19px] text-gray-650 font-mono mt-1 font-bold leading-tight">HANDS-ON BLUEPRINTS: ZAPIER RUNS, KNOWLEDGE BRAINS, & CONTENT SYSTEMS</p>
             </div>
           </div>
         </div>
@@ -684,7 +683,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
             </div>
           ) : (
             <form onSubmit={handleRegisterSeminarSubmit} className="space-y-3" id="seminar_register_form">
-              <p className="text-[14px] text-gray-700 font-mono leading-tight uppercase font-bold mb-2 animate-pulse" style={{ animationDuration: '3s' }}>
+              <p className="text-[19px] text-gray-700 font-mono leading-tight uppercase font-bold mb-2 animate-pulse" style={{ animationDuration: '3s' }}>
                 Secure your seat and receive your printable PDF pass instantly. Registration is free for verified Lebanese builders & diaspora agents.
               </p>
               
@@ -783,7 +782,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
         {activeDay === 1 && (
           <div className="mb-6 p-4 bg-zinc-50 border-2 border-black animate-fade-in" id="day1_narrative">
             <h4 className="font-syne font-extrabold text-sm uppercase text-black">THEME: BRIDGING LOCAL INNOVATION WITH GLOBAL CAPITAL</h4>
-            <p className="text-base normal-case text-gray-700 leading-relaxed font-sans font-medium mt-1">
+            <p className="text-[21px] normal-case text-gray-700 leading-relaxed font-sans font-medium mt-1">
               Day 1 tackles the foundational venture mechanisms necessary to attract diaspora capital. We examine the exact metrics top investors look for in Lebanese teams, map diaspora relationships, and build a localized structural narrative that proves robustness under hyperinflation and logistical issues.
             </p>
           </div>
@@ -792,7 +791,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
         {activeDay === 2 && (
           <div className="mb-6 p-4 bg-orange-50 border-2 border-orange-500 animate-fade-in" id="day2_narrative">
             <h4 className="font-syne font-extrabold text-sm uppercase text-black text-orange-950">WORKSHOP TITLE: AI-POWERED ENTREPRENEURSHIP — ACCELERATING SCALE IN 2026</h4>
-            <p className="text-base normal-case text-orange-900 leading-relaxed font-sans font-medium mt-1">
+            <p className="text-[21px] normal-case text-orange-900 leading-relaxed font-sans font-medium mt-1">
               Subtitle: "Building Autonomous Workflows & Data-Driven Growth". Day 2 shifts from theoretical framework to immediate deep-work application. Learn exactly how to choose models programmatically, automate content voice pipelines, design CRM funnels, and construct investor-ready data rooms with 1/10th of typical headcounts.
             </p>
           </div>
@@ -952,7 +951,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                     {/* Focus Line */}
                     <div className="mt-2 bg-zinc-100 border border-zinc-300 p-2">
                       <span className="font-mono text-[8px] text-gray-500 uppercase block font-bold">Focus Area:</span>
-                      <p className="text-[14px] text-black font-mono font-black tracking-wide lowercase first-letter:uppercase leading-tight mt-0.5">
+                      <p className="text-[19px] text-black font-mono font-black tracking-wide lowercase first-letter:uppercase leading-tight mt-0.5">
                         {session.focus}
                       </p>
                     </div>
@@ -963,7 +962,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                         <div className="space-y-3.5 bg-white border border-black p-3 animate-fade-in text-xs">
                           <div>
                             <span className="font-mono text-[8px] font-black text-gray-500 uppercase block mb-0.5">Syllabus Overview</span>
-                            <p className="text-[15px] text-zinc-805 leading-relaxed font-sans font-medium normal-case select-text">
+                            <p className="text-[20px] text-zinc-805 leading-relaxed font-sans font-medium normal-case select-text">
                               {session.details}
                             </p>
                           </div>
@@ -976,7 +975,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                           </div>
                         </div>
                       ) : (
-                        <p className="text-[15px] text-zinc-550 line-clamp-2 leading-relaxed normal-case font-sans">
+                        <p className="text-[20px] text-zinc-550 line-clamp-2 leading-relaxed normal-case font-sans">
                           {session.details}
                         </p>
                       )}
@@ -1039,7 +1038,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                     >
                       {session.title}
                     </h4>
-                    <p className="font-mono text-[14px] text-gray-650 font-bold tracking-wide uppercase">
+                    <p className="font-mono text-[19px] text-gray-650 font-bold tracking-wide uppercase">
                       <strong>Focus Blueprint:</strong> {session.focus}
                     </p>
 
@@ -1052,7 +1051,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                           className="overflow-hidden bg-white border border-black p-3.5 mt-2 text-xs normal-case font-sans font-medium space-y-2 select-text"
                         >
                           <span className="font-mono text-[8px] font-black text-gray-500 uppercase block">Course Syllabus Abstract</span>
-                          <p className="leading-relaxed text-gray-800 text-[15px]">{session.details}</p>
+                          <p className="leading-relaxed text-gray-800 text-[20px]">{session.details}</p>
                           <div className="pt-2 border-t border-dashed border-zinc-200 font-mono text-[9px] flex items-center gap-4 text-zinc-500">
                             <span>LOCATION: BDD BEIRUT CONFERENCE ROOMS</span>
                             <span>ACCESS PERMIT: REQUIRED IN ADVANCE</span>
@@ -1165,7 +1164,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                               </h6>
 
                               {isExpanded && (
-                                <p className="text-[14px] font-sans normal-case text-zinc-650 leading-relaxed mt-2 pt-2 border-t border-dashed border-zinc-200">
+                                <p className="text-[19px] font-sans normal-case text-zinc-650 leading-relaxed mt-2 pt-2 border-t border-dashed border-zinc-200">
                                   {session.details}
                                 </p>
                               )}
@@ -1207,7 +1206,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
               AI Maturity Audit & Pipeline Architect
             </h3>
           </div>
-          <p className="font-mono text-[10.5px] uppercase tracking-wide text-zinc-400 font-extrabold mt-1">
+          <p className="font-mono text-[15.5px] uppercase tracking-wide text-zinc-400 font-extrabold mt-1">
             Simulate Day 2's opening seminar diagnostic directly below to assess your firm's automation readiness and download a custom AI stack blueprint.
           </p>
         </div>
@@ -1216,7 +1215,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
         {auditStep === "start" && (
           <div className="space-y-4 py-3" id="audit_step_start">
             <h4 className="font-syne font-extrabold text-sm text-white uppercase">Is your operation investor-ready for the AI-Native VC Playbook of 2026?</h4>
-            <p className="text-xs leading-relaxed text-zinc-300 normal-case font-sans font-medium">
+            <p className="text-[17px] leading-relaxed text-zinc-300 normal-case font-sans font-medium">
               Take this brief 3-question evaluation designed by NCEI engineering facilitators. Analyze where your operational leakage points occur and evaluate if your workflows command 'AI-Native' premium multipliers.
             </p>
             <button
@@ -1246,7 +1245,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                 className="bg-zinc-900 border border-zinc-800 hover:border-zinc-450 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer"
               >
                 <div className="font-bold text-white mb-1">GENERAL SEARCH CHATS</div>
-                <p className="text-[10px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">We manually open standard chat browsers on external setups (ChatGPT, Claude) to draft files occasionally.</p>
+                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">We manually open standard chat browsers on external setups (ChatGPT, Claude) to draft files occasionally.</p>
               </button>
               <button
                 type="button"
@@ -1254,7 +1253,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                 className="bg-zinc-900 border border-zinc-800 hover:border-zinc-450 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer"
               >
                 <div className="font-bold text-white mb-1">API INTEGRATIONS</div>
-                <p className="text-[10px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">We integrate dynamic system API requests into modular functions or leverage code frameworks occasionally.</p>
+                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">We integrate dynamic system API requests into modular functions or leverage code frameworks occasionally.</p>
               </button>
               <button
                 type="button"
@@ -1263,7 +1262,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
               >
                 <div className="absolute -top-2 right-2 bg-orange-500 text-black font-mono text-[8px] font-black px-1 uppercase">VC IDEAL</div>
                 <div className="font-bold text-white mb-1">PROGRAMMATIC ORCHESTRATION</div>
-                <p className="text-[10px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">We employ structured AI agent pipelines (custom workflows, multi-agent frameworks) with direct system integrations.</p>
+                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">We employ structured AI agent pipelines (custom workflows, multi-agent frameworks) with direct system integrations.</p>
               </button>
             </div>
           </div>
@@ -1285,7 +1284,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                 className="bg-zinc-900 border border-zinc-800 hover:border-zinc-450 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer"
               >
                 <div className="font-bold text-white mb-1">100% MANUAL DELIVERABLES</div>
-                <p className="text-[10px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight font-medium">Humans type and layout every article, social update, and document. Content takes substantial turnaround time.</p>
+                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight font-medium">Humans type and layout every article, social update, and document. Content takes substantial turnaround time.</p>
               </button>
               <button
                 type="button"
@@ -1293,7 +1292,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                 className="bg-zinc-900 border border-zinc-850 hover:border-zinc-450 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer"
               >
                 <div className="font-bold text-white mb-1">AI-ASSISTED DRAFTING</div>
-                <p className="text-[10px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight font-medium">We use generators to draft layouts or write outlines, which our humans review, edit, and publish manually.</p>
+                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight font-medium">We use generators to draft layouts or write outlines, which our humans review, edit, and publish manually.</p>
               </button>
               <button
                 type="button"
@@ -1302,7 +1301,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
               >
                 <div className="absolute -top-2 right-2 bg-orange-500 text-black font-mono text-[8px] font-black px-1 uppercase">VC IDEAL</div>
                 <div className="font-bold text-white mb-1">AI-NATIVE CONTENT ENGINE</div>
-                <p className="text-[10px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight font-medium">One input idea automatically generates 20 cross-channel assets tailored to our custom brand voice, running on a set loop.</p>
+                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight font-medium">One input idea automatically generates 20 cross-channel assets tailored to our custom brand voice, running on a set loop.</p>
               </button>
             </div>
           </div>
@@ -1324,7 +1323,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                 className="bg-zinc-900 border border-zinc-805 hover:border-zinc-450 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer"
               >
                 <div className="font-bold text-white mb-1">MANUAL EXCEL FILES</div>
-                <p className="text-[10px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">We manually copy-paste leads, files, and customer messages into Excel/Sheets to track everything.</p>
+                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">We manually copy-paste leads, files, and customer messages into Excel/Sheets to track everything.</p>
               </button>
               <button
                 type="button"
@@ -1332,7 +1331,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                 className="bg-zinc-900 border border-zinc-805 hover:border-zinc-450 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer"
               >
                 <div className="font-bold text-white mb-1">BASIC WEB Webhooks</div>
-                <p className="text-[10px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">Simple pre-built email alerts notify us when someone applies, but sorting is manual.</p>
+                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">Simple pre-built email alerts notify us when someone applies, but sorting is manual.</p>
               </button>
               <button
                 type="button"
@@ -1341,7 +1340,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
               >
                 <div className="absolute -top-2 right-2 bg-orange-500 text-black font-mono text-[8px] font-black px-1">VC IDEAL</div>
                 <div className="font-bold text-white mb-1">AUTONOMOUS MULTI-STEP LOGIC</div>
-                <p className="text-[10px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">We deploy multi-stage automated pipelines (Zapier/Make) that validate, score, prioritize, and alert without human lag.</p>
+                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">We employ structured AI agent pipelines (custom workflows, multi-agent frameworks) with direct system integrations.</p>
               </button>
             </div>
           </div>
@@ -1366,14 +1365,14 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
 
               <div>
                 <span className="text-[9px] text-zinc-400 block font-mono">DIAGNOSTIC CRITIQUE</span>
-                <p className="text-xs normal-case text-zinc-300 font-sans mt-0.5 leading-relaxed font-semibold">
+                <p className="text-[17px] normal-case text-zinc-300 font-sans mt-0.5 leading-relaxed font-semibold">
                   {auditResult.desc}
                 </p>
               </div>
 
               <div className="bg-zinc-950 p-4 border border-zinc-800">
                 <span className="text-[9.5px] text-orange-400 block font-mono font-black uppercase">DAY 2 MENTOR RECOMMENDATION FOR JUNE 1st WORKSHOP</span>
-                <p className="text-[11px] normal-case text-zinc-300 font-sans mt-1 leading-snug">
+                <p className="text-[16px] normal-case text-zinc-300 font-sans mt-1 leading-snug">
                   {auditResult.stackRec}
                 </p>
               </div>
@@ -1450,7 +1449,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                       <h5 className="font-mono text-[10.5px] font-black text-black leading-tight uppercase mb-1">
                         {item.heading}
                       </h5>
-                      <p className="text-[15.5px] leading-relaxed text-gray-700 font-sans normal-case font-medium select-text">
+                      <p className="text-[20.5px] leading-relaxed text-gray-700 font-sans normal-case font-medium select-text">
                         {item.detail}
                       </p>
                     </div>
@@ -1478,7 +1477,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
         <h3 className="font-syne font-bold text-xl sm:text-2xl uppercase tracking-tight text-white leading-none">
           SECURE YOUR TICKET FOR THE BDD EVENT
         </h3>
-        <p className="text-xs sm:text-xs font-mono text-zinc-300 max-w-xl mx-auto leading-relaxed uppercase font-semibold">
+        <p className="text-[17px] sm:text-[17px] font-mono text-zinc-300 max-w-xl mx-auto leading-relaxed uppercase font-semibold">
           Pre-registrations close 24 hours prior to commencement. Only 75 hardware seats are allocated at the BDD venue. Verification of codebase pipelines required for developers.
         </p>
 

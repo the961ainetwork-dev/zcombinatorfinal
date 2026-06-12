@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Story, Comment } from "../types";
-import { ArrowUp, CornerDownRight, MessageSquare, Plus, Search, Tag, ExternalLink, RefreshCw, X, User, Clock } from "lucide-react";
+import { ArrowUp, CornerDownRight, MessageSquare, Plus, Search, Tag, ExternalLink, RefreshCw, X, User, Clock, Share2, Copy, Check } from "lucide-react";
 
 // Robust, deterministic reading time calculation helper based on the story type and content length
 const calculateReadingTime = (story: Story) => {
@@ -58,6 +58,10 @@ export default function NewsAggregator({
   const setSearchQuery = setExternalSearchQuery !== undefined ? setExternalSearchQuery : setLocalSearchQuery;
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
+  const [sharingStory, setSharingStory] = useState<Story | null>(null);
+  const [copiedLink, setCopiedLink] = useState(false);
+  const [copiedPlatform, setCopiedPlatform] = useState<string | null>(null);
+  const [activeShareTab, setActiveShareTab] = useState<"twitter" | "linkedin" | "whatsapp">("twitter");
 
   // Submission Form State
   const [newTitle, setNewTitle] = useState("");
@@ -358,6 +362,19 @@ export default function NewsAggregator({
                         <Clock className="w-3.5 h-3.5 text-orange-600 shrink-0" />
                         <span>{calculateReadingTime(story).minutes} min read</span>
                       </span>
+                      <span className="text-zinc-400">•</span>
+                      <button
+                        id={`share_btn_${story.id}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSharingStory(story);
+                        }}
+                        className="flex items-center gap-1 text-black font-black hover:text-amber-500 transition cursor-pointer bg-amber-200/50 hover:bg-amber-100 border border-black px-1.5 py-0.2 shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] active:translate-x-[0.5px] active:translate-y-[0.5px]"
+                        title="Share this story"
+                      >
+                        <Share2 className="w-3 h-3 text-black" />
+                        <span>Share</span>
+                      </button>
                       <span className={`text-[10px] px-2 py-0.5 border ${getCategoryTagClass(story.category)} ml-auto font-mono font-bold uppercase`}>
                         {story.category}
                       </span>
@@ -634,6 +651,241 @@ export default function NewsAggregator({
           </div>
         </div>
       )}
+
+      {/* SHARE MODAL */}
+      {sharingStory && (() => {
+        const shareLink = typeof window !== "undefined" ? `${window.location.origin}/?story=${encodeURIComponent(sharingStory.id)}` : `https://ais-pre-ozodkckudhuljbtn66jpv7-276616341447.europe-west3.run.app/?story=${encodeURIComponent(sharingStory.id)}`;
+        
+        const twitterDraft = `Check out this startup story from @961Combinator: "${sharingStory.title}" by @${sharingStory.author} \n\n#Lebanon #Tech #VentureCapital`;
+        const linkedinDraft = `I highly recommend reading "${sharingStory.title}" by @${sharingStory.author} on Z961-Combinator Exchange - a key forum where Lebanon's engineering excellence meets diaspora venture capital.`;
+        const whatsappDraft = `Hey! Check out this startup story on Z961-Combinator: "${sharingStory.title}" by @${sharingStory.author} - ${shareLink}`;
+
+        let currentDraftText = "";
+        let platformIntentUrl = "";
+        let platformName = "";
+
+        if (activeShareTab === "twitter") {
+          currentDraftText = twitterDraft;
+          platformName = "X (Twitter)";
+          platformIntentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterDraft)}&url=${encodeURIComponent(shareLink)}`;
+        } else if (activeShareTab === "linkedin") {
+          currentDraftText = linkedinDraft;
+          platformName = "LinkedIn";
+          platformIntentUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareLink)}`;
+        } else {
+          currentDraftText = whatsappDraft;
+          platformName = "WhatsApp";
+          platformIntentUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(whatsappDraft)}`;
+        }
+
+        const handleCopyLink = async () => {
+          try {
+            await navigator.clipboard.writeText(shareLink);
+            setCopiedLink(true);
+            setTimeout(() => setCopiedLink(false), 2000);
+          } catch (err) {
+            console.error("Could not copy:", err);
+          }
+        };
+
+        const handleCopyTemplate = async () => {
+          try {
+            await navigator.clipboard.writeText(currentDraftText);
+            setCopiedPlatform(activeShareTab);
+            setTimeout(() => setCopiedPlatform(null), 2000);
+          } catch (err) {
+            console.error("Could not copy template:", err);
+          }
+        };
+
+        return (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fade-in" id="story_share_modal_overlay">
+            <div className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-w-lg w-full overflow-hidden text-black rounded-none">
+              
+              {/* Modal Header */}
+              <div className="bg-amber-400 p-4 border-b-4 border-black flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Share2 className="w-5 h-5 text-black stroke-[3]" />
+                  <h3 className="font-syne font-black text-sm text-black uppercase tracking-tight">
+                    Share Platform Story
+                  </h3>
+                </div>
+                <button
+                  id="close_share_modal_btn"
+                  onClick={() => {
+                    setSharingStory(null);
+                    setCopiedLink(false);
+                    setCopiedPlatform(null);
+                  }}
+                  className="text-black hover:text-white p-1 border-2 border-black bg-white hover:bg-black transition font-black cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[1px] active:translate-y-[1px]"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="p-5 space-y-4 font-mono text-xs">
+                {/* Story Info Cards */}
+                <div className="bg-zinc-50 border-2 border-black p-3.5 space-y-1" id="share_preview_box">
+                  <span className="text-[9px] bg-black text-amber-400 px-1.5 py-0.5 font-bold uppercase w-fit block text-[8px]">Story Selected</span>
+                  <h4 className="font-syne font-extrabold text-sm text-black uppercase leading-snug pt-1">{sharingStory.title}</h4>
+                  <div className="flex items-center gap-2 text-[10px] text-zinc-650 pt-1 font-semibold">
+                    <span>by @{sharingStory.author}</span>
+                    <span>•</span>
+                    <span>{sharingStory.points} points</span>
+                    <span>•</span>
+                    <span className="text-orange-600 uppercase font-bold">{sharingStory.category}</span>
+                  </div>
+                </div>
+
+                {/* Raw generated copy-to-clipboard link */}
+                <div className="space-y-1">
+                  <label className="block text-[10px] font-bold text-black uppercase tracking-wider">
+                    Generated Direct Link
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      id="share_link_input"
+                      type="text"
+                      readOnly
+                      value={shareLink}
+                      className="w-full text-xs bg-zinc-50 border-2 border-black p-2.5 outline-none text-black font-semibold select-all rounded-none"
+                    />
+                    <button
+                      id="copy_link_btn"
+                      onClick={handleCopyLink}
+                      className="flex items-center gap-1 bg-amber-400 hover:bg-amber-300 text-black font-black border-2 border-black px-4 py-2 uppercase shadow-[2.5px_2.5px_0px_0px_rgba(0,0,0,1)] active:translate-x-[1px] active:translate-y-[1px] transition-all cursor-pointer whitespace-nowrap"
+                    >
+                      {copiedLink ? (
+                        <>
+                          <Check className="w-4 h-4 text-emerald-700 stroke-[3]" />
+                          <span className="text-emerald-800">Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-4 h-4 text-black" />
+                          <span>Copy Link</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Pre-filled social media text templates */}
+                <div className="space-y-2 pt-2 border-t-2 border-zinc-200">
+                  <label className="block text-[10px] font-bold text-black uppercase tracking-wider mb-2">
+                    Select Social Media Format & Template
+                  </label>
+                  
+                  {/* Neon Brutalist Tabs */}
+                  <div className="grid grid-cols-3 gap-2" id="share_tabs_list">
+                    <button
+                      type="button"
+                      onClick={() => setActiveShareTab("twitter")}
+                      className={`py-1.5 px-2 border-2 border-black text-center font-bold uppercase text-[10px] transition-all cursor-pointer ${
+                        activeShareTab === "twitter"
+                          ? "bg-black text-white shadow-none"
+                          : "bg-zinc-100 text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-zinc-50"
+                      }`}
+                    >
+                      X (Twitter)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveShareTab("linkedin")}
+                      className={`py-1.5 px-2 border-2 border-black text-center font-bold uppercase text-[10px] transition-all cursor-pointer ${
+                        activeShareTab === "linkedin"
+                          ? "bg-black text-white shadow-none"
+                          : "bg-zinc-100 text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-zinc-50"
+                      }`}
+                    >
+                      LinkedIn
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveShareTab("whatsapp")}
+                      className={`py-1.5 px-2 border-2 border-black text-center font-bold uppercase text-[10px] transition-all cursor-pointer ${
+                        activeShareTab === "whatsapp"
+                          ? "bg-black text-white shadow-none"
+                          : "bg-zinc-100 text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-zinc-50"
+                      }`}
+                    >
+                      WhatsApp
+                    </button>
+                  </div>
+
+                  {/* Active Tab Preview / Output box */}
+                  <div className="bg-zinc-50 border-2 border-black p-3 space-y-3 mt-2" id="selected_share_tab_details">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[9px] text-zinc-500 font-bold uppercase block">Pre-Filled Draft Template</span>
+                    </div>
+                    <textarea
+                      readOnly
+                      rows={4}
+                      value={currentDraftText}
+                      className="w-full text-xs font-mono font-medium text-black bg-white border border-zinc-400 p-2.5 outline-none select-all rounded-none resize-none leading-relaxed"
+                    />
+
+                    {/* Action buttons inside Tab */}
+                    <div className="flex flex-wrap items-center justify-end gap-2.5 pt-2 border-t border-dashed border-zinc-305">
+                      <button
+                        type="button"
+                        id="copy_template_draft_btn"
+                        onClick={handleCopyTemplate}
+                        className="flex items-center gap-1.5 bg-white hover:bg-zinc-100 text-black font-black border-2 border-black px-3.5 py-1.5 uppercase text-[10px] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[1px] active:translate-y-[1px] cursor-pointer transition-all"
+                      >
+                        {copiedPlatform === activeShareTab ? (
+                          <>
+                            <Check className="w-3.5 h-3.5 text-emerald-705 stroke-[3]" />
+                            <span className="text-emerald-805">Template Copied!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5 text-black" />
+                            <span>Copy Template</span>
+                          </>
+                        )}
+                      </button>
+
+                      <a
+                        href={platformIntentUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 bg-black hover:bg-neutral-850 text-white font-black border-2 border-black px-4 py-2 uppercase text-[10px] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[1px] active:translate-y-[1px] cursor-pointer transition-all"
+                        id="open_platform_intent_link"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5 text-amber-400" />
+                        <span>Share on {platformName}</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer disclaimer */}
+                <p className="text-[9px] uppercase tracking-wide text-zinc-400 leading-tight text-center pt-2">
+                  * Social share popups may be blocked inside the frame. Prefer "Copy Template" or open the app in a new tab for seamless intent redirection.
+                </p>
+              </div>
+
+              {/* Close footer button */}
+              <div className="border-t-2 border-black bg-zinc-100 p-4 flex justify-end">
+                <button
+                  type="button"
+                  id="close_share_modal_bottom_btn"
+                  onClick={() => {
+                    setSharingStory(null);
+                    setCopiedLink(false);
+                    setCopiedPlatform(null);
+                  }}
+                  className="px-5 py-2 text-xs font-black uppercase bg-white border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-zinc-50 transition-all cursor-pointer"
+                >
+                  Done
+                </button>
+              </div>
+
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }

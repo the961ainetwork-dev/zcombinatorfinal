@@ -112,34 +112,56 @@ export default function GetStarted({ setTab }: GetStartedProps) {
       {/* SECTION 1: HERO HEADER HERO */}
       <div className="border-4 border-black bg-black text-white p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(245,158,11,1)] relative overflow-hidden" id="get_started_hero_header">
         <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500 opacity-20 rounded-full transform translate-x-24 -translate-y-24"></div>
-        <div className="relative z-10 space-y-4">
-          <div className="inline-flex items-center gap-2 bg-amber-500 text-black font-mono font-black text-xs uppercase px-3 py-1 border border-black rounded">
-            <Rocket className="w-3.5 h-3.5 animate-bounce" />
-            <span>Applications Now Open</span>
-          </div>
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
           
-          <h1 className="font-syne font-black text-3xl md:text-5xl text-white uppercase tracking-tight leading-tight">
-            GET STARTED with <span className="text-amber-500">Z961-Combinator</span>
-          </h1>
-          <p className="font-syne text-xl text-zinc-300 font-extrabold tracking-tight">
-            Where Innovation Meets Capital • Summer 2026 Cohort
-          </p>
-          
-          <p className="text-sm font-mono text-zinc-400 max-w-3xl leading-relaxed">
-            We are officially opening applications for our Summer 2026 AI Startup Cohort—a cornerstone of the National Council for Entrepreneurship and Innovation’s (NCEI) strategic vision. Our goal is to transition <strong className="text-white underline">25 high-potential ventures</strong> from MVP to market-ready enterprises.
-          </p>
+          <div className="md:col-span-8 space-y-4">
+            <div className="inline-flex items-center gap-2 bg-amber-500 text-black font-mono font-black text-xs uppercase px-3 py-1 border border-black rounded">
+              <Rocket className="w-3.5 h-3.5 animate-bounce" />
+              <span>Applications Now Open</span>
+            </div>
+            
+            <h1 className="font-syne font-black text-3xl md:text-5xl text-white uppercase tracking-tight leading-tight">
+              GET STARTED with <span className="text-amber-500">Z961-Combinator</span>
+            </h1>
+            <p className="font-syne text-xl text-zinc-300 font-extrabold tracking-tight">
+              Where Innovation Meets Capital • Summer 2026 Cohort
+            </p>
+            
+            <p className="text-sm font-mono text-zinc-400 max-w-3xl leading-relaxed">
+              We are officially opening applications for our Summer 2026 AI Startup Cohort—a cornerstone of the National Council for Entrepreneurship and Innovation’s (NCEI) strategic vision. Our goal is to transition <strong className="text-white underline">25 high-potential ventures</strong> from MVP to market-ready enterprises.
+            </p>
 
-          <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-zinc-800">
-            <div className="flex items-center gap-2 text-xs font-mono text-amber-500">
-              <Calendar className="w-4.5 h-4.5 shrink-0" />
-              <span>KICKOFF: June 30, 2026 @ Beirut Digital District (BDD)</span>
-            </div>
-            <span className="hidden md:inline text-zinc-650">•</span>
-            <div className="flex items-center gap-2 text-xs font-mono text-zinc-300">
-              <MapPin className="w-4 h-4 text-zinc-400" />
-              <span>Beirut & virtual hybrid global match desk</span>
+            <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-zinc-800">
+              <div className="flex items-center gap-2 text-xs font-mono text-amber-500">
+                <Calendar className="w-4.5 h-4.5 shrink-0" />
+                <span>KICKOFF: June 30, 2026 @ Beirut Digital District (BDD)</span>
+              </div>
+              <span className="hidden md:inline text-zinc-650">•</span>
+              <div className="flex items-center gap-2 text-xs font-mono text-zinc-300">
+                <MapPin className="w-4.5 h-4.5 text-zinc-400" />
+                <span>Beirut & virtual hybrid global match desk</span>
+              </div>
             </div>
           </div>
+
+          <div className="md:col-span-4 flex items-center justify-center pt-4 md:pt-0">
+            {/* High Fidelity NCEI Circular Badge Card Overlay */}
+            <div className="relative w-40 h-40 md:w-48 md:h-48 bg-zinc-950 rounded-full border-4 border-zinc-800 flex flex-col justify-center items-center shadow-[0_0_30px_rgba(245,158,11,0.25)] overflow-hidden shrink-0" id="get_started_ncei_logo_circle">
+              {/* Segmented orange/white tachometer styling border */}
+              <div className="absolute inset-2 rounded-full border border-dashed border-amber-500 animate-[spin_40s_linear_infinite]" />
+              <div className="absolute inset-1 rounded-full border-2 border-stone-850 border-t-amber-500 border-r-amber-500" />
+              
+              <div className="relative z-10 text-center px-4 space-y-1 select-none">
+                <div className="font-mono text-[9px] text-amber-500 font-extrabold tracking-widest uppercase">LEBANON</div>
+                <div className="text-2xl md:text-3xl font-syne font-black tracking-tight text-white leading-none">NCEI</div>
+                <div className="h-0.5 bg-amber-500 w-12 mx-auto my-1"></div>
+                <div className="text-[7.5px] md:text-[8.5px] font-mono text-zinc-300 font-extrabold uppercase leading-tight tracking-wider">
+                  The National Council<br/>for Entrepreneurship<br/>& Innovation
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
