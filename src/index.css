@@ -9,6 +9,10 @@
   --font-syne: "Syne", sans-serif;
 }
 
+html {
+  font-size: 19px !important; /* Increases the root/body font scaling by 3px (3 points) from the default 16px to 19px, raising all rem units proportionally */
+}
+
 :root {
   --bg-primary: #FFFFFF;
   --bg-secondary: #F4F4F5;
