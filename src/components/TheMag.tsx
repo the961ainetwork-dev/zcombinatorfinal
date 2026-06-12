@@ -254,7 +254,7 @@ export default function TheMag() {
               THE MAG <span className="font-serif font-light text-3xl md:text-5xl tracking-normal italic text-zinc-500 lowercase">xyz</span>
             </h1>
             
-            <p className="text-xs md:text-sm font-serif italic text-zinc-700 max-w-xl">
+            <p className="text-[15px] md:text-[17px] font-serif italic text-zinc-700 max-w-xl">
               An avant-garde repository compiling critical ecosystem briefings, data-clearing standards, diaspora network developments, and technical policy reports.
             </p>
           </div>
@@ -429,7 +429,7 @@ export default function TheMag() {
                       <h2 className="font-syne font-black text-2xl md:text-4xl text-black uppercase tracking-tight leading-none pt-2">
                         {art.title}
                       </h2>
-                      <p className="font-serif italic text-sm md:text-base text-zinc-650 font-light leading-snug">
+                      <p className="font-serif italic text-[17px] md:text-[19px] text-zinc-650 font-light leading-snug">
                         {art.subtitle}
                       </p>
                     </div>
@@ -460,7 +460,7 @@ export default function TheMag() {
                       </div>
                     )}
 
-                    <div className="font-sans text-xs md:text-sm text-gray-800 leading-relaxed max-w-3xl text-justify font-medium normal-case space-y-4">
+                    <div className="font-sans text-[15px] md:text-[17px] text-gray-800 leading-relaxed max-w-3xl text-justify font-medium normal-case space-y-4">
                       {art.content.split("\n\n").map((para, pIdx) => (
                         <p key={pIdx}>{para}</p>
                       ))}
@@ -543,10 +543,10 @@ export default function TheMag() {
                     <h4 className="font-syne font-black text-base uppercase leading-tight text-zinc-950 group-hover:text-orange-600 transition-colors">
                       {art.title}
                     </h4>
-                    <p className="font-serif italic text-xs text-zinc-600 font-light leading-snug">
+                    <p className="font-serif italic text-[15px] text-zinc-600 font-light leading-snug">
                       {art.subtitle}
                     </p>
-                    <p className="text-[11px] text-zinc-500 font-sans font-medium line-clamp-3 pt-1">
+                    <p className="text-[14px] text-zinc-500 font-sans font-medium line-clamp-3 pt-1">
                       {art.excerpt}
                     </p>
                   </div>

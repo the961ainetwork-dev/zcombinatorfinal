@@ -231,7 +231,7 @@ export default function SignupWizard({ onSuccess, activeUserId, activeUsername, 
           </h2>
         </div>
 
-        <p className="text-xs font-semibold text-gray-700 leading-normal font-sans mb-6 uppercase">
+        <p className="text-[15px] font-semibold text-gray-700 leading-normal font-sans mb-6 uppercase">
           {isLogin
             ? "Access your Z961 Combinator application pipeline to modify your active ecosystem audit milestones."
             : "Register your sovereign node to build capital credibility and map your tech venture into the sandbox directory."}

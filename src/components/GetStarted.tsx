@@ -127,8 +127,8 @@ export default function GetStarted({ setTab }: GetStartedProps) {
               Where Innovation Meets Capital • Summer 2026 Cohort
             </p>
             
-            <p className="text-sm font-mono text-zinc-400 max-w-3xl leading-relaxed">
-              We are officially opening applications for our Summer 2026 AI Startup Cohort—a cornerstone of the National Council for Entrepreneurship and Innovation’s (NCEI) strategic vision. Our goal is to transition <strong className="text-white underline">25 high-potential ventures</strong> from MVP to market-ready enterprises.
+            <p className="text-[17px] font-mono text-zinc-400 max-w-3xl leading-relaxed">
+              We are officially opening applications for our Summer 2026 AI Startup Cohort—a cornerstone of the National Council for Entrepreneurship and Innovation’s (NCEI) strategic vision. Our goal is to transition <strong className="text-white underline font-extrabold">25 high-potential ventures</strong> from MVP to market-ready enterprises.
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-zinc-800">
@@ -180,7 +180,7 @@ export default function GetStarted({ setTab }: GetStartedProps) {
               </h2>
             </div>
             
-            <p className="text-xs font-mono leading-relaxed text-zinc-700">
+            <p className="text-[15px] font-mono leading-relaxed text-zinc-700">
               Entering the cohort is designed as a structured process to ensure matching compliance and alignment. Startups, researchers, and diaspora investors coordinate through standardized sandboxing steps.
             </p>
 
@@ -191,7 +191,7 @@ export default function GetStarted({ setTab }: GetStartedProps) {
                 </div>
                 <div>
                   <h4 className="font-sans font-black text-xs text-black uppercase">Registration</h4>
-                  <p className="text-[11px] font-mono text-zinc-550">Apply via our official digital portal to begin your intake dossier audit.</p>
+                  <p className="text-[14px] font-mono text-zinc-550">Apply via our official digital portal to begin your intake dossier audit.</p>
                 </div>
               </div>
 
@@ -201,7 +201,7 @@ export default function GetStarted({ setTab }: GetStartedProps) {
                 </div>
                 <div>
                   <h4 className="font-sans font-black text-xs text-black uppercase">Documentation Vetting</h4>
-                  <p className="text-[11px] font-mono text-zinc-550">
+                  <p className="text-[14px] font-mono text-zinc-550">
                     Please review our regulatory sandbox terms, sign off your NDA, and read our comprehensive prospectus.
                   </p>
                 </div>
@@ -236,7 +236,7 @@ export default function GetStarted({ setTab }: GetStartedProps) {
             <h3 className="font-syne font-black text-lg uppercase tracking-tight text-orange-600">
               Dossier Checklists
             </h3>
-            <p className="text-[11px] font-mono text-amber-900 leading-relaxed">
+            <p className="text-[14px] font-mono text-amber-900 leading-relaxed">
               Verify your documentation meets NCEI criteria before the June 30 cutoff. Read our regulatory terms below:
             </p>
 
@@ -321,11 +321,11 @@ export default function GetStarted({ setTab }: GetStartedProps) {
                 {workflowSteps[activeWorkflowStep].title.split(". ")[1]}
               </h3>
 
-              <p className="text-xs font-mono text-zinc-700 leading-relaxed font-semibold">
+              <p className="text-[15px] font-mono text-zinc-700 leading-relaxed font-semibold">
                 {workflowSteps[activeWorkflowStep].description}
               </p>
 
-              <div className="bg-white p-3 border border-zinc-300 rounded font-mono text-[11px] text-zinc-650 leading-relaxed">
+              <div className="bg-white p-3 border border-zinc-300 rounded font-mono text-[14px] text-zinc-650 leading-relaxed">
                 <span className="font-bold text-zinc-800 uppercase block mb-1">Impact Directive:</span>
                 {workflowSteps[activeWorkflowStep].detail}
               </div>
@@ -396,7 +396,7 @@ export default function GetStarted({ setTab }: GetStartedProps) {
                 <h3 className="font-syne font-black text-sm uppercase text-black">
                   {pillar.title}
                 </h3>
-                <p className="text-xs font-mono text-zinc-600 leading-relaxed">
+                <p className="text-[15px] font-mono text-zinc-600 leading-relaxed">
                   {pillar.desc}
                 </p>
               </div>
@@ -444,7 +444,7 @@ export default function GetStarted({ setTab }: GetStartedProps) {
                   {theme.items.map((item, idx) => (
                     <li key={idx} className="flex gap-2">
                       <div className="w-1.5 h-1.5 bg-black rounded-full shrink-0 mt-1.5"></div>
-                      <span className="text-[11px] font-mono text-zinc-800 leading-relaxed font-bold">{item}</span>
+                      <span className="text-[14px] font-mono text-zinc-800 leading-relaxed font-bold">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -478,7 +478,7 @@ export default function GetStarted({ setTab }: GetStartedProps) {
                 <h4 className="font-sans font-black text-xs text-white uppercase border-b border-zinc-800 pb-1">
                   {ms.stage}
                 </h4>
-                <p className="text-[11px] font-mono text-zinc-400 leading-relaxed pt-1">
+                <p className="text-[14px] font-mono text-zinc-400 leading-relaxed pt-1">
                   {ms.desc}
                 </p>
               </div>
@@ -508,7 +508,7 @@ export default function GetStarted({ setTab }: GetStartedProps) {
             </div>
           </div>
 
-          <p className="text-xs font-mono text-zinc-700 leading-relaxed font-semibold">
+          <p className="text-[15px] font-mono text-zinc-700 leading-relaxed font-semibold">
             The Z961-Combinator facilitates investor matching by leveraging institutional rigor and global network connectivity to build credibility for Lebanese startups. The process is structured to bridge the gap between local talent and international capital through the following robust mechanisms:
           </p>
 
@@ -519,7 +519,7 @@ export default function GetStarted({ setTab }: GetStartedProps) {
                   <FileCheck className="w-4.5 h-4.5 text-amber-600 shrink-0" />
                   <span>1. Institutional Auditing & Readiness Verification</span>
                 </h4>
-                <p className="text-[11px] font-mono text-zinc-650 leading-relaxed pt-1">
+                <p className="text-[14px] font-mono text-zinc-650 leading-relaxed pt-1">
                   Startups undergo a multi-dimensional data audit that evaluates technical feasibility, founder expertise, and alignment with national goals. Only those that meet rigorous transparency standards are assigned an <strong className="text-black underline">"Institutional Readiness Score,"</strong> which serves as a signal of credibility to potential investors.
                 </p>
               </div>
@@ -531,7 +531,7 @@ export default function GetStarted({ setTab }: GetStartedProps) {
                   <Cpu className="w-4.5 h-4.5 text-amber-600 shrink-0" />
                   <span>2. Strategic Matching Engine</span>
                 </h4>
-                <p className="text-[11px] font-mono text-zinc-650 leading-relaxed pt-1">
+                <p className="text-[14px] font-mono text-zinc-650 leading-relaxed pt-1">
                   A dedicated matching engine connects verified startups with targeted diaspora and international investors based on specific sector mandates. This process acts as a <strong className="text-black">"mediating translator,"</strong> ensuring that startups are presented in a format and with the governance documentation that investors require.
                 </p>
               </div>
@@ -543,7 +543,7 @@ export default function GetStarted({ setTab }: GetStartedProps) {
                   <ShieldCheck className="w-4.5 h-4.5 text-amber-600 shrink-0" />
                   <span>3. Institutional Oversight & Governance</span>
                 </h4>
-                <p className="text-[11px] font-mono text-zinc-650 leading-relaxed pt-1">
+                <p className="text-[14px] font-mono text-zinc-650 leading-relaxed pt-1">
                   By housing startups within the NCEI’s Institutional Sandbox, researchers and experts provide continuous mentorship in financial modeling and regulatory compliance. This oversight ensures that ventures adhere to high standards of corporate governance, making them more attractive to serious, large-scale investors who prioritize transparency and risk management.
                 </p>
               </div>
@@ -555,7 +555,7 @@ export default function GetStarted({ setTab }: GetStartedProps) {
                   <Users className="w-4.5 h-4.5 text-amber-600 shrink-0" />
                   <span>4. Leveraging Global Networks</span>
                 </h4>
-                <p className="text-[11px] font-mono text-zinc-650 leading-relaxed pt-1">
+                <p className="text-[14px] font-mono text-zinc-650 leading-relaxed pt-1">
                   The initiative taps into the Lebanese diaspora, utilizing their context, market knowledge, and established business networks to accelerate access to capital. By acting as a trusted intermediary, the NCEI facilitates introductions that begin with a foundation of credibility rather than investor skepticism.
                 </p>
               </div>

@@ -559,7 +559,7 @@ export default function App() {
         )}
 
         {/* Editorial Hero Banner for primary landing views */}
-        {["prospectus", "news", "ask", "show", "policy", "values", "resources", "nda", "tor", "kickoff"].includes(currentTab) && (
+        {["prospectus", "news", "ask", "show", "policy", "values", "resources", "nda", "tor", "kickoff", "get-started", "faq", "institutional"].includes(currentTab) && (
           <HeroSection
             currentTab={currentTab}
             setTab={(tab) => {

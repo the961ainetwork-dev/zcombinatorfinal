@@ -49,7 +49,7 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
                 Combinator <span className="text-[10px] bg-black text-white px-1.5 py-0.5 font-mono tracking-normal font-bold lowercase">xyz</span>
               </h1>
               <p className="text-[10px] text-gray-500 font-mono mt-1 uppercase tracking-wider font-bold">
-                Lebanese Sandbox Hub • July 2026
+                Nurtured by The National COuncil For Entrepreenruship and Innovation Reg 2220 Beirut-lebanon
               </p>
             </div>
           </div>

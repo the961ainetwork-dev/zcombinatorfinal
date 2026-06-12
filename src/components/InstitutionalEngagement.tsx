@@ -166,7 +166,7 @@ export default function InstitutionalEngagement({ activeUserId, activeUsername, 
             </h2>
           </div>
         </div>
-        <p className="text-black text-sm font-mono mt-3 max-w-2xl font-bold leading-snug">
+        <p className="text-black text-[17px] font-mono mt-3 max-w-2xl font-bold leading-snug">
           Thank you for joining the <strong className="underline">"Bridge to Growth"</strong> initiative. This form helps us understand your objectives, risk appetite, and desired level of involvement in Lebanon's innovation ecosystem.
         </p>
       </div>
@@ -200,7 +200,7 @@ export default function InstitutionalEngagement({ activeUserId, activeUsername, 
             </div>
           </div>
 
-          <p className="text-sm font-mono font-medium max-w-lg mx-auto text-zinc-800 leading-relaxed mb-6">
+          <p className="text-[17px] font-mono font-medium max-w-lg mx-auto text-zinc-800 leading-relaxed mb-6">
             Your responses are stored securely and classified under the <strong className="underline">Confidentiality Rules</strong> of the NCEI Sandbox. The matching engine will now evaluate high-preparedness startups aligning with your strategic parameters.
           </p>
 
@@ -245,7 +245,7 @@ export default function InstitutionalEngagement({ activeUserId, activeUsername, 
                 <h4 className="font-sans font-extrabold text-xs text-black uppercase">
                   NCEI Matching Readiness
                 </h4>
-                <p className="text-[10px] text-zinc-500 hover:text-black font-mono transition-colors">
+                <p className="text-[13px] text-zinc-500 hover:text-black font-mono transition-colors">
                   Complete questions to customize diaspora matchmaking weights.
                 </p>
               </div>
