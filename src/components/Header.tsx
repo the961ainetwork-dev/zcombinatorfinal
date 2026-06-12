@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Briefcase, Landmark, MessageSquare, Newspaper, Sparkles, TrendingUp, ShieldCheck, Scale, Search, X, Home, BookOpen, AlertCircle, FileSpreadsheet, HelpCircle, Flame, Rocket } from "lucide-react";
+import { Briefcase, Landmark, MessageSquare, Newspaper, Sparkles, TrendingUp, ShieldCheck, Scale, Search, X, Home, BookOpen, AlertCircle, FileSpreadsheet, HelpCircle, Flame, Rocket, Calendar } from "lucide-react";
 
 interface HeaderProps {
   currentTab: string;
@@ -86,6 +86,20 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
             >
               <Rocket className="w-4 h-4 text-black animate-pulse" />
               <span>Get Started</span>
+            </button>
+
+            <button
+              id="tab_btn_kickoff"
+              onClick={() => handleTabClick("kickoff")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 border-2 border-black font-black transition-all cursor-pointer ${
+                currentTab === "kickoff"
+                  ? "bg-red-600 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-black"
+                  : "bg-red-50 text-red-955 hover:bg-red-100 shadow-[2px_2px_0px_0px_rgba(220,38,38,0.4)] hover:translate-x-[1px] hover:translate-y-[1px]"
+              }`}
+            >
+              <Calendar className="w-4 h-4 text-red-650 shrink-0" />
+              <span>KickOff Seminar</span>
+              <span className="text-[8px] bg-red-600 text-white font-mono px-1 border border-black uppercase font-bold tracking-tight animate-bounce">2-Days</span>
             </button>
 
             <button

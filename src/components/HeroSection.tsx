@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   Shield, Cpu, Lock, Award, ChevronLeft, ChevronRight, Activity, TrendingUp, Sparkles, FolderKanban,
-  Home, Newspaper, MessageSquare, Landmark, ShieldCheck, BookOpen, FileSpreadsheet, Scale
+  Home, Newspaper, MessageSquare, Landmark, ShieldCheck, BookOpen, FileSpreadsheet, Scale, Calendar
 } from "lucide-react";
 
 interface HeroSectionProps {
@@ -56,6 +56,19 @@ export default function HeroSection({ currentTab, setTab }: HeroSectionProps) {
           >
             <Home className="w-3.5 h-3.5 shrink-0" />
             <span>Prospectus</span>
+          </button>
+
+          <button
+            onClick={() => setTab("kickoff")}
+            className={`w-full flex items-center gap-1.5 px-3 py-2 border transition-all text-left text-[11px] font-black uppercase select-none cursor-pointer ${
+              currentTab === "kickoff"
+                ? "bg-red-650 text-white border-white font-extrabold shadow-[2px_2px_0px_0px_rgba(220,38,38,1)]"
+                : "bg-red-950 text-red-100 border-red-900 hover:border-red-500 hover:text-white"
+            }`}
+          >
+            <Calendar className="w-3.5 h-3.5 shrink-0 text-red-500" />
+            <span>KickOff Sem.</span>
+            <span className="text-[7px] bg-red-600 text-white font-mono px-1 font-bold animate-pulse">new</span>
           </button>
 
           <button

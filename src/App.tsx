@@ -18,6 +18,7 @@ import SignupWizard from "./components/SignupWizard";
 import AdminPanel from "./components/AdminPanel";
 import InstitutionalEngagement from "./components/InstitutionalEngagement";
 import GetStarted from "./components/GetStarted";
+import KickoffSeminar from "./components/KickoffSeminar";
 import { Story, Startup, Job } from "./types";
 import { Info, Mail, Phone, MapPin, Loader2, Sparkles } from "lucide-react";
 
@@ -225,7 +226,7 @@ export default function App() {
     }
   ];
 
-  const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources" | "sandbox" | "nda" | "tor" | "faq" | "mag" | "register" | "admin" | "institutional" | "get-started">("get-started");
+  const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources" | "sandbox" | "nda" | "tor" | "faq" | "mag" | "register" | "admin" | "institutional" | "get-started" | "kickoff">("get-started");
   const [stories, setStories] = useState<Story[]>(INITIAL_STORIES);
   const [startups, setStartups] = useState<Startup[]>(INITIAL_STARTUPS);
   const [jobs, setJobs] = useState<Job[]>(INITIAL_JOBS);
@@ -274,6 +275,8 @@ export default function App() {
       setTab("institutional");
     } else if (path === "/get-started") {
       setTab("get-started");
+    } else if (path === "/kickoff") {
+      setTab("kickoff");
     } else {
       setTab("get-started");
     }
@@ -494,6 +497,8 @@ export default function App() {
             window.history.pushState({}, "", "/institutional");
           } else if (tab === "get-started") {
             window.history.pushState({}, "", "/get-started");
+          } else if (tab === "kickoff") {
+            window.history.pushState({}, "", "/kickoff");
           } else {
             window.history.pushState({}, "", "/");
           }
@@ -554,7 +559,7 @@ export default function App() {
         )}
 
         {/* Editorial Hero Banner for primary landing views */}
-        {["prospectus", "news", "ask", "show", "policy", "values", "resources", "nda", "tor"].includes(currentTab) && (
+        {["prospectus", "news", "ask", "show", "policy", "values", "resources", "nda", "tor", "kickoff"].includes(currentTab) && (
           <HeroSection
             currentTab={currentTab}
             setTab={(tab) => {
@@ -570,6 +575,8 @@ export default function App() {
                 window.history.pushState({}, "", "/institutional");
               } else if (tab === "get-started") {
                 window.history.pushState({}, "", "/get-started");
+              } else if (tab === "kickoff") {
+                window.history.pushState({}, "", "/kickoff");
               } else {
                 window.history.pushState({}, "", "/");
               }
@@ -577,6 +584,54 @@ export default function App() {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           />
+        )}
+
+        {/* Kickoff Seminar Call to Action Section under Hero Section */}
+        {currentTab !== "kickoff" && (
+          <div className="bg-red-50 border-4 border-black p-5 sm:p-7 mb-8 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-6 uppercase tracking-tight" id="seminar_lead_under_hero">
+            <div className="space-y-2">
+              <div className="flex items-center gap-1.5 text-red-650 font-mono text-[10px] font-black tracking-widest bg-red-100 border border-red-250 px-2 py-0.5 inline-block">
+                <Sparkles className="w-3.5 h-3.5 text-red-600 fill-red-500 animate-pulse" />
+                <span>HOT ENTRANCE SPOTLIGHT: CONFERENCE 2026</span>
+              </div>
+              <h3 className="font-syne font-black text-xl sm:text-2xl text-black uppercase tracking-tighter leading-none mt-1">
+                Z961 COMBINATOR KICKOFF SEMINAR & VENTURE ECONOMIC SUMMIT
+              </h3>
+              <p className="font-mono text-[10px] sm:text-xs text-gray-700 leading-snug font-extrabold normal-case">
+                Join 150+ regional developers, digital nomads, and elite diaspora venture capitalists for an intensive 2-Day bootcamp at Beirut Digital District (BDD). Day 1: Global Capital Rails. Day 2: AI Automation Scale Workshop.
+              </p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row items-stretch gap-3 shrink-0">
+              <button
+                onClick={() => {
+                  setTab("kickoff");
+                  window.history.pushState({}, "", "/kickoff");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                type="button"
+                className="bg-black text-white border-2 border-black font-syne font-black text-xs uppercase px-5 py-3 hover:bg-zinc-800 transition-all cursor-pointer text-center"
+              >
+                Explore 2-Day Timetable
+              </button>
+              
+              <button
+                onClick={() => {
+                  setTab("kickoff");
+                  window.history.pushState({}, "", "/kickoff");
+                  // Wait a short tick and scroll to passenger module
+                  setTimeout(() => {
+                    const el = document.getElementById("seminar_passenger_module");
+                    if (el) el.scrollIntoView({ behavior: "smooth" });
+                  }, 100);
+                }}
+                type="button"
+                className="bg-red-600 text-white border-2 border-black font-syne font-black text-xs uppercase px-5 py-3 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] transition-all cursor-pointer text-center"
+              >
+                Register Your Seat
+              </button>
+            </div>
+          </div>
         )}
 
         <div className="animate-fade-in" id="active_view_root">
@@ -676,6 +731,13 @@ export default function App() {
           )}
 
           {currentTab === "resources" && <ResourcesHub />}
+
+          {currentTab === "kickoff" && (
+            <KickoffSeminar 
+              onJoinEcosystem={() => setTab("register")}
+              onOpenNda={() => setTab("nda")}
+            />
+          )}
 
           {currentTab === "sandbox" && <InitiativeSandbox />}
 
