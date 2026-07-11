@@ -33,6 +33,25 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
 
   return (
     <header className="bg-white text-black sticky top-0 z-40 font-sans border-b-4 border-black" id="main_header_two_tier">
+      {/* ================= NEW GLOBAL TOP BANNER: AI STARTUP BOOTCAMP ANNOUNCEMENT ================= */}
+      <div className="bg-black text-white border-b-2 border-black py-2.5 px-4 font-mono text-[10px] sm:text-xs flex flex-wrap items-center justify-between gap-3 selection:bg-white selection:text-black" id="global_bootcamp_promo_banner">
+        <div className="flex items-center gap-2">
+          <span className="bg-[#adff2f] text-black font-mono text-[9px] font-black px-1.5 py-0.2 uppercase border border-black animate-pulse">🔥 COHORT RECRUITMENT LIVE</span>
+          <span className="font-syne font-black text-white uppercase tracking-wider leading-none">
+            🚀 AI STARTUP BOOTCAMP: Build Your AI Empire in 4 Weeks
+          </span>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="hidden lg:inline-block text-zinc-400 font-bold">Stop doing everything yourself. Run your startup like a team of 50.</span>
+          <button
+            onClick={() => handleTabClick("bootcamp")}
+            type="button"
+            className="bg-[#adff2f] text-black hover:bg-white border border-black text-[9px] sm:text-[10px] font-syne font-black uppercase px-3 py-1 cursor-pointer transition-colors shadow-[2px_2px_0px_0px_rgba(255,255,255,0.15)]"
+          >
+            Claim Seat Now
+          </button>
+        </div>
+      </div>
 
 
       {/* ================= TIER 2: PRIMARY LOGO & NAVIGATION MENU BELOW ================= */}
@@ -86,6 +105,20 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
             >
               <Rocket className="w-4 h-4 text-black animate-pulse" />
               <span>Get Started</span>
+            </button>
+
+            <button
+              id="tab_btn_bootcamp"
+              onClick={() => handleTabClick("bootcamp")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 border-2 border-black font-black transition-all cursor-pointer ${
+                currentTab === "bootcamp"
+                  ? "bg-black text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-extrabold"
+                  : "bg-[#adff2f] text-black hover:bg-[#a3f01c] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
+              }`}
+            >
+              <Sparkles className="w-4 h-4 text-black animate-pulse" />
+              <span>AI Bootcamp 🚀</span>
+              <span className="text-[8px] bg-black text-[#adff2f] font-mono px-1 border border-black uppercase font-bold tracking-tight">4-Wks</span>
             </button>
 
             <button

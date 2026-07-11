@@ -12,21 +12,21 @@ interface KickoffSeminarProps {
 }
 
 export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSeminarProps) {
-  // Navigation tabs for the 2 days
-  const [activeDay, setActiveDay] = useState<1 | 2>(1);
+  // Navigation tabs: 'all' | 'morning' | 'afternoon'
+  const [activeHalf, setActiveHalf] = useState<"all" | "morning" | "afternoon">("all");
   
-  // Interactive strategy search
+  // Interactive strategy search query
   const [strategyQuery, setStrategyQuery] = useState("");
   
-  // Selected detailed session for modal/popup details
+  // Selected detailed session for accordion/details toggling
   const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
 
-  // --- Grid and Hourly Agenda Layout Filters ---
+  // Layout mode controls for the detailed agenda: grid, timeline, board
+  const [layoutMode, setLayoutMode] = useState<"grid" | "timeline" | "board">("timeline");
   const [sessionQuery, setSessionQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
-  const [layoutMode, setLayoutMode] = useState<"grid" | "timeline" | "board">("grid");
 
-  // --- Interactive AI Maturity Audit State ---
+  // --- Interactive AI Maturity & Resilience Audit State ---
   const [auditStep, setAuditStep] = useState<"start" | "q1" | "q2" | "q3" | "result">("start");
   const [auditScores, setAuditScores] = useState({
     stack: "",
@@ -34,18 +34,23 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
     automation: ""
   });
 
-  // --- Registration state ---
+  // --- Registration Ticket state ---
   const [regName, setRegName] = useState("");
   const [regEmail, setRegEmail] = useState("");
   const [regCompany, setRegCompany] = useState("");
+  const [regRole, setRegRole] = useState("Founder");
   const [regPassGenerated, setRegPassGenerated] = useState(false);
   const [savedPass, setSavedPass] = useState<any>(() => {
-    const cached = localStorage.getItem("Z961_seminar_pass");
-    return cached ? JSON.parse(cached) : null;
+    try {
+      const cached = localStorage.getItem("Z961_seminar_pass");
+      return cached ? JSON.parse(cached) : null;
+    } catch {
+      return null;
+    }
   });
 
-  // --- Seminar Kickoff Countdown ---
-  const TARGET_TIME = new Date("2026-06-30T09:00:00").getTime();
+  // --- Real-Time Counter for Friday, July 17th, 2026, 10:00 AM Beirut Time ---
+  const TARGET_TIME = new Date("2026-07-17T10:00:00").getTime();
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -73,7 +78,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
       const days = Math.floor(difference / (1000 * 60 * 60 * 24));
       const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((difference / 1000 / 60) % 60);
-      const seconds = Math.floor((difference / 1000) % 60);
+      const seconds = Math.floor((difference / 1000) % 65 % 60);
 
       setTimeLeft({
         days,
@@ -89,306 +94,199 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
     return () => clearInterval(timer);
   }, []);
 
-  // Seminar detail data objects mirroring OCR exactly
-  const day1Schedule = [
+  // Complete, highly detailed agenda structure covering Friday July 17th, 2026 verbatim notes
+  const seminarAgenda = [
     {
-      id: "s1-1",
-      time: "09:00",
-      title: "Registration & Coffee Reception",
-      type: "Networking",
-      badgeColor: "bg-zinc-100 text-black border-black",
-      focus: "Networking reception at Beirut Digital District (BDD)",
-      details: "Meet fellow Lebanese tech developers, startup builders, and returning diaspora advisors. Warm up with artisan single-origin Lebanese roasts.",
-      speaker: "BDD Welcome Team"
+      id: "agenda-1",
+      time: "09:00 AM - 09:30 AM",
+      timeStartDigit: 9.0,
+      title: "Welcome Coffee and Late Registrations",
+      type: "Logistics",
+      sessionHalf: "morning",
+      badgeColor: "bg-zinc-100 text-zinc-800 border-zinc-400",
+      focus: "Late check-in, community greetings, and boarding pass collection.",
+      details: "The day begins at the state-of-the-art Beirut Digital District. Registrants clear compliance gates, secure and synchronize their private sandbox workspace tools, and connect over high-grade Lebanese manual espresso brews.",
+      speaker: "BDD Reception Crew & NCEI Lead Technologists"
     },
     {
-      id: "s1-2",
-      time: "09:30",
-      title: "Opening Keynote: Bridging Local Innovation with Global Capital",
-      type: "Keynote",
-      badgeColor: "bg-black text-white border-black",
-      focus: "Living in a VUCA world & Understanding the 961 Investment Landscape vs Competitive Positioning",
-      details: "A critical roadmap for navigating macroeconomic turbulence. Position Lebanese remote tech squads to overcome transactional friction, leverage diaspora gates, and command Western venture pricing.",
-      speaker: "Z961 Founding Partners"
-    },
-    {
-      id: "s1-3",
-      time: "10:50",
-      title: "Panel 1: What Investors Are Shopping For (The VC 2026 Playbook)",
+      id: "agenda-2",
+      time: "09:30 AM - 11:00 AM",
+      timeStartDigit: 9.5,
+      title: "Panel 1: The Foundation – State of the Ecosystem, Co-Working & Capital",
       type: "Panel",
-      badgeColor: "bg-orange-50 text-orange-850 border-orange-500",
-      focus: "The advent of socialpreneur vs high clusters strategies — How to secure VC & Angel investment in 2026",
-      details: "Moving beyond 'AI-enabled' vanity features. Focus on AI-Native Operations, Vertical SaaS prototypes, and high-margin cash flows solving deep infrastructure pains.",
-      speaker: "Diaspora Capital Counsel & Venture Leads"
+      sessionHalf: "morning",
+      badgeColor: "bg-stone-100 text-zinc-900 border-stone-800",
+      focus: "Resilience baseline, collaborative density & current VC/angel financing realities.",
+      details: "This opening session sets the baseline. It addresses the immediate environment founders are operating in, emphasizing community infrastructure and the realities of raising capital in 2026.\n\n" +
+               "• State of the Market: A candid look at the resilience of the ecosystem amidst current macroeconomic pressures. Discussing how founders are navigating volatility and the shift toward efficiency over growth-at-all-costs.\n\n" +
+               "• The Power of Proximity: Exploring why physical and hybrid co-working spaces remain critical. This segment will highlight how shared spaces foster serendipity, resource sharing, and the density of talent necessary for early-stage survival.\n\n" +
+               "• Decoding the 2026 Funding Landscape: Unpacking current investor psychology. Topics should cover the strong preference for early-stage validation, the dominance of B2B revenue models, and how to access alternative funding structures (like venture debt or strategic grants) when traditional equity rounds tighten.",
+      speaker: "Leading Seed VCs & Physical Hub Operations Directors"
     },
     {
-      id: "s1-4",
-      time: "11:55",
-      title: "Mid-Morning Break & Coffee",
+      id: "agenda-3",
+      time: "11:00 AM - 11:15 AM",
+      timeStartDigit: 11.0,
+      title: "Coffee Break Networking",
       type: "Break",
-      badgeColor: "bg-zinc-150 text-gray-700 border-zinc-300",
-      focus: "Peer-to-peer engineering chat",
-      details: "Exchange GitHub handles, share tech stacks, and brainstorm early-stage leverage points.",
-      speaker: "Catering Crew"
+      sessionHalf: "morning",
+      badgeColor: "bg-amber-50 text-amber-900 border-amber-300",
+      focus: "Rapid, unstructured peer-to-peer connection & sandbox syncing.",
+      details: "A fifteen-minute high-intensity networking break. Use this open session to meet neighboring engineering setups, exchange GitHub logins, verify sandbox credentials, and establish early diaspora bridges.",
+      speaker: "Syndicate Builders"
     },
     {
-      id: "s1-5",
-      time: "12:15",
-      title: "Panel 2: Startups Success Stories (The StartUp 2026 Playbook)",
+      id: "agenda-4",
+      time: "11:20 AM - 12:30 PM",
+      timeStartDigit: 11.33,
+      title: "Panel 2: Guiding Investors and VCs to Lebanon - The Frontier – Industries, Startups, & Tech Horizons",
       type: "Panel",
-      badgeColor: "bg-blue-50 text-blue-800 border-blue-500",
-      focus: "Refining your narrative for international investors",
-      details: "How Lebanon's top survivability pioneers pivoted amidst severe localized bottlenecks to deliver mission-critical offshore services.",
-      speaker: "Featured Founders from Toters, Purse Pay & Synkers"
+      sessionHalf: "morning",
+      badgeColor: "bg-orange-50 text-orange-950 border-orange-500",
+      focus: "Positioning Lebanon as the ultimate high-tier R&D and specialized brain engine for MENA.",
+      details: "Rather than viewing the local market as a limitation, this panel positions Lebanon as the ultimate R&D and talent engine for the broader MENA region. However operating in a volatile environment forces a unique type of operational discipline. This discussion focuses on how local founders build naturally resilient, global-first architectures.\n\n" +
+               "• The Levant-to-Gulf Pipeline: Tactics for building, funding, testing, and validating products using agile local teams, while structuring corporate entities for seamless market entry into Saudi Arabia (KSA) and the UAE.\n\n" +
+               "• Capitalizing on Regional Financial De-risking: How Lebanese startups can position themselves to solve financial challenges as they tackle high-value digital transformation problems for enterprise clients in high-growth GCC markets.\n\n" +
+               "• Diaspora as a Market Catalyst: Actively leveraging the global Lebanese network not just for funding, but as institutional design partners and first-tier enterprise buyers in Europe and the Americas.",
+      speaker: "IDAL Strategy Leads, GCC Fund Managers & Returning Angels"
     },
     {
-      id: "s1-6",
-      time: "13:00",
-      title: "Networking Lunch with Table Themes",
-      type: "Lunch",
-      badgeColor: "bg-green-55 bg-zinc-50 text-zinc-900 border-zinc-800",
-      focus: "Structured 'Table Themes' for specific industry Verticals",
-      details: "Connect with tables reserved under: Cross-Border Fintech, AI-Native Agencies, B2B Automatons, and Resilience Hardware.",
-      speaker: "Moderated by Sector Experts"
-    },
-    {
-      id: "s1-7",
-      time: "14:00",
-      title: "Panel 3: Going Global from Beirut — How to Network with the 'Open World'",
+      id: "agenda-5",
+      time: "12:30 PM - 13:55 PM",
+      timeStartDigit: 12.5,
+      title: "Panel 3: The Name of the Game . The Tech Talent Premium: AI & Deep Engineering",
       type: "Panel",
-      badgeColor: "bg-purple-50 text-purple-800 border-purple-500",
-      focus: "Legal structures, remote operations, and cross-border payment compliance",
-      details: "How Lebanese startups survive and thrive under volatile structural margins. Highlights agility and resilience as massive competitive moats valued in global venture circles.",
-      speaker: "Corporate Attorneys & Wise/Stripe Integration Gurus"
+      sessionHalf: "afternoon",
+      badgeColor: "bg-sky-50 text-sky-950 border-sky-500",
+      focus: "Moving beyond basic software outsourcing to high-end Agentic AI & RAG workflows.",
+      details: "Positioning Lebanon not as a generic outsourcing hub, but as a specialized hub for high-end engineering, specifically in artificial intelligence.\n\n" +
+               "• Academic-to-Startup Tech Transfer: Bridging the gap between the country’s leading universities (like AUB) and active market commercialization, ensuring cutting-edge research is rapidly funneled into launch-ready startups.\n\n" +
+               "• Building for Zero Downtime: Best practices in leveraging decentralized infrastructure, edge computing, and alternative connectivity solutions (like integrated hybrid cloud and satellite data networks) to ensure 100% operational continuity.\n\n" +
+               "• The 'Lean & Antifragile' Playbook: How the resource constraints of the local ecosystem create hyper-efficient founders who optimize unit economics and path-to-profitability far faster than heavily subsidized Western counterparts.\n\n" +
+               "• Fintech Workarounds & Global Rails: Navigating local banking constraints by embedding modern cross-border payment gateways, digital wallets, and compliant international corporate structures right from day one.\n\n" +
+               "• From Code to Architecture: Shifting the narrative from basic software development to advanced specialization in Agentic AI, multi-agent workflows, and complex Retrieval-Augmented Generation (RAG) deployments.\n\n" +
+               "• Retention through Innovation: Retaining top-tier engineering talent locally by offering them high-equity, deep-tech challenges within the incubator, creating a dense network effect of technical founders.",
+      speaker: "AUB Computer Science Professors, LLM Engineers & Infrastructure Operators"
     },
     {
-      id: "s1-s8",
-      time: "15:30",
-      title: "High-Attraction Projects for Lebanon Pitch",
-      type: "Pitch Session",
-      badgeColor: "bg-red-50 text-red-800 border-red-500",
-      focus: "Pitches from top Lebanese startups demonstrating resilience & success stories",
-      details: "Live feedback from panels of international angel investors. Discover where actual capital flows have established scalable footprints in 2026.",
-      speaker: "Ecosystem Pioneers"
+      id: "agenda-6",
+      time: "13:55 PM - 14:30 PM",
+      timeStartDigit: 13.91,
+      title: "Panel 4: What Investors Are Shopping For (The 2026 Playbook)",
+      type: "Panel",
+      sessionHalf: "afternoon",
+      badgeColor: "bg-emerald-50 text-emerald-955 border-emerald-500",
+      focus: "Mapping high-attraction projects, capital safety and operational unit metrics.",
+      details: "A critical breakdown of high-attraction projects and tactical metrics.\n\n" +
+               "• Capital Efficiency Over Growth-at-All-Costs: How to prioritize Unit Economics (CAC, LTV, and churn) and align operations on a fast, verifiable path to profitability.\n\n" +
+               "• Automated B2B Services: Mapping Platforms that help MENA-based businesses outsource or automate back-office operations (accounting, compliance, or customer service) using autonomous agents.\n\n" +
+               "• Cross-Border FinTech, Healthcare and Retail: Solutions that bridge the gap between Lebanese entities and GCC/international markets (remittance, treasury management, or cross-border payment rails).\n\n" +
+               "• Resilience Tech: Mapping Startups that demonstrate high operational agility in volatile environments; investors view this as a competitive 'moat' that proves the team can survive and scale in any condition.",
+      speaker: "Diaspora Capital Counsel & Venture Capitalists"
     },
     {
-      id: "s1-9",
-      time: "16:50",
-      title: "Closing Keynote & Z961 Award Ceremony",
-      type: "Awards",
-      badgeColor: "bg-yellow-50 text-yellow-905 border-yellow-600",
-      focus: "Celebrating resilience, growth, and excellence",
-      details: "Official citation of the most capital-efficient, high-traction remote builders demonstrating stellar growth metrics over the year.",
-      speaker: "NCEI Steering Board"
-    }
-  ];
-
-  const day2Schedule = [
-    {
-      id: "s2-1",
-      time: "09:00",
-      title: "Workshop Kickoff: AI-Powered Entrepreneurship",
-      type: "Workshop",
-      badgeColor: "bg-black text-white border-black",
-      focus: "Welcome, setting metrics/goals, and initial 'AI Maturity' audit",
-      details: "Establish baseline operating metrics. Discover where manual bottlenecks reside and launch private sandbox environments.",
-      speaker: "AI Engineering Mentors"
-    },
-    {
-      id: "s2-2",
-      time: "09:30",
-      title: "Module 1: The AI Stack (The Brain of Your Business)",
-      type: "Module Session",
-      badgeColor: "bg-sky-50 text-sky-850 border-sky-500",
-      focus: "Mapping your business to LLMs, custom Agents, and programmatic workflows",
-      details: "Focus: Choosing the right models for the right tasks. Key Learning: Distinguishing between general assistants (ChatGPT, Claude) and specialized orchestration agents (Gumloop, custom GPT loops). Output: A custom AI Tech Stack blueprint document.",
-      speaker: "Venture AI Architects"
-    },
-    {
-      id: "s2-3",
-      time: "10:45",
-      title: "Coffee Break & Peer Tech-Sharing",
+      id: "agenda-7",
+      time: "14:30 PM - 15:10 PM",
+      timeStartDigit: 14.5,
+      title: "Lunch Break & Catered Networking",
       type: "Break",
-      badgeColor: "bg-zinc-100 text-black border-black",
-      focus: "Code & workflow sharing",
-      details: "Compare API rate limits, model latency, prompt schemas, and memory constraints with fellow attendees.",
-      speaker: "Technical Leads"
+      sessionHalf: "afternoon",
+      badgeColor: "bg-zinc-100 text-zinc-800 border-zinc-400",
+      focus: "Traditional lunch buffet & structured sector roundtables.",
+      details: "Connect with dedicated focus zones: Cybersecurity setups, cross-border fintech pipelines, medical informatics pools, and autonomous B2B SaaS builders.",
+      speaker: "BDD Catering Staff & Sector Moderators"
     },
     {
-      id: "s2-4",
-      time: "11:00",
-      title: "Module 2: Content & Branding (Efficiency at Scale)",
-      type: "Module Session",
-      badgeColor: "bg-pink-50 text-pink-850 border-pink-500",
-      focus: "Turning one single idea into 20 coherent brand assets safely",
-      details: "Focus: Heavy lifting for corporate marketing with 10% human oversight. Tools covered: Jasper AI, Canva (AI-infused), and Surfer SEO. Key Learning: Retaining rigorous, high-contrast, professional brand-voice across multi-node social channels.",
-      speaker: "Programmatic Marketers"
-    },
-    {
-      id: "s2-5",
-      time: "12:15",
-      title: "Working Lunch: Prompt Engineering Roundtables",
-      type: "Lunch / Lab",
-      badgeColor: "bg-emerald-50 text-emerald-850 border-emerald-500",
-      focus: "Solving specific business problems together inside playground sandboxes",
-      details: "Sit at dedicated roundtables to craft, test, and validate multi-step logic flows for real Lebanese business use cases.",
-      speaker: "Lead Prompters"
-    },
-    {
-      id: "s2-6",
-      time: "13:30",
-      title: "Module 3: AI Automation (The Hands of Your Business)",
-      type: "Module Session",
-      badgeColor: "bg-purple-50 text-purple-850 border-purple-500",
-      focus: "Removing manual friction using programmatic web handlers",
-      details: "Focus: Autonomous lead-generation, customer CRM routing, and automated email validation pipelines. Tools: Zapier with AI Copilot, Make.com. Key Learning: Capturing, qualifying, and assigning leads in real time without human latency.",
-      speaker: "Systems Integration Gurus"
-    },
-    {
-      id: "s2-7",
-      time: "14:45",
-      title: "Mid-Afternoon Coffee Break",
-      type: "Break",
-      badgeColor: "bg-zinc-100 text-black border-black",
-      focus: "Deep-work sandbox setup",
-      details: "Refuel and gear up for the strategy compilation session.",
-      speaker: "Catering Team"
-    },
-    {
-      id: "s2-8",
-      time: "15:00",
-      title: "Module 4: Data & Strategy (The Vision of Your Business)",
-      type: "Module Session",
-      badgeColor: "bg-indigo-50 text-indigo-850 border-indigo-500",
-      focus: "Turning cold data into high-value executive intelligence reports",
-      details: "Focus: Rapid parsing of financial sheets, CSV customer records, and competitor reports. Tools: NotebookLM for deep research, SheetAI.app for dynamic manipulation. Key Learning: Convert raw metrics into clean investor-ready pitch decks in minutes.",
-      speaker: "Data Operations Leads"
-    },
-    {
-      id: "s2-9",
-      time: "16:15",
-      title: "Live Demos & Constructive Feedback",
-      type: "Demo Panel",
-      badgeColor: "bg-indigo-100 text-black border-black",
-      focus: "Participants present one 'AI Automated Workflow' built today",
-      details: "Showcase raw automation solutions. Critical feedback on security, audit trails, prompt reliability, and token efficiency from panel mentors.",
-      speaker: "Attendees & Jury Panel"
-    },
-    {
-      id: "s2-10",
-      time: "16:45",
-      title: "Closing Keynote: Staying Ahead in the 2026 AI Landscape",
-      type: "Keynote",
+      id: "agenda-8",
+      time: "15:10 PM - 17:30 PM",
+      timeStartDigit: 15.16,
+      title: "Panel 5 / Final Session: The Ascent – The '1 to Z' Scaling Story & Strategic Recommendations",
+      type: "Roundtable & Closing Keynote",
+      sessionHalf: "afternoon",
       badgeColor: "bg-black text-white border-black",
-      focus: "Future-proofing operations against sudden model shifts",
-      details: "How local Lebanese ventures can maintain relevance when core generative tools updates occur. Strategies for protecting intellectual property.",
-      speaker: "Z961 Tech Director"
-    },
-    {
-      id: "s2-11",
-      time: "17:00",
-      title: "Networking Mixer",
-      type: "Networking",
-      badgeColor: "bg-zinc-100 text-black border-zinc-400",
-      focus: "Solidify partnerships over refreshments",
-      details: "Sign agreements, exchange contacts, and celebrate a rigorous 2-day marathon.",
-      speaker: "Ecosystem Members"
+      focus: "Actionable thematic frameworks, scaling mechanisms, and cybersecurity keynote.",
+      details: "The final panel transitions from theory to execution. It focuses entirely on the operational playbook required to take a validated product (the '1') and scale it to market dominance (the 'Z'). The panel concludes with 3-5 definitive, actionable recommendations for the incoming cohort.\n\n" +
+               "• Key Note Presentation: Why Cybersecurity is still a top notch investment in the ecosystem (Open Call to Lebanon Startups Case Studies).\n\n" +
+               "• Beyond the Hype (New Technologies): Moving past basic consumer applications to focus on what is actually securing traction. A deep dive into the shift toward Agentic AI, multi-agent workflow automation, AI infrastructure, and Retrieval-Augmented Generation (RAG) architectures.\n\n" +
+               "• Defensible Industries: Highlighting the sectors showing the most momentum and investor appetite across the MENA region, specifically Cybersecurity, advanced Healthtech, and deeply integrated B2B SaaS.\n\n" +
+               "• Deconstructing the '1 to Z' Journey and Thematic Investment Recommendations: Examining the specific inflection points where startups typically break (founder-led sales to distribution automation, building enterprise networks, optimizing unit economics).\n\n" +
+               "• Leverage Diaspora Connections: Connecting with vital diaspora partners to frame asks around the regional MENA market rather than the domestic sandbox alone.\n\n" +
+               "• AI Tools for Entrepreneurial Success: Practical recommendations on embedding AI tools into daily tasks to run outsized, ultra-lean operations with 10x leverage.",
+      speaker: "Cybersecurity Researchers, Scaling Founders & Seed Fund Partners"
     }
   ];
 
   // Specific strategic insights mapping OCR
   const strategicPillars = [
     {
-      title: "1. 961 Investment Landscape & Position",
-      category: "landscape",
+      title: "1. Ecosystem Assessment & The Gulf Pipeline",
+      category: "Ecosystem Strategy",
       items: [
         {
-          heading: "The Socialpreneur vs High-Cluster Strategy",
-          detail: "Balancing high societal impact with rigorous cluster specialization. Lebanese startups must target structural niches rather than broad consumer plays."
+          heading: "The Socialpreneur vs High-Cluster Specialization",
+          detail: "Balancing local societal integration with high-end global software capability. Lebanese startups must target structural niches rather than localized consumer toys."
         },
         {
-          heading: "Target Fintech & Digital Infrastructure",
-          detail: "In 2026, international investors prioritize startups that bypass regional transactional blocks. Focus on digital remittance setups, international payment routing, and resilient cloud tools."
+          heading: "The Levant-to-Gulf Pipeline",
+          detail: "Employ highly creative local developers at competitive costs in Beirut, while setting up corporate frameworks in Riyadh (KSA) or Dubai (UAE) for frictionless enterprise access."
         },
         {
-          heading: "Leverage Diaspora Connection (LIFE)",
-          detail: "Organizations like LIFE are vital. Connect directly with highly-placed Lebanese founders in major financial capitals. Always present investment asks around the broader MENA regional market, not just the local territory."
-        },
-        {
-          heading: "Utilize Pre-Vetted Official Channels",
-          detail: "Secure institutional-ready stampings. Legitimacy and active audit trails are non-negotiable when dealing with foreign partners."
+          heading: "Diaspora as design & enterprise catalyst",
+          detail: "Utilize groups such as LIFE to map connections to high-level decision makers. Always present investment asks of the regional Middle East market, not just the domestic local territory."
         }
       ]
     },
     {
       title: "2. The VC 2026 Playbook Checklist",
-      category: "playbook",
+      category: "Investor Outlook",
       items: [
         {
-          heading: "AI-Native Operations",
-          detail: "Investors are moving away from surface-level 'AI-enabled' buttons. They seek AI-Native Agencies: hyper-efficient entities utilizing micro LLM grids to handle massive deliverables with tiny headcount."
+          heading: "Agentic AI & Multi-Agent Workflows",
+          detail: "Venture capitalists are avoiding shallow wrappers. They seek deeply integrated multi-agent automations that handle entire back-office pipelines cleanly."
         },
         {
-          heading: "The 'Company Brain' Architecture",
-          detail: "High demand exists for systems mapping a company's custom knowledge flows — combining Slack repositories, legacy docs, and email silos into structured queryable nodes."
+          heading: "Robust Cybersecurity Frameworks",
+          detail: "With geopolitical volatility, securing the chain of data and custody remains a premium competitive moat. Investors actively reward highly defensible systems."
         },
         {
-          heading: "Capital Efficiency Over Vanity Metrics",
-          detail: "In 2026, growth-at-all-costs is over. Focus heavily on pristine Unit Economics (CAC, LTV, churn rate, and immediate routes to profitability). Prove you are essential infrastructure rather than a discretionary luxury."
+          heading: "Capital Efficiency & Path to Positive Income",
+          detail: "Vanity metrics are dead. Top priorities are Unit Economics (pristine metrics for CAC, LTV, and churn rates) and establishing a clear, fast route to profitability."
         }
       ]
     },
     {
-      title: "3. Transatlantic Networking Strategies",
-      category: "networking",
+      title: "3. Transatlantic Networking Codes",
+      category: "International Scale",
       items: [
         {
-          heading: "The 'Agent-Partner' Strategy",
-          detail: "If seeking international backers, recruit a certified trust intermediary or leverage international programs (like the U.S. Commercial Service's 'Gold Key' system) to pre-validate your operations to outsiders."
+          heading: "Remote-First Transparency Standards",
+          detail: "Keep company cap tables, security architectures, and financial logs digitized, pre-vetted, and instantly queryable in secure online data rooms."
         },
         {
-          heading: "Remote-First Transparency standards",
-          detail: "Keep financial accounts, cap tables, and legal compliance structures completely transparent and audit-ready via digitized data room tools."
+          heading: " Agility as a Highly Valued Defensive Asset",
+          detail: "Frame constraints as a rigorous training platform. A startup that maintains 100% operational uptime in Beirut demonstrates extreme cost discipline and adaptability to global investors."
         },
         {
-          heading: "Problem-Solving Narrative Focus",
-          detail: "Frame the volatility of the Lebanese market as a rigorous testing suite. If a startup thrives in Beirut's dynamic margins, it signals extreme agility, operational resilience, and cost discipline to global investors."
-        },
-        {
-          heading: "A Pristine Digital Footprint",
-          detail: "Your online footprint is your resume. Decks and websites must speak international venture language fluently, highlighting KPIs, total addressable market (TAM), and unit margins rather than abstract social slogans."
+          heading: "Leveraging Pre-Vetted Ecosystem Channels",
+          detail: "Affiliate your venture with trusted local sandboxes and official audit tracks. Vetted transparency signals safety and compliance to risk-averse foreign institutional capital."
         }
       ]
     },
     {
-      title: "4. Areas Of High Attraction",
-      category: "opportunity",
+      title: "4. Areas Of High Venture Attraction",
+      category: "Focused Opportunities",
       items: [
         {
-          heading: "Cross-Border FinTech Rails",
-          detail: "Build secure transaction pipelines bridging Lebanese providers directly with GCC/global markets to ensure fast clearance times."
+          heading: "Automated B2B Back-Office Software",
+          detail: "Replacing manual compliance, bookkeeping, and customer routing tasks inside Middle Eastern firms with autonomous agent software."
         },
         {
-          heading: "Automated B2B Services",
-          detail: "Use autonomous agents to manage complex back-office workflows (compliance routing, bookkeeping, first-line support) for GCC regional companies."
+          heading: "Cross-Border FinTech and Healthcare",
+          detail: "Solutions bridging physical transaction divides, modern cross-border routing rails, healthcare data compliance, and compliant multi-currency wallets."
         },
         {
-          heading: "Resilience Technology",
-          detail: "Pioneering backup power microgrids, off-grid telemetry nodes, or decentralized remote office networks which represent critical operational moats."
-        }
-      ]
-    },
-    {
-      title: "5. The Investor-Ready Data Room",
-      category: "dataroom",
-      items: [
-        {
-          heading: "Verified Digital Cap Table",
-          detail: "Move off erratic Excel sheets immediately. Deploy reliable automated equity systems (Carta, Pulley, Cake) to verify ownership clean of complications."
-        },
-        {
-          heading: "Financial Integrity & Audits",
-          detail: "Ensure you maintain professionally compiled, audited balance sheets tracking the last 3 fiscal periods, paired with an accurate monthly burn-rate forecast."
+          heading: "Resilience-Oriented Operations Tech",
+          detail: "Off-grid telemetry, backup mesh networks, and decentralized cloud servers proving high physical survivability under stressful external pressures."
         }
       ]
     }
@@ -401,12 +299,13 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
       alert("Please provide at least Name and Email address.");
       return;
     }
-    const ticketId = "Z961-PASS-" + Math.floor(100000 + Math.random() * 900000);
+    const ticketId = "Z961-SEMINAR-" + Math.floor(100000 + Math.random() * 900000);
     const passObj = {
       ticketId,
       name: regName,
       email: regEmail,
-      company: regCompany ? regCompany : "Independent Talent",
+      company: regCompany ? regCompany : "Sovereign Operator",
+      role: regRole,
       dateCreated: new Date().toLocaleDateString()
     };
     localStorage.setItem("Z961_seminar_pass", JSON.stringify(passObj));
@@ -420,6 +319,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
     setRegName("");
     setRegEmail("");
     setRegCompany("");
+    setRegRole("Founder");
     setRegPassGenerated(false);
   };
 
@@ -431,20 +331,20 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
 
   const calculateAuditScore = () => {
     const { stack, content, automation } = auditScores;
-    let rank = "FOUNDATION BUILDER";
-    let desc = "Your business structure mainly operates with general-purpose assistants. You rely on manual copy-pasting for marketing assets and have few programmatic automations connected to your core delivery systems.";
-    let stackRec = "Deploy centralized agent interfaces (e.g., custom GPT nodes) and begin tracking model costs. Integrate standard API endpoints rather than web interface manual tasks.";
+    let rank = "FOUNDATION CONSOLIDATOR";
+    let desc = "Your venture is relying on standard software architecture, lacks deep operational redundancy, and operates within conventional domestic transactional constraints. While functional, it is highly prone to local bottleneck disruption and leaves potential regional venture growth multipliers on the table.";
+    let stackRec = "Adopt hybrid cloud structures and decentralized edges for total continuity, transition traditional scripts to Retrieval-Augmented Generation (RAG) paradigms, and structure a compliant offshore corporate layout wrapper to facilitate smoother capital inflows.";
     
     if (stack === "agents" || content === "semi" || automation === "zapier") {
-      rank = "OPTIMIZED HYBRID OPERATOR";
-      desc = "You recognize the immense power of system modularity. You leverage basic AI integrations to write text fragments and have a few automated hooks linking lead spreadsheets directly into email triggers.";
-      stackRec = "Migrate to multi-step programmatic pipelines using custom platforms (Make.com/Zapier). Move to specialized API workflows using specialized models for complex market report synthesis.";
+      rank = "RESILIENT METROPOLITAN OPERATOR";
+      desc = "You have integrated modular AI pipelines into your delivery stacks and utilize localized off-grid cloud strategies. Your business frameworks allow you to fulfill regional Gulf contracts, but significant manual human latency is still holding back your delivery velocity.";
+      stackRec = "Shift your architecture towards specialized Agentic workflows and multi-agent system loops. Harden your physical assets with robust backup telemetry structures, and connect programmatic international payment gateways to clears cross-border invoices on day one.";
     }
 
     if (stack === "agents" && content === "automated" && automation === "zapier") {
-      rank = "AI-NATIVE PIONEER (+961 AGILITY)";
-      desc = "You meet the highest-tier VC 2026 paradigm. Your team runs as a high-density, low-headcount agency where LLMs act as the primary engines of core B2B service delivery, totally integrated with secure knowledge repositories.";
-      stackRec = "Build deep proprietary 'Company Brain' interfaces mapping historical database files directly to your private local execution loops. Safeguard your data sovereignty and prepare for institutional due diligence.";
+      rank = "ANTIFRAGILE TECH GENERATOR (+961 PREMIUM)";
+      desc = "You represent the highest tier of the 2026 playbook. You run hyper-efficient Agentic and complex RAG configurations over decentralized edge architecture with automated global fintech rails. This yields true zero-downtime, world-class capital agility.";
+      stackRec = "Harden your digital security protocols to fit strict institutional compliance criteria. Keep your investor-ready data room loaded with audited balance sheets, and leverage diaspora-led design pipelines to scale from 1 to Z markets across GCC.";
     }
 
     return { rank, desc, stackRec };
@@ -458,6 +358,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
     const query = strategyQuery.toLowerCase();
     return (
       pillar.title.toLowerCase().includes(query) ||
+      pillar.category.toLowerCase().includes(query) ||
       pillar.items.some(
         item => 
           item.heading.toLowerCase().includes(query) || 
@@ -466,32 +367,22 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
     );
   });
 
-  const matchCategory = (sessionType: string, tabValue: string) => {
-    if (tabValue === "ALL") return true;
-    const normalizedType = sessionType.toLowerCase();
-    if (tabValue === "KEYNOTE") {
-      return normalizedType.includes("keynotes") || normalizedType.includes("keynote") || normalizedType.includes("awards");
-    }
-    if (tabValue === "PANEL") {
-      return normalizedType.includes("panel") || normalizedType.includes("pitch") || normalizedType.includes("demo");
-    }
-    if (tabValue === "WORKSHOP") {
-      return normalizedType.includes("workshop") || normalizedType.includes("module") || normalizedType.includes("lab");
-    }
-    if (tabValue === "NETWORKING") {
-      return normalizedType.includes("networking") || normalizedType.includes("break") || normalizedType.includes("lunch") || normalizedType.includes("reception");
-    }
-    return true;
-  };
-
-  const selectedSession = [...day1Schedule, ...day2Schedule].find(s => s.id === selectedSessionId);
-
-  const currentSchedule = activeDay === 1 ? day1Schedule : day2Schedule;
-
-  const filteredSessions = currentSchedule.filter(session => {
-    if (!matchCategory(session.type, selectedCategory)) {
+  const filteredSessions = seminarAgenda.filter(session => {
+    // Session Half Filter
+    if (activeHalf !== "all" && session.sessionHalf !== activeHalf) {
       return false;
     }
+    // Category Filter
+    if (selectedCategory !== "ALL") {
+      const typeLower = session.type.toLowerCase();
+      if (selectedCategory === "PANEL" && !typeLower.includes("panel") && !typeLower.includes("keynote")) {
+        return false;
+      }
+      if (selectedCategory === "BREAK" && !typeLower.includes("break") && !typeLower.includes("logistics")) {
+        return false;
+      }
+    }
+    // Search Query Filter
     if (sessionQuery.trim()) {
       const q = sessionQuery.toLowerCase();
       return (
@@ -499,8 +390,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
         session.focus.toLowerCase().includes(q) ||
         session.details.toLowerCase().includes(q) ||
         session.speaker.toLowerCase().includes(q) ||
-        session.time.toLowerCase().includes(q) ||
-        session.type.toLowerCase().includes(q)
+        session.time.toLowerCase().includes(q)
       );
     }
     return true;
@@ -509,57 +399,56 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
   return (
     <div className="space-y-8 text-black font-sans animate-fade-in" id="kickoff_seminar_view">
       
-      {/* Banner / Header */}
+      {/* 1. HERO BANNER: BRAND NEW JULY 17TH SEMINAR CONFIGURATION */}
       <div className="bg-black text-white border-4 border-black p-6 sm:p-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden" id="seminar_hero_wrapper">
-        <div className="absolute top-2 right-2 bg-red-600 text-white font-mono text-[9px] font-black px-2.5 py-1 tracking-widest border border-red-650 animate-pulse z-10">
-          OFFICIAL INVITATION: JUNE 30 & JULY 1
+        <div className="absolute top-2 right-2 bg-gradient-to-r from-amber-500 to-orange-600 text-black font-mono text-[9px] font-black px-3 py-1 tracking-widest border border-black animate-pulse z-10">
+          BDD CONFIRMED: FRIDAY, JULY 17TH, 2026
         </div>
         <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-color-dodge bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
         
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-3">
-            <Sparkles className="w-5 h-5 text-yellow-405 fill-yellow-405" />
-            <span className="font-mono text-xs font-black text-zinc-300 uppercase tracking-widest">Z961-Combinator Exchange</span>
+            <Sparkles className="w-5 h-5 text-amber-450 fill-amber-350 text-amber-500" />
+            <span className="font-mono text-xs font-black text-zinc-300 uppercase tracking-widest">Ecosystem Expansion 2026</span>
           </div>
           
           <h2 className="font-syne font-black text-2xl sm:text-5xl uppercase tracking-tight leading-none mb-4">
-            UNLOCKING LEBANON'S VENTURE POTENTIAL
+            KICKOFF SEMINAR: THE 2026 PLAYBOOK
           </h2>
           
           <p className="text-[17px] sm:text-[19px] font-mono text-gray-300 uppercase tracking-wide font-extrabold max-w-3xl leading-relaxed">
-            Bridging Local Engineering Excellence with Global Venture Capital — 2-Day Executive Seminar & Hands-On AI scaling Workshop.
+            Positioning Lebanon's Premium Tech Talent as the Regional AI & Deep Engineering Engine — Driving the Levant-to-Gulf Capital Pipeline.
           </p>
 
           <div className="flex flex-wrap items-center justify-between gap-4 mt-6 pt-5 border-t border-zinc-800 text-xs text-gray-300 font-mono">
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
               <div className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4 text-orange-500" />
-                <span>JUNE 30TH – JULY 1ST, 2026</span>
+                <span>FRIDAY, JULY 17TH, 2026 | 10:00 AM SHARP</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <MapPin className="w-4 h-4 text-orange-500" />
-                <span>BEIRUT DIGITAL DISTRICT (BDD), LEBANON</span>
+                <span>BEIRUT DIGITAL DISTRICT (BDD) BUILDING 1075</span>
               </div>
             </div>
 
-            {/* Micro Live Status Indicator */}
             <div className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 px-3 py-1.5">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span className="text-[10px] uppercase font-bold text-zinc-300">Countdown Active</span>
+              <span className="text-[10px] uppercase font-bold text-zinc-300">Countdown Live</span>
             </div>
           </div>
 
-          {/* Real-time Kickoff Countdown */}
+          {/* REAL-TIME TIME-BLOCK COUNTDOWN */}
           <div className="mt-6 bg-[#adff2f] text-black border-2 border-black p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]" id="seminar_kickoff_countdown">
             <div className="flex items-center gap-2 shrink-0">
-              <Clock className="w-4 h-4 text-black animate-spin" style={{ animationDuration: '4s' }} />
+              <Clock className="w-4 h-4 text-black animate-spin" style={{ animationDuration: '6s' }} />
               <span className="font-mono text-xs font-black uppercase tracking-wider text-black">
-                SEMINAR KICKOFF COUNTDOWN:
+                LEBANESE TECH SYMPOSIUM LAUNCH COUNTDOWN:
               </span>
             </div>
             {timeLeft.isOver ? (
               <span className="font-syne font-black text-xs sm:text-sm uppercase tracking-tight bg-black text-white px-3 py-1">
-                SEMINAR IS LIVE IN BEIRUT
+                SEMINAR IS UNDERWAY AT BDD
               </span>
             ) : (
               <div className="flex items-center gap-4 text-center font-mono select-none">
@@ -588,159 +477,193 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
         </div>
       </div>
 
-      {/* TWO COLUMN SUMMARY & QUICK REGISTER PASS SECTION */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start" id="seminar_intro_grid">
+      {/* 2. SEMINAR SUMMARY: TARGET AUDIENCE & IMPACT FOCUS */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch" id="seminar_summary_root">
         
-        {/* Rationale and Overview */}
-        <div className="lg:col-span-7 bg-white border-2 border-black p-6 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] space-y-4" id="seminar_rationale_box">
-          <h3 className="font-syne font-bold text-lg sm:text-xl uppercase tracking-tight text-black border-b border-black pb-2 flex items-center gap-2">
-            <span>The Exchange Rationale</span>
-          </h3>
-           <p className="text-[21px] leading-relaxed text-gray-800 font-medium normal-case select-text">
-            While local legacy frameworks continue operating in isolation, the offshore venture marketplace has pivoted towards extreme programmatic efficiency. The Lebanese ecosystem possesses a unique, highly-resourced advantage: a massive talent pool of remote software engineers fluent in modern system architectures and accustomed to handling operations in highly volatile (VUCA) conditions.
-          </p>
-          
-          <blockquote className="border-l-4 border-black pl-3 py-1 bg-zinc-50 font-mono text-[20px] font-bold text-gray-700 uppercase tracking-tight leading-snug">
-            "THE INTENSITY OF THE PROBLEMS EXPERIENCED IN BEIRUT CREATES AN OPERATIONAL COMPETITIVE MOAT. SURVIVAL & RESILIENCE IN VOLATILE MARGINS ARE HIGHLY VALUED COMPETENCIES IN THE GLOBAL VENTURE COMMUNITY."
-          </blockquote>
-          
-          <p className="text-[21px] leading-relaxed text-gray-800 font-medium normal-case select-text">
-            This two-day event brings international investors, diaspora advisors from LIFE, and local startup pioneers under one roof to forge clean operational pipelines. We move beyond general theoretical discussion, offering actionable checklists to package, vet, and integrate your codebases directly into the global capital streams.
-          </p>
+        {/* Left Column: Conceptual Framework */}
+        <div className="lg:col-span-7 bg-white border-2 border-black p-6 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between" id="seminar_focus_box">
+          <div className="space-y-4">
+            <h3 className="font-syne font-black text-sm sm:text-base uppercase tracking-wider text-black border-b-2 border-black pb-2 flex items-center gap-2">
+              <Award className="w-4 h-4 text-orange-600" />
+              <span>Target Audience & Impact Focus</span>
+            </h3>
+            
+            <div>
+              <span className="font-mono text-[9px] font-black text-gray-500 uppercase tracking-widest block">ADRESSED TO:</span>
+              <p className="text-[14px] font-mono text-zinc-800 leading-relaxed font-bold mt-1">
+                The complete Lebanese ecosystem, including early-stage and established founders, venture capital and angel investors, university researchers and tech transfer officers, and economic policymakers. This call to action encompasses both local operators and the vital global Lebanese diaspora.
+              </p>
+            </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
-            <div className="bg-zinc-50 border border-black p-3" id="feat_day1_card">
-              <span className="font-mono text-[10px] bg-black text-white px-1.5 py-0.5 font-bold">DAY ONE Focus</span>
-              <h4 className="font-syne font-bold text-xs uppercase mt-2">Venture Economics Playbook</h4>
-              <p className="text-[19px] text-gray-650 font-mono mt-1 font-bold leading-tight">DIASPORA NETWORKING, DATA ROOM DUE DILIGENCE, & MENA SCALING STRATEGIES</p>
+            <div className="border-l-4 border-black pl-4 py-1.5 bg-zinc-50 my-2">
+              <h4 className="font-sans font-extrabold text-[12px] uppercase text-black">Morning Sessions: Foundation & Strategy</h4>
+              <p className="text-[13px] font-mono text-zinc-650 leading-relaxed pt-1">
+                The day begins with a candid assessment of the ecosystem’s resilience amidst current pressures. NCEI Lebanon and IDAL (Investment Development Authority of Lebanon) will present strategic roadmaps for investing in Lebanon in 2026, prioritizing capital efficiency. Discussions will focus on positioning Lebanon as the ultimate specialized R&D and talent engine for the broader MENA region, utilizing the "Levant-to-Gulf Pipeline" for market access to Saudi Arabia and the UAE.
+              </p>
             </div>
-            <div className="bg-zinc-50 border border-black p-3" id="feat_day2_card">
-              <span className="font-mono text-[10px] bg-orange-600 text-white px-1.5 py-0.5 font-bold">DAY TWO Focus</span>
-              <h4 className="font-syne font-bold text-xs uppercase mt-2">AI-Powered scale workshop</h4>
-              <p className="text-[19px] text-gray-650 font-mono mt-1 font-bold leading-tight">HANDS-ON BLUEPRINTS: ZAPIER RUNS, KNOWLEDGE BRAINS, & CONTENT SYSTEMS</p>
+
+            <div className="border-l-4 border-orange-500 pl-4 py-1.5 bg-orange-50/25 my-2">
+              <h4 className="font-sans font-extrabold text-[12px] uppercase text-orange-950">Afternoon Sessions: AI, Deep Engineering, & Scaling</h4>
+              <p className="text-[13px] font-mono text-orange-900 leading-relaxed pt-1">
+                Shifting to Lebanon's "Tech Talent Premium," experts from leading universities (like AUB) and tech hubs will move beyond basic software development to discuss specialization in Agentic AI and complex RAG (Retrieval-Augmented Generation) architectures. Panelists will share the "Lean & Antifragile" playbook—demonstrating how local resource constraints force Lebanese founders to build hyper-efficient architectures with integrated global fintech workarounds.
+              </p>
             </div>
+
+            <p className="text-[13px] font-mono text-zinc-650 leading-relaxed">
+              The final segments provide an updated "Investor Playbook" for 2026, highlighting high-attraction sectors like Cybersecurity, automated B2B services, and Healthtech. The seminar concludes with actionable, thematic recommendations on leveraging AI for lean operations and scaling from validated products to market dominance.
+            </p>
+          </div>
+          
+          <div className="pt-4 border-t border-zinc-200 mt-4 text-[10px] text-zinc-500 font-mono flex items-center gap-2">
+            <Info className="w-3.5 h-3.5 text-zinc-600 shrink-0" />
+            <span>Presented in physical partnership with BDD and IDAL Lebanon.</span>
           </div>
         </div>
 
-        {/* Seminar Pass / Registration Ticket Module */}
-        <div className="lg:col-span-5 bg-zinc-50 border-2 border-black p-6 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]" id="seminar_passenger_module">
-          <div className="flex items-center gap-1.5 text-black border-b border-black pb-2 mb-4">
-            <FileCheck className="w-5 h-5 text-black shrink-0" />
-            <h3 className="font-syne font-black text-xs sm:text-sm uppercase tracking-wide">
-              Ecosystem Boarding Pass
-            </h3>
-          </div>
-
-          {savedPass ? (
-            <div className="bg-white border-2 border-dashed border-black p-4 space-y-3 relative overflow-hidden" id="registered_pass_box">
-              {/* Retro Ticket Cutouts */}
-              <div className="absolute top-1/2 -left-3 w-6 h-6 rounded-full bg-zinc-55 bg-zinc-50 border-r-2 border-black -translate-y-1/2"></div>
-              <div className="absolute top-1/2 -right-3 w-6 h-6 rounded-full bg-zinc-55 bg-zinc-50 border-l-2 border-black -translate-y-1/2"></div>
-              
-              <div className="text-center font-mono text-[10px] font-black text-zinc-400 select-none pb-1 border-b border-zinc-200">
-                ★ OFFICIAL ENTRANCE PERMIT ★
-              </div>
-              
-              <div className="flex justify-between items-start pt-2">
-                <div>
-                  <span className="text-[9px] text-gray-400 font-mono block">PASSENGER NAME</span>
-                  <span className="font-syne font-bold text-sm text-black block tracking-tight uppercase leading-none mt-0.5">{savedPass.name}</span>
-                </div>
-                <div className="text-right">
-                  <span className="text-[9px] text-gray-400 font-mono block">PERMIT ID</span>
-                  <span className="font-mono font-bold text-xs text-orange-700 bg-orange-50 border border-orange-200 px-1 py-0.2 select-text">{savedPass.ticketId}</span>
-                </div>
-              </div>
-
-              <div>
-                <span className="text-[9px] text-gray-400 font-mono block">ORGANIZATION</span>
-                <span className="font-sans font-bold text-[11px] text-gray-800 block uppercase leading-tight mt-0.5">{savedPass.company}</span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-zinc-200">
-                <div>
-                  <span className="text-[9px] text-gray-400 font-mono block">DATE issued</span>
-                  <span className="font-mono text-[10px] font-black text-black block">{savedPass.dateCreated}</span>
-                </div>
-                <div className="text-right">
-                  <span className="text-[9px] text-gray-400 font-mono block">SECTIONS</span>
-                  <span className="font-mono text-[9px] font-black text-black block">FULL 2-DAY ACCESS</span>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-1.5 pt-3">
-                <div className="text-center text-[9px] font-mono font-bold bg-zinc-100 border border-zinc-300 p-2 text-zinc-650 uppercase">
-                  ✓ Pre-registration verified. Show this pass at BDD entrance table on June 30.
-                </div>
-                <button
-                  onClick={handleCancelPass}
-                  type="button"
-                  className="text-center hover:text-red-750 text-red-600 font-mono text-[9px] font-black hover:underline cursor-pointer uppercase py-1"
-                >
-                  [ Revoke Registration & Reserve Spot Again ]
-                </button>
-              </div>
+        {/* Right Column: Dynamic Ecosystem Boarding Pass generator */}
+        <div className="lg:col-span-5 bg-zinc-55 bg-zinc-50 border-2 border-black p-6 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between" id="seminar_pass_module">
+          <div>
+            <div className="flex items-center gap-1.5 text-black border-b-2 border-black pb-2 mb-4">
+              <FileCheck className="w-5 h-5 text-black shrink-0" />
+              <h3 className="font-syne font-black text-xs sm:text-sm uppercase tracking-wide">
+                SUMMIT BOARDING PASS
+              </h3>
             </div>
-          ) : (
-            <form onSubmit={handleRegisterSeminarSubmit} className="space-y-3" id="seminar_register_form">
-              <p className="text-[19px] text-gray-700 font-mono leading-tight uppercase font-bold mb-2 animate-pulse" style={{ animationDuration: '3s' }}>
-                Secure your seat and receive your printable PDF pass instantly. Registration is free for verified Lebanese builders & diaspora agents.
-              </p>
-              
-              <div>
-                <label className="block font-mono text-[9px] font-black text-gray-500 uppercase mb-1">Full Name *</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="E.g., Charbel Tarazi"
-                  value={regName}
-                  onChange={(e) => setRegName(e.target.value)}
-                  className="w-full bg-white border-2 border-black p-2 text-xs font-mono uppercase text-black focus:outline-none"
-                />
-              </div>
 
-              <div>
-                <label className="block font-mono text-[9px] font-black text-gray-500 uppercase mb-1">Official Email *</label>
-                <input
-                  type="email"
-                  required
-                  placeholder="charbel@z961devs.com"
-                  value={regEmail}
-                  onChange={(e) => setRegEmail(e.target.value)}
-                  className="w-full bg-white border-2 border-black p-2 text-xs font-mono uppercase text-black focus:outline-none"
-                />
-              </div>
+            {savedPass ? (
+              <div className="bg-white border-2 border-dashed border-black p-4 space-y-3 relative overflow-hidden" id="verified_ticket_pass">
+                {/* Retro Ticket Side Cutouts */}
+                <div className="absolute top-1/2 -left-3.5 w-6 h-6 rounded-full bg-zinc-50 border-r-2 border-black -translate-y-1/2"></div>
+                <div className="absolute top-1/2 -right-3.5 w-6 h-6 rounded-full bg-zinc-50 border-l-2 border-black -translate-y-1/2"></div>
+                
+                <div className="text-center font-mono text-[9px] font-black text-zinc-400 select-none pb-1 border-b border-zinc-200">
+                  ★ ECOSYSTEM STRATEGY SUMMIT PASS ★
+                </div>
+                
+                <div className="flex justify-between items-start pt-2">
+                  <div>
+                    <span className="text-[8px] text-zinc-400 font-mono block">ATTENDEE / REPRESENTATIVE</span>
+                    <span className="font-syne font-black text-sm text-black block tracking-tight uppercase leading-none mt-0.5">{savedPass.name}</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[8px] text-zinc-400 font-mono block">BOARDING ID</span>
+                    <span className="font-mono font-bold text-xs text-orange-700 bg-orange-50 border border-orange-200 px-1 py-0.2">{savedPass.ticketId}</span>
+                  </div>
+                </div>
 
-              <div>
-                <label className="block font-mono text-[9px] font-black text-gray-500 uppercase mb-1">Company / Startup / Venture Idea</label>
-                <input
-                  type="text"
-                  placeholder="E.g., RemitShield SaaS"
-                  value={regCompany}
-                  onChange={(e) => setRegCompany(e.target.value)}
-                  className="w-full bg-white border-2 border-black p-2 text-xs font-mono uppercase text-black focus:outline-none"
-                />
-              </div>
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  <div>
+                    <span className="text-[8px] text-zinc-400 font-mono block">ORGANIZATION</span>
+                    <span className="font-sans font-bold text-[10px] text-zinc-800 block uppercase leading-tight truncate mt-0.5">{savedPass.company}</span>
+                  </div>
+                  <div>
+                    <span className="text-[8px] text-zinc-400 font-mono block">DESIGNATION</span>
+                    <span className="font-sans font-bold text-[10px] text-zinc-800 block uppercase leading-tight truncate mt-0.5">{savedPass.role || "Sovereign Operator"}</span>
+                  </div>
+                </div>
 
-              <button
-                type="submit"
-                className="w-full bg-black text-white border-2 border-black font-syne font-black text-xs uppercase py-3 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] transition-all cursor-pointer flex items-center justify-center gap-1"
-              >
-                <span>Generate Boarding Pass</span>
-                <ArrowRight className="w-4 h-4 shrink-0" />
-              </button>
-            </form>
-          )}
+                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-zinc-200">
+                  <div>
+                    <span className="text-[8px] text-zinc-400 font-mono block">VENUE & DATE</span>
+                    <span className="font-mono text-[9px] font-black text-black block">BDD BEIRUT | JULY 17</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[8px] text-zinc-400 font-mono block">SECTIONS</span>
+                    <span className="font-mono text-[9px] font-black text-black block">FULL ADMITTANCE</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-1.5 pt-3">
+                  <div className="text-center text-[9px] font-mono font-bold bg-zinc-100 border border-zinc-300 p-2 text-zinc-650 uppercase">
+                    ✓ Seat Secured. Display ticket code at registration desk on Friday morning.
+                  </div>
+                  <button
+                    onClick={handleCancelPass}
+                    type="button"
+                    className="text-center hover:text-red-800 text-red-600 font-mono text-[9px] font-black hover:underline cursor-pointer uppercase py-1"
+                  >
+                    [ Cancel and Generate Another Pass ]
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleRegisterSeminarSubmit} className="space-y-3" id="boarding_pass_signup_form">
+                <p className="text-[13px] text-zinc-700 font-mono leading-tight uppercase font-bold mb-2">
+                  Generate your instant boarding ticket below. Only 75 physical seats remain allocated at Beirut Digital District for July 17th.
+                </p>
+                
+                <div>
+                  <label className="block font-mono text-[9px] font-black text-gray-500 uppercase mb-1">Full Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="E.g., Dr. Maryse Keyrouz"
+                    value={regName}
+                    onChange={(e) => setRegName(e.target.value)}
+                    className="w-full bg-white border-2 border-black p-2 text-xs font-mono uppercase text-black focus:outline-none"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="block font-mono text-[9px] font-black text-gray-500 uppercase mb-1">Company / Institution *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="E.g., AUB / Cedar VC"
+                      value={regCompany}
+                      onChange={(e) => setRegCompany(e.target.value)}
+                      className="w-full bg-white border-2 border-black p-2 text-xs font-mono uppercase text-black focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-mono text-[9px] font-black text-gray-500 uppercase mb-1">Select Role *</label>
+                    <select
+                      value={regRole}
+                      onChange={(e) => setRegRole(e.target.value)}
+                      className="w-full bg-white border-2 border-black p-2 text-xs font-mono uppercase text-black focus:outline-none cursor-pointer"
+                    >
+                      <option value="Founder">Founder / Operator</option>
+                      <option value="Investor">Investor / VC</option>
+                      <option value="Researcher">University Tech Transfer</option>
+                      <option value="Policymaker">Ecosystem policymaker</option>
+                      <option value="Diaspora Representative">Diaspora Agent</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-mono text-[9px] font-black text-gray-500 uppercase mb-1">Email Coordinates *</label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="E.g., maryse@cedarventures.com"
+                    value={regEmail}
+                    onChange={(e) => setRegEmail(e.target.value)}
+                    className="w-full bg-white border-2 border-black p-2 text-xs font-mono uppercase text-black focus:outline-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-black text-white border-2 border-black font-syne font-black text-xs uppercase py-3 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                >
+                  <span>Verify and Issue Boarding Pass</span>
+                  <ArrowRight className="w-4 h-4 shrink-0 font-bold" />
+                </button>
+              </form>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* DUAL-DAY TAB SYSTEM FOR EXTREMELY DETAILED CONFERENCE AGENDA */}
+      {/* 3. DYNAMIC CONFERENCE SCHEDULE BLOCKS AND CONTROLS */}
       <div className="bg-white border-4 border-black p-6 shadow-[7px_7px_0px_0px_rgba(0,0,0,1)]" id="agenda_full_block">
         
-        {/* Module Title and Navigation Switcher */}
+        {/* Switcheable blocks: MORNING SESSIONS vs AFTERNOON SESSIONS */}
         <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 border-b-4 border-black pb-5 mb-6" id="agenda_title_bar">
           <div>
-            <span className="font-mono text-xs font-black text-gray-500 uppercase tracking-widest pl-0.5">THE SCHEDULE</span>
+            <span className="font-mono text-xs font-black text-gray-500 uppercase tracking-widest pl-0.5">TIMELINE TRACKS</span>
             <h3 className="font-syne font-black text-xl sm:text-2xl uppercase tracking-tight text-black leading-none mt-1">
               CONFERENCE PROGRAM
             </h3>
@@ -750,54 +673,94 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
             <div className="flex border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" id="agenda_days_toggle">
               <button
                 onClick={() => {
-                  setActiveDay(1);
+                  setActiveHalf("all");
                   setSelectedSessionId(null);
                 }}
-                className={`px-4 sm:px-6 py-2.5 font-syne font-black text-xs uppercase tracking-tight transition-all cursor-pointer ${
-                  activeDay === 1
+                className={`px-3 sm:px-4 py-2 font-syne font-black text-[10px] uppercase tracking-tight transition-all cursor-pointer ${
+                  activeHalf === "all"
                     ? "bg-black text-white"
                     : "bg-white text-black hover:bg-zinc-100"
                 }`}
               >
-                DAY 1: JUNE 30TH (ECOSYSTEM EXCHANGE)
+                Full Day Program
               </button>
               <button
                 onClick={() => {
-                  setActiveDay(2);
+                  setActiveHalf("morning");
                   setSelectedSessionId(null);
                 }}
-                className={`px-4 sm:px-6 py-2.5 font-syne font-black text-xs uppercase tracking-tight transition-all cursor-pointer ${
-                  activeDay === 2
+                className={`px-3 sm:px-4 py-2 font-syne font-black text-[10px] uppercase tracking-tight transition-all cursor-pointer ${
+                  activeHalf === "morning"
                     ? "bg-black text-white"
                     : "bg-white text-black hover:bg-zinc-100"
                 }`}
               >
-                DAY 2: JULY 1ST (AI WORKSHOP)
+                Morning: Foundation & Strategy
+              </button>
+              <button
+                onClick={() => {
+                  setActiveHalf("afternoon");
+                  setSelectedSessionId(null);
+                }}
+                className={`px-3 sm:px-4 py-2 font-syne font-black text-[10px] uppercase tracking-tight transition-all cursor-pointer ${
+                  activeHalf === "afternoon"
+                    ? "bg-black text-white"
+                    : "bg-white text-black hover:bg-zinc-100"
+                }`}
+              >
+                Afternoon: AI & Scaling Playbook
               </button>
             </div>
           </div>
         </div>
 
-        {/* Day Header Subtitle */}
-        {activeDay === 1 && (
-          <div className="mb-6 p-4 bg-zinc-50 border-2 border-black animate-fade-in" id="day1_narrative">
-            <h4 className="font-syne font-extrabold text-sm uppercase text-black">THEME: BRIDGING LOCAL INNOVATION WITH GLOBAL CAPITAL</h4>
-            <p className="text-[21px] normal-case text-gray-700 leading-relaxed font-sans font-medium mt-1">
-              Day 1 tackles the foundational venture mechanisms necessary to attract diaspora capital. We examine the exact metrics top investors look for in Lebanese teams, map diaspora relationships, and build a localized structural narrative that proves robustness under hyperinflation and logistical issues.
-            </p>
-          </div>
-        )}
+        {/* Dynamic Context Headers */}
+        <AnimatePresence mode="wait">
+          {activeHalf === "all" && (
+            <motion.div 
+              key="all"
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              className="mb-6 p-4 bg-zinc-55 bg-zinc-50 border-2 border-black"
+            >
+              <h4 className="font-syne font-extrabold text-xs uppercase text-zinc-900">COMPLETE MASTER SYMPOSIUM OVERVIEW</h4>
+              <p className="text-[14px] text-zinc-700 leading-relaxed font-sans font-medium mt-1">
+                Visualizing the fully mapped July 17th agenda consisting of 4 dedicated Panels, a networking interlude, premium lunch zones, and the Ascent scaling finale Roundtable.
+              </p>
+            </motion.div>
+          )}
+          {activeHalf === "morning" && (
+            <motion.div 
+              key="morning"
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              className="mb-6 p-4 bg-stone-50 border-2 border-zinc-700"
+            >
+              <h4 className="font-syne font-extrabold text-xs uppercase text-stone-950">MORNING SESSIONS: ECOSYSTEM STATE & GULF INTEGRATION CHANNELS</h4>
+              <p className="text-[14px] text-zinc-700 leading-relaxed font-sans font-medium mt-1">
+                From 09:00 AM to 12:30 PM, learn how founders handle volatility and configure the Levant-to-Gulf entity structures (KSA & UAE) to draw regional seed capital.
+              </p>
+            </motion.div>
+          )}
+          {activeHalf === "afternoon" && (
+            <motion.div 
+              key="afternoon"
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              className="mb-6 p-4 bg-sky-50 border-2 border-sky-400"
+            >
+              <h4 className="font-syne font-extrabold text-xs uppercase text-sky-950 text-sky-900">AFTERNOON SESSIONS: DEEP AI ENGINEERING & CROSS-BORDER ROADMAPS</h4>
+              <p className="text-[14px] text-sky-950 leading-relaxed font-sans font-medium mt-1">
+                From 12:30 PM to 05:30 PM, deep dive into academic tech licensing, edge servers for zero physical downtime, multi-agent RAGs, cybersecurity moats, and the Ascent scaling playbook.
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {activeDay === 2 && (
-          <div className="mb-6 p-4 bg-orange-50 border-2 border-orange-500 animate-fade-in" id="day2_narrative">
-            <h4 className="font-syne font-extrabold text-sm uppercase text-black text-orange-950">WORKSHOP TITLE: AI-POWERED ENTREPRENEURSHIP — ACCELERATING SCALE IN 2026</h4>
-            <p className="text-[21px] normal-case text-orange-900 leading-relaxed font-sans font-medium mt-1">
-              Subtitle: "Building Autonomous Workflows & Data-Driven Growth". Day 2 shifts from theoretical framework to immediate deep-work application. Learn exactly how to choose models programmatically, automate content voice pipelines, design CRM funnels, and construct investor-ready data rooms with 1/10th of typical headcounts.
-            </p>
-          </div>
-        )}
-
-        {/* CONTROLS BAR: SEARCH, CATEGORY PILLS, AND LAYOUT TOGGLES */}
+        {/* CONTROLS BAR: SEARCH, INTERACTIVE CATEGORY PILLS, AND LAYOUT SWITCHERS */}
         <div className="bg-zinc-50 border-2 border-black p-4 mb-6 space-y-4" id="agenda_advanced_controls">
           <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
             {/* Search Input */}
@@ -805,10 +768,10 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search panels, workshops, topics, or speakers..."
+                placeholder="Search panels, workshops, specific topics, or speakers..."
                 value={sessionQuery}
                 onChange={(e) => setSessionQuery(e.target.value)}
-                className="w-full bg-white border-2 border-black pl-10 pr-4 py-2 text-xs font-mono uppercase text-black focus:outline-none placeholder-zinc-400"
+                className="w-full bg-white border-2 border-black pl-10 pr-4 py-2 text-xs font-mono uppercase text-black focus:outline-none placeholder-zinc-400 font-bold"
               />
               {sessionQuery && (
                 <button 
@@ -820,24 +783,12 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
               )}
             </div>
 
-            {/* Layout Mode Toggles */}
+            {/* Layout Mode Switcher */}
             <div className="flex items-center gap-2 border-2 border-black p-1 bg-white" id="layout_mode_switcher">
-              <span className="font-mono text-[9px] font-black text-gray-500 uppercase px-2 hidden sm:inline">VIEW LAYOUT:</span>
-              <button
-                onClick={() => setLayoutMode("grid")}
-                className={`flex items-center gap-1 px-3 py-1.5 font-mono text-[10px] font-black uppercase transition-all cursor-pointer ${
-                  layoutMode === "grid"
-                    ? "bg-black text-white"
-                    : "bg-white text-black hover:bg-zinc-100"
-                }`}
-                title="Bento Box Grid Layout"
-              >
-                <LayoutGrid className="w-3.5 h-3.5" />
-                <span>Bento Grid</span>
-              </button>
+              <span className="font-mono text-[9px] font-black text-gray-505 uppercase px-2 hidden sm:inline">VIEW LAYOUT:</span>
               <button
                 onClick={() => setLayoutMode("timeline")}
-                className={`flex items-center gap-1 px-3 py-1.5 font-mono text-[10px] font-black uppercase transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 font-mono text-[10px] font-black uppercase transition-all cursor-pointer ${
                   layoutMode === "timeline"
                     ? "bg-black text-white"
                     : "bg-white text-black hover:bg-zinc-100"
@@ -848,8 +799,20 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                 <span>Hour Grid</span>
               </button>
               <button
+                onClick={() => setLayoutMode("grid")}
+                className={`flex items-center gap-1.5 px-3 py-1.5 font-mono text-[10px] font-black uppercase transition-all cursor-pointer ${
+                  layoutMode === "grid"
+                    ? "bg-black text-white"
+                    : "bg-white text-black hover:bg-zinc-100"
+                }`}
+                title="Bento Box Grid Layout"
+              >
+                <LayoutGrid className="w-3.5 h-3.5" />
+                <span>Bento Grid</span>
+              </button>
+              <button
                 onClick={() => setLayoutMode("board")}
-                className={`flex items-center gap-1 px-3 py-1.5 font-mono text-[10px] font-black uppercase transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 font-mono text-[10px] font-black uppercase transition-all cursor-pointer ${
                   layoutMode === "board"
                     ? "bg-black text-white"
                     : "bg-white text-black hover:bg-zinc-100"
@@ -857,19 +820,17 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                 title="Categorized Track Grid"
               >
                 <SlidersHorizontal className="w-3.5 h-3.5 animate-pulse" />
-                <span>Track Board</span>
+                <span>Segment Board</span>
               </button>
             </div>
           </div>
 
-          {/* Category Filter Pills */}
+          {/* Type Category Filter Pills */}
           <div className="flex flex-wrap gap-2 pt-2 border-t border-zinc-200">
             {[
-              { id: "ALL", label: "All Sessions", count: currentSchedule.length },
-              { id: "KEYNOTE", label: "Keynotes & Awards", count: currentSchedule.filter(s => matchCategory(s.type, "KEYNOTE")).length },
-              { id: "PANEL", label: "Panels & Demos", count: currentSchedule.filter(s => matchCategory(s.type, "PANEL")).length },
-              { id: "WORKSHOP", label: "Workshops & Modules", count: currentSchedule.filter(s => matchCategory(s.type, "WORKSHOP")).length },
-              { id: "NETWORKING", label: "Networking & Breaks", count: currentSchedule.filter(s => matchCategory(s.type, "NETWORKING")).length },
+              { id: "ALL", label: "All Program", count: seminarAgenda.length },
+              { id: "PANEL", label: "Panels, Keynotes & Ascent Roundtable", count: seminarAgenda.filter(s => s.type.toLowerCase().includes("panel") || s.type.toLowerCase().includes("keynote")).length },
+              { id: "BREAK", label: "Networking Coffee & Lunches", count: seminarAgenda.filter(s => s.type.toLowerCase().includes("break") || s.type.toLowerCase().includes("logistics")).length },
             ].map((cat) => (
               <button
                 key={cat.id}
@@ -882,7 +843,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
               >
                 <span>{cat.label}</span>
                 <span className={`px-1.5 py-0.2 text-[8px] font-bold border ${
-                  selectedCategory === cat.id ? "bg-zinc-800 text-white border-zinc-700" : "bg-zinc-100 text-zinc-650 border-zinc-300"
+                  selectedCategory === cat.id ? "bg-zinc-800 text-white border-zinc-705" : "bg-zinc-100 text-zinc-650 border-zinc-300"
                 }`}>
                   {cat.count}
                 </span>
@@ -891,488 +852,476 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
           </div>
         </div>
 
-        {/* AGENDA SECTION RENDER DISPATCHER */}
-        
-        {/* Empty State */}
-        {filteredSessions.length === 0 && (
+        {/* SCHEDULE DISPATCHERS */}
+        {filteredSessions.length === 0 ? (
           <div className="border-2 border-dashed border-zinc-300 p-12 text-center bg-zinc-50 text-gray-500 space-y-3" id="agenda_empty_state">
             <SlidersHorizontal className="w-8 h-8 text-zinc-400 mx-auto" />
-            <h4 className="font-syne font-black text-sm uppercase text-black">No Matching Sessions Found</h4>
+            <h4 className="font-syne font-black text-sm uppercase text-black">No Matching Program Blocks</h4>
             <p className="text-xs normal-case text-gray-500 max-w-md mx-auto">
-              We couldn't find any panels or workshops matching your search "<strong>{sessionQuery}</strong>" or category selection for Day {activeDay}. Try adjusting your filters or switching days.
+              We couldn't verify any specific panel or keynote addressing your query criteria "<strong>{sessionQuery}</strong>" in the "{activeHalf}" list. Track adjustment is recommended.
             </p>
             <button
               onClick={() => {
                 setSessionQuery("");
                 setSelectedCategory("ALL");
+                setActiveHalf("all");
               }}
               className="bg-black text-white border-2 border-black font-syne font-black text-xs uppercase px-4 py-1.5 hover:bg-zinc-800 transition-all cursor-pointer"
             >
-              Reset All Filters
+              Reset Search Parameters
             </button>
           </div>
-        )}
-
-        {/* layoutMode === "grid" (Multi-column Bento grid) */}
-        {layoutMode === "grid" && filteredSessions.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="agenda_grid_bento">
-            {filteredSessions.map((session) => {
-              const isExpanded = selectedSessionId === session.id;
-              return (
-                <div
-                  key={session.id}
-                  className={`border-4 border-black p-5 flex flex-col justify-between transition-all relative ${
-                    isExpanded
-                      ? "bg-zinc-50 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] scale-[1.01]"
-                      : "bg-white hover:bg-zinc-50/40 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]"
-                  }`}
-                  id={`grid_session_${session.id}`}
-                >
-                  <div>
-                    {/* Time & Sticker tag row */}
-                    <div className="flex items-center justify-between gap-2 border-b border-zinc-200 pb-3 mb-3">
-                      <div className="flex items-center gap-1.5">
-                        <Clock className="w-3.5 h-3.5 text-zinc-600" />
-                        <span className="font-mono text-xs font-black bg-black text-white px-2 py-0.5 border border-black">
-                          {session.time}
+        ) : (
+          <div className="space-y-4">
+            
+            {/* RENDER MODE: TIMELINE HOUR GRID */}
+            {layoutMode === "timeline" && (
+              <div className="border-4 border-black divide-y-4 divide-black" id="agenda_timeline_render">
+                {filteredSessions.map((session) => {
+                  const isExpanded = selectedSessionId === session.id;
+                  return (
+                    <div 
+                      key={session.id}
+                      className={`grid grid-cols-1 lg:grid-cols-12 items-stretch gap-0 transition-colors ${
+                        isExpanded ? "bg-zinc-50" : "bg-white hover:bg-zinc-50/20"
+                      }`}
+                      id={`timeline_block_${session.id}`}
+                    >
+                      {/* Hour column */}
+                      <div className="lg:col-span-3 p-4 bg-zinc-100 border-b border-black lg:border-b-0 lg:border-r-2 lg:border-black flex flex-row lg:flex-col items-center lg:items-start justify-between lg:justify-center gap-3">
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-4 h-4 text-black" />
+                          <span className="font-mono text-sm sm:text-base font-black text-black tracking-tight leading-none">
+                            {session.time}
+                          </span>
+                        </div>
+                        <span className={`font-mono text-[8px] sm:text-[9.5px] font-bold px-2 py-0.5 border border-black uppercase text-center ${session.badgeColor}`}>
+                          {session.type}
                         </span>
                       </div>
-                      <span className={`font-mono text-[9px] font-bold px-2 py-0.5 border border-black ${session.badgeColor}`}>
-                        {session.type}
-                      </span>
-                    </div>
 
-                    {/* Title */}
-                    <h4 className="font-syne font-black text-sm uppercase tracking-tight text-black line-clamp-2 leading-snug cursor-pointer select-text hover:text-red-600"
-                        onClick={() => setSelectedSessionId(isExpanded ? null : session.id)}>
-                      {session.title}
-                    </h4>
+                      {/* Summary details */}
+                      <div className="lg:col-span-6 p-4 flex flex-col justify-center space-y-2 border-b border-black lg:border-b-0 lg:border-r-2 lg:border-black">
+                        <h4 
+                          className="font-syne font-black text-sm sm:text-base text-black uppercase tracking-tight cursor-pointer hover:text-orange-600 leading-tight"
+                          onClick={() => setSelectedSessionId(isExpanded ? null : session.id)}
+                        >
+                          {session.title}
+                        </h4>
+                        <div className="bg-white/80 border border-zinc-200 p-2 text-xs">
+                          <span className="font-mono text-[8px] font-black text-zinc-400 block uppercase">FOCUS VECTOR:</span>
+                          <p className="text-[14px] text-zinc-800 font-mono font-bold leading-snug">
+                            {session.focus}
+                          </p>
+                        </div>
 
-                    {/* Focus Line */}
-                    <div className="mt-2 bg-zinc-100 border border-zinc-300 p-2">
-                      <span className="font-mono text-[8px] text-gray-500 uppercase block font-bold">Focus Area:</span>
-                      <p className="text-[19px] text-black font-mono font-black tracking-wide lowercase first-letter:uppercase leading-tight mt-0.5">
-                        {session.focus}
-                      </p>
+                        {/* Expandable session summary notes */}
+                        <AnimatePresence>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="overflow-hidden font-sans border-t border-dashed border-zinc-350 pt-2.5 mt-2.5 space-y-3"
+                            >
+                              <span className="font-mono text-[8px] font-black text-orange-500 uppercase block tracking-wider">Detailed Subject Syllabus</span>
+                              <div className="text-[14px] text-zinc-800 leading-relaxed font-sans font-medium whitespace-pre-wrap font-semibold" id={`syllabus_notes_${session.id}`}>
+                                {session.details}
+                              </div>
+                              <div className="pt-2 border-t border-zinc-205 font-mono text-[9px] flex flex-wrap gap-4 text-zinc-400 uppercase font-bold">
+                                <span>VENUE: BDD HALLROOMS G-10</span>
+                                <span>COHORT LEVEL: OPEN ENTRY</span>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+
+                      {/* Spakers Facilitators */}
+                      <div className="lg:col-span-3 p-4 flex flex-row lg:flex-col items-center lg:items-start justify-between lg:justify-center gap-2">
+                        <div className="min-w-0">
+                          <span className="font-mono text-[8px] text-gray-400 font-black uppercase block">Facilitator / Speakers:</span>
+                          <span className="font-sans text-[11px] font-black text-zinc-900 block truncate max-w-[200px]" title={session.speaker}>
+                            {session.speaker}
+                          </span>
+                        </div>
+
+                        <button
+                          onClick={() => setSelectedSessionId(isExpanded ? null : session.id)}
+                          className="px-3 py-1.5 border-2 border-black bg-white text-black font-mono text-[10px] font-black uppercase hover:bg-black hover:text-white transition-all cursor-pointer flex items-center gap-1"
+                        >
+                          <span>{isExpanded ? "Syllabus ▲" : "Syllabus ▼"}</span>
+                        </button>
+                      </div>
                     </div>
- 
-                    {/* Expanded Abstract Syllabus drawer */}
-                    <div className="mt-3">
-                      {isExpanded ? (
-                        <div className="space-y-3.5 bg-white border border-black p-3 animate-fade-in text-xs">
-                          <div>
-                            <span className="font-mono text-[8px] font-black text-gray-500 uppercase block mb-0.5">Syllabus Overview</span>
-                            <p className="text-[20px] text-zinc-805 leading-relaxed font-sans font-medium normal-case select-text">
-                              {session.details}
-                            </p>
-                          </div>
-                          
-                          <div className="pt-2 border-t border-dashed border-zinc-300 text-[10px] font-mono">
-                            <span className="text-gray-500 uppercase font-black block">Location:</span>
-                            <span className="text-black font-extrabold flex items-center gap-1 mt-0.5">
-                              <MapPin className="w-3 h-3 text-red-600" /> BDD Beirut Conference Suite
+                  );
+                })}
+              </div>
+            )}
+
+            {/* RENDER MODE: BENTO GRID */}
+            {layoutMode === "grid" && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="agenda_grid_render">
+                {filteredSessions.map((session) => {
+                  const isExpanded = selectedSessionId === session.id;
+                  return (
+                    <div 
+                      key={session.id}
+                      className={`border-4 border-black p-5 flex flex-col justify-between transition-all relative ${
+                        isExpanded 
+                          ? "bg-zinc-50 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] scale-[1.01]" 
+                          : "bg-white hover:bg-zinc-50/40 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-1.5px] hover:translate-y-[-1.5px]"
+                      }`}
+                      id={`grid_block_${session.id}`}
+                    >
+                      <div>
+                        {/* Time label sticker */}
+                        <div className="flex items-center justify-between gap-1 border-b border-zinc-200 pb-3 mb-3">
+                          <div className="flex items-center gap-1.5">
+                            <Clock className="w-3.5 h-3.5 text-zinc-650" />
+                            <span className="font-mono text-[10px] font-extrabold bg-black text-white px-2 py-0.5">
+                              {session.time}
                             </span>
                           </div>
+                          <span className={`font-mono text-[8px] font-bold px-1.5 py-0.5 border border-black uppercase ${session.badgeColor}`}>
+                            {session.type}
+                          </span>
+                        </div>
+
+                        <h4 
+                          className="font-syne font-black text-sm uppercase tracking-tight text-zinc-950 cursor-pointer hover:text-orange-500 leading-snug line-clamp-2"
+                          onClick={() => setSelectedSessionId(isExpanded ? null : session.id)}
+                        >
+                          {session.title}
+                        </h4>
+
+                        <div className="bg-zinc-50 border border-zinc-300 p-2 mt-2">
+                          <span className="font-mono text-[8px] text-zinc-400 block uppercase font-bold">Focus Target:</span>
+                          <p className="text-[13px] text-zinc-900 font-mono font-bold leading-normal lowercase first-letter:uppercase">
+                            {session.focus}
+                          </p>
+                        </div>
+
+                        <div className="mt-3">
+                          {isExpanded ? (
+                            <div className="space-y-3 bg-white border border-black p-3 text-xs">
+                              <span className="font-mono text-[8px] font-black text-gray-500 uppercase block">Curriculum Summary</span>
+                              <p className="text-[14px] text-zinc-800 leading-relaxed font-sans font-medium whitespace-pre-wrap select-text font-semibold">
+                                {session.details}
+                              </p>
+                            </div>
+                          ) : (
+                            <p className="text-[14px] text-zinc-500 font-sans line-clamp-3 leading-normal normal-case">
+                              {session.details}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Card bottom footer */}
+                      <div className="border-t border-zinc-200 mt-4 pt-3 flex items-center justify-between gap-2 text-[10px] font-mono">
+                        <div className="min-w-0">
+                          <span className="text-gray-400 uppercase font-black block text-[8px]">Facilitator</span>
+                          <span className="text-zinc-900 font-black truncate block max-w-[150px]" title={session.speaker}>
+                            {session.speaker}
+                          </span>
+                        </div>
+                        
+                        <button
+                          onClick={() => setSelectedSessionId(isExpanded ? null : session.id)}
+                          className="px-2 py-1 border border-black font-mono text-[9px] font-bold hover:bg-black hover:text-white cursor-pointer transition-all shrink-0"
+                        >
+                          {isExpanded ? "Close ▲" : "Detail ▼"}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* RENDER MODE: SEGMENT TRACK BOARD */}
+            {layoutMode === "board" && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6" id="agenda_board_render">
+                {[
+                  {
+                    title: "Foundation & Strategy (09:00 - 12:30)",
+                    tag: "morning",
+                    bgColor: "bg-stone-50 border-stone-800",
+                    headerClass: "bg-stone-900 text-stone-150 text-white",
+                    items: filteredSessions.filter(s => s.sessionHalf === "morning")
+                  },
+                  {
+                    title: "AI & Scaled Systems (12:30 - 14:30)",
+                    tag: "afternoon-early",
+                    bgColor: "bg-sky-50/40 border-sky-650 border-sky-400",
+                    headerClass: "bg-sky-900 text-sky-100 text-white",
+                    items: filteredSessions.filter(s => s.sessionHalf === "afternoon" && s.timeStartDigit < 15.0)
+                  },
+                  {
+                    title: "Scaling Ascent & Cyber (15:10 - 17:30)",
+                    tag: "afternoon-ascent",
+                    bgColor: "bg-zinc-950 text-zinc-200 border-black",
+                    headerClass: "bg-black text-[#adff2f]",
+                    items: filteredSessions.filter(s => s.sessionHalf === "afternoon" && s.timeStartDigit >= 15.0)
+                  }
+                ].map((col, cIdx) => (
+                  <div key={cIdx} className={`border-4 p-4 flex flex-col justify-between ${col.bgColor}`} id={`board_col_${cIdx}`}>
+                    <div>
+                      <div className={`p-2.5 border-2 border-black mb-4 uppercase ${col.headerClass}`}>
+                        <h5 className="font-syne font-black text-xs tracking-tight">{col.title}</h5>
+                        <span className="font-mono text-[8px] block opacity-80 font-bold mt-0.5">Time Cluster Segment</span>
+                      </div>
+
+                      {col.items.length === 0 ? (
+                        <div className="p-8 text-center text-zinc-400 font-mono text-[10px] uppercase border border-dashed border-zinc-300 bg-white/20">
+                          Empty Session Query segment
                         </div>
                       ) : (
-                        <p className="text-[20px] text-zinc-550 line-clamp-2 leading-relaxed normal-case font-sans">
-                          {session.details}
-                        </p>
-                      )}
-                    </div>
-                  </div>
+                        <div className="space-y-4">
+                          {col.items.map((session) => {
+                            const isExpanded = selectedSessionId === session.id;
+                            return (
+                              <div 
+                                key={session.id}
+                                className="bg-white text-black border-2 border-black p-3.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[0.5px] hover:translate-y-[0.5px] transition-all flex flex-col justify-between"
+                              >
+                                <div>
+                                  <div className="flex items-center justify-between gap-1 mb-2">
+                                    <span className="font-mono text-[8.5px] font-black bg-black text-white px-1.5 py-0.2">
+                                      {session.time.split(" ")[0] || session.time}
+                                    </span>
+                                    <span className="font-mono text-[8px] font-bold text-zinc-500 uppercase tracking-tighter truncate max-w-[80px]">
+                                      {session.type}
+                                    </span>
+                                  </div>
 
-                  {/* Card bottom: facilitators & action */}
-                  <div className="border-t border-zinc-200 mt-4 pt-3 flex items-center justify-between gap-2 text-[10px] font-mono">
-                    <div className="min-w-0">
-                      <span className="text-gray-400 uppercase font-bold block text-[8px]">Facilitator</span>
-                      <span className="text-black font-extrabold truncate block max-w-[150px]" title={session.speaker}>
-                        {session.speaker}
-                      </span>
-                    </div>
-                    
-                    <button
-                      onClick={() => setSelectedSessionId(isExpanded ? null : session.id)}
-                      className="px-2 py-1 border border-black font-mono text-[9px] font-bold hover:bg-black hover:text-white transition-all cursor-pointer shrink-0"
-                    >
-                      {isExpanded ? "Less ▲" : "Syllabus ▼"}
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+                                  <h6 
+                                    className="font-syne font-extrabold text-xs uppercase text-zinc-900 leading-tight cursor-pointer hover:text-orange-500"
+                                    onClick={() => setSelectedSessionId(isExpanded ? null : session.id)}
+                                  >
+                                    {session.title}
+                                  </h6>
 
-        {/* layoutMode === "timeline" (Structured chronological hour grid) */}
-        {layoutMode === "timeline" && filteredSessions.length > 0 && (
-          <div className="border-4 border-black divide-y-4 divide-black" id="agenda_grid_timeline">
-            {filteredSessions.map((session) => {
-              const isExpanded = selectedSessionId === session.id;
-              return (
-                <div
-                  key={session.id}
-                  className={`grid grid-cols-1 lg:grid-cols-12 items-stretch gap-0 transition-colors ${
-                    isExpanded ? "bg-zinc-50" : "bg-white hover:bg-zinc-50/20"
-                  }`}
-                  id={`timeline_session_${session.id}`}
-                >
-                  {/* Grid Col 1-2: Hour Box */}
-                  <div className="lg:col-span-2 p-4 bg-zinc-100 border-b border-black lg:border-b-0 lg:border-r-2 lg:border-black flex flex-row lg:flex-col items-center lg:items-start justify-between lg:justify-center gap-3">
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-black" />
-                      <span className="font-mono text-base font-black text-black tracking-tight">
-                        {session.time}
-                      </span>
-                    </div>
-                    <span className={`font-mono text-[8px] sm:text-[9px] font-bold px-2 py-0.5 border border-black ${session.badgeColor}`}>
-                      {session.type}
-                    </span>
-                  </div>
+                                  {isExpanded && (
+                                    <div className="mt-2.5 pt-2 border-t border-dashed border-zinc-200 space-y-1.5">
+                                      <span className="font-mono text-[8px] font-black text-zinc-400 block uppercase">Curriculum Synopsis:</span>
+                                      <p className="text-[13px] font-sans normal-case text-zinc-700 leading-snug whitespace-pre-wrap font-semibold">
+                                        {session.details}
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
 
-                  {/* Grid Col 3-9: Title & Focus Summary */}
-                  <div className="lg:col-span-7 p-4 flex flex-col justify-center space-y-1.5 border-b border-black lg:border-b-0 lg:border-r-2 lg:border-black">
-                    <h4 
-                      className="font-syne font-black text-sm sm:text-base text-black uppercase tracking-tight cursor-pointer hover:text-red-600"
-                      onClick={() => setSelectedSessionId(isExpanded ? null : session.id)}
-                    >
-                      {session.title}
-                    </h4>
-                    <p className="font-mono text-[19px] text-gray-650 font-bold tracking-wide uppercase">
-                      <strong>Focus Blueprint:</strong> {session.focus}
-                    </p>
-
-                    <AnimatePresence>
-                      {isExpanded && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          className="overflow-hidden bg-white border border-black p-3.5 mt-2 text-xs normal-case font-sans font-medium space-y-2 select-text"
-                        >
-                          <span className="font-mono text-[8px] font-black text-gray-500 uppercase block">Course Syllabus Abstract</span>
-                          <p className="leading-relaxed text-gray-800 text-[20px]">{session.details}</p>
-                          <div className="pt-2 border-t border-dashed border-zinc-200 font-mono text-[9px] flex items-center gap-4 text-zinc-500">
-                            <span>LOCATION: BDD BEIRUT CONFERENCE ROOMS</span>
-                            <span>ACCESS PERMIT: REQUIRED IN ADVANCE</span>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-
-                  {/* Grid Col 10-12: Facilitator Panel */}
-                  <div className="lg:col-span-3 p-4 flex items-center justify-between lg:flex-col lg:items-start lg:justify-center gap-2">
-                    <div className="min-w-0">
-                      <span className="font-mono text-[8.5px] text-gray-400 font-black uppercase block">Facilitator / Speaker:</span>
-                      <span className="font-sans text-xs font-extrabold text-black uppercase block truncate max-w-[200px]" title={session.speaker}>
-                        {session.speaker}
-                      </span>
-                    </div>
-
-                    <button
-                      onClick={() => setSelectedSessionId(isExpanded ? null : session.id)}
-                      className="px-3 py-1.5 border border-black bg-white text-black font-mono text-[9px] font-black uppercase hover:bg-black hover:text-white transition-all cursor-pointer flex items-center gap-1"
-                    >
-                      <span>Syllabus</span>
-                      {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        {/* layoutMode === "board" (Visual Track Board grid Columns) */}
-        {layoutMode === "board" && filteredSessions.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="agenda_grid_board">
-            {[
-              { 
-                id: "keynotes", 
-                title: "Keynotes & Awards", 
-                classes: "border-black bg-zinc-950 text-white",
-                textClass: "text-white",
-                tagline: "High-level strategic shifts",
-                items: filteredSessions.filter(s => matchCategory(s.type, "KEYNOTE")) 
-              },
-              { 
-                id: "panels", 
-                title: "Panels & Pitches", 
-                classes: "border-yellow-600 bg-yellow-50/10 text-black", 
-                textClass: "text-zinc-900",
-                tagline: "Ecosystem experts & angels",
-                items: filteredSessions.filter(s => matchCategory(s.type, "PANEL")) 
-              },
-              { 
-                id: "workshops", 
-                title: "Workshops & Labs", 
-                classes: "border-orange-500 bg-orange-50/10 text-black", 
-                textClass: "text-zinc-900",
-                tagline: "Modular software sandboxes",
-                items: filteredSessions.filter(s => matchCategory(s.type, "WORKSHOP")) 
-              },
-              { 
-                id: "breaks", 
-                title: "Networking / Breaks", 
-                classes: "border-zinc-305 border-zinc-300 bg-zinc-50/40 text-black", 
-                textClass: "text-zinc-700",
-                tagline: "Coffee networking & lunch hubs",
-                items: filteredSessions.filter(s => matchCategory(s.type, "NETWORKING")) 
-              }
-            ].map((col) => (
-              <div 
-                key={col.id} 
-                className={`border-2 p-4 flex flex-col justify-between ${col.classes}`}
-                id={`track_col_${col.id}`}
-              >
-                <div>
-                  <div className="border-b border-zinc-200 pb-2 mb-3">
-                    <h5 className="font-syne font-black text-xs uppercase tracking-tight block">
-                      {col.title}
-                    </h5>
-                    <span className="font-mono text-[8px] text-gray-400 block uppercase font-bold">
-                      {col.tagline}
-                    </span>
-                  </div>
-
-                  {col.items.length === 0 ? (
-                    <div className="p-8 text-center text-zinc-400 font-mono text-[9px] uppercase border border-dashed border-zinc-300 bg-white/20 mt-1">
-                      No active sessions in query
-                    </div>
-                  ) : (
-                    <div className="space-y-3">
-                      {col.items.map((session) => {
-                        const isExpanded = selectedSessionId === session.id;
-                        return (
-                          <div 
-                            key={session.id} 
-                            className="bg-white text-black border border-black p-3 transition-shadow hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between"
-                          >
-                            <div>
-                              <div className="flex items-center justify-between gap-1 mb-1.5">
-                                <span className="font-mono text-[10px] font-black bg-black text-white px-1.5 py-0.2">
-                                  {session.time}
-                                </span>
-                                <span className="font-sans text-[8px] font-black tracking-tighter text-zinc-500 block truncate max-w-[80px]">
-                                  {session.type}
-                                </span>
+                                <button
+                                  onClick={() => setSelectedSessionId(isExpanded ? null : session.id)}
+                                  className="text-right text-[8.5px] font-mono font-black mt-3 text-zinc-400 hover:text-black cursor-pointer uppercase self-end"
+                                >
+                                  {isExpanded ? "[ Close ]" : "[ Outline ]"}
+                                </button>
                               </div>
-                              
-                              <h6 className="font-syne font-bold text-xs uppercase text-zinc-900 leading-tight">
-                                {session.title}
-                              </h6>
-
-                              {isExpanded && (
-                                <p className="text-[19px] font-sans normal-case text-zinc-650 leading-relaxed mt-2 pt-2 border-t border-dashed border-zinc-200">
-                                  {session.details}
-                                </p>
-                              )}
-                            </div>
-
-                            <button
-                              onClick={() => setSelectedSessionId(isExpanded ? null : session.id)}
-                              className="text-right text-[8.5px] font-mono font-black mt-2 text-zinc-500 hover:text-black cursor-pointer uppercase self-end"
-                            >
-                              {isExpanded ? "[ Close ]" : "[ Detail ]"}
-                            </button>
-                          </div>
-                        );
-                      })}
+                            );
+                          })}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
 
-                <div className="mt-4 pt-3 border-t border-dashed border-zinc-300/40 text-[9px] font-mono text-gray-500 flex justify-between items-center">
-                  <span>Track Total</span>
-                  <span className="font-extrabold">{col.items.length} Event{col.items.length === 1 ? "" : "s"}</span>
-                </div>
+                    <div className="border-t border-dashed border-zinc-400 mt-4 pt-3 text-[9px] font-mono text-zinc-400 flex items-center justify-between font-bold">
+                      <span>TRACK LOG:</span>
+                      <span>{col.items.length} SECTOR BLOCK{col.items.length === 1 ? "" : "S"}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
           </div>
         )}
       </div>
 
-      {/* INTERACTIVE WORKSHOP COMPANION: AI MATURITY AUDIT SIMULATOR */}
+      {/* 4. INTERACTIVE SIMULATOR DIALOGUE: THE AI MATURITY & CONTINUITY ENGINE */}
       <div className="bg-[#0b0c10] text-[#c5c6c7] border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden" id="interactive_audit_simulator">
-        <div className="absolute top-2 right-2 font-mono text-[8.5px] font-black text-rose-500 bg-rose-500/10 border border-rose-500/30 px-2 py-0.5 uppercase tracking-widest">
-          INTERACTIVE SIMULATOR (DAY 2 COMPANION)
+        <div className="absolute top-2 right-2 font-mono text-[8px] font-black text-rose-500 bg-rose-500/10 border border-rose-500/30 px-2.5 py-0.5 uppercase tracking-widest animate-pulse">
+          DIAGNOSTIC PIPELINE MODULATOR
         </div>
-        
+
         <div className="border-b border-zinc-800 pb-4 mb-5">
           <div className="flex items-center gap-2 text-white">
-            <Cpu className="w-5 h-5 text-orange-500" />
+            <Cpu className="w-5 h-5 text-orange-500 animate-spin" style={{ animationDuration: '4s' }} />
             <h3 className="font-syne font-black text-base sm:text-lg uppercase tracking-tight">
-              AI Maturity Audit & Pipeline Architect
+              Ecosystem Agility & Sandbox Readiness Modulator
             </h3>
           </div>
-          <p className="font-mono text-[15.5px] uppercase tracking-wide text-zinc-400 font-extrabold mt-1">
-            Simulate Day 2's opening seminar diagnostic directly below to assess your firm's automation readiness and download a custom AI stack blueprint.
+          <p className="font-mono text-[13.5px] uppercase tracking-wide text-zinc-400 mt-1 font-bold">
+            Simulate your startup parameters directly below to audit potential capital multipliers against our institutional standard.
           </p>
         </div>
 
-        {/* STEP CONTROLS SWITCH */}
+        {/* STEP 0: START */}
         {auditStep === "start" && (
-          <div className="space-y-4 py-3" id="audit_step_start">
-            <h4 className="font-syne font-extrabold text-sm text-white uppercase">Is your operation investor-ready for the AI-Native VC Playbook of 2026?</h4>
-            <p className="text-[17px] leading-relaxed text-zinc-300 normal-case font-sans font-medium">
-              Take this brief 3-question evaluation designed by NCEI engineering facilitators. Analyze where your operational leakage points occur and evaluate if your workflows command 'AI-Native' premium multipliers.
+          <div className="space-y-4 py-2" id="audit_step_start">
+            <h4 className="font-syne font-extrabold text-sm text-white uppercase leading-snug">Does your technical stack meet international diaspora risk limits?</h4>
+            <p className="text-[14px] leading-relaxed text-zinc-300 normal-case font-sans font-semibold">
+              Before presenting pitches inside the Sandbox or seeking IDAL R&D capital, startups undergo an agility assessment. Use this simulator to audit your Agentic stack, connectivity backup strategies, and financial pipeline designs.
             </p>
             <button
               onClick={() => setAuditStep("q1")}
               type="button"
               className="bg-white text-black font-syne font-black text-xs uppercase px-5 py-3 shadow-[2.5px_2.5px_0px_0px_rgba(255,255,255,0.4)] hover:shadow-none hover:translate-x-[0.5px] hover:translate-y-[0.5px] transition-all cursor-pointer flex items-center gap-1.5"
             >
-              <span>Begin Audit Diagnostic</span>
-              <ArrowRight className="w-3.5 h-3.5 text-black" />
+              <span>Initialize Compliance Modulator</span>
+              <ArrowRight className="w-4 h-4 text-black font-bold" />
             </button>
           </div>
         )}
 
+        {/* STEP 1: AI ARCHITECTURE STACK */}
         {auditStep === "q1" && (
           <div className="space-y-4 py-2" id="audit_step_q1">
-            <div className="flex items-center gap-1 font-mono text-[10px] font-bold text-orange-500">
-              <span>STEP 1 OF 3</span>
+            <div className="flex items-center gap-1 font-mono text-[9.5px] font-black text-orange-500">
+              <span>SECTION 1 OF 3</span>
               <span>•</span>
-              <span className="uppercase">MODULE 1 CORE: THE BRAIN STACK</span>
+              <span className="uppercase">AI ENGINEERING PARADIGM</span>
             </div>
-            <h4 className="font-syne font-extrabold text-sm text-white uppercase">How does your venture utilize LLM and generation models?</h4>
+            <h4 className="font-syne font-extrabold text-sm text-white uppercase">How is artificial intelligence layered into your product's core?</h4>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <button
                 type="button"
                 onClick={() => handleAuditPick("stack", "general", "q2")}
-                className="bg-zinc-900 border border-zinc-800 hover:border-zinc-450 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer"
+                className="bg-zinc-950 border border-zinc-800 hover:border-zinc-400 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer transition-all"
               >
-                <div className="font-bold text-white mb-1">GENERAL SEARCH CHATS</div>
-                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">We manually open standard chat browsers on external setups (ChatGPT, Claude) to draft files occasionally.</p>
+                <div className="font-bold text-white mb-1">Standard Software Apps</div>
+                <p className="text-[13px] font-mono lowercase first-letter:uppercase text-zinc-500 leading-tight">Vanilla React or mobile frontends using external public SaaS APIs on top-level clients.</p>
               </button>
               <button
                 type="button"
                 onClick={() => handleAuditPick("stack", "hybrid", "q2")}
-                className="bg-zinc-900 border border-zinc-800 hover:border-zinc-450 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer"
+                className="bg-zinc-950 border border-zinc-800 hover:border-zinc-400 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer transition-all"
               >
-                <div className="font-bold text-white mb-1">API INTEGRATIONS</div>
-                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">We integrate dynamic system API requests into modular functions or leverage code frameworks occasionally.</p>
+                <div className="font-bold text-white mb-1">Standalone RAG Nodes</div>
+                <p className="text-[13px] font-mono lowercase first-letter:uppercase text-zinc-500 leading-tight">Retrieval-Augmented Generation setups backed by vector indices to query company files manually.</p>
               </button>
               <button
                 type="button"
                 onClick={() => handleAuditPick("stack", "agents", "q2")}
-                className="bg-zinc-900 border-2 border-orange-500 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer relative"
+                className="bg-zinc-950 border-2 border-orange-500 p-4 text-left text-xs text-zinc-350 uppercase cursor-pointer transition-all relative"
               >
-                <div className="absolute -top-2 right-2 bg-orange-500 text-black font-mono text-[8px] font-black px-1 uppercase">VC IDEAL</div>
-                <div className="font-bold text-white mb-1">PROGRAMMATIC ORCHESTRATION</div>
-                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">We employ structured AI agent pipelines (custom workflows, multi-agent frameworks) with direct system integrations.</p>
+                <div className="absolute -top-2 right-2 bg-orange-500 text-black font-mono text-[8.5px] font-black px-1.5 uppercase">IDEAL SCORE</div>
+                <div className="font-bold text-white mb-1">Agentic AI & Multi-Agent Loops</div>
+                <p className="text-[13px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">Complex autonomous agent pipelines coordinating back-office workflows, billing compliance and routing.</p>
               </button>
             </div>
           </div>
         )}
 
+        {/* STEP 2: OPERATIONAL CONTINUITY */}
         {auditStep === "q2" && (
           <div className="space-y-4 py-2" id="audit_step_q2">
-            <div className="flex items-center gap-1 font-mono text-[10px] font-bold text-orange-500">
-              <span>STEP 2 OF 3</span>
+            <div className="flex items-center gap-1 font-mono text-[9.5px] font-black text-orange-500">
+              <span>SECTION 2 OF 3</span>
               <span>•</span>
-              <span className="uppercase">MODULE 2 CORE: Content & Branding</span>
+              <span className="uppercase">INFRASTRUCTURE CONTINUITY</span>
             </div>
-            <h4 className="font-syne font-extrabold text-sm text-white uppercase">How is your company's marketing content processed?</h4>
+            <h4 className="font-syne font-extrabold text-sm text-white uppercase">How does your codebase structure behave under infrastructure pressure?</h4>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <button
                 type="button"
                 onClick={() => handleAuditPick("content", "manual", "q3")}
-                className="bg-zinc-900 border border-zinc-800 hover:border-zinc-450 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer"
+                className="bg-zinc-950 border border-zinc-800 hover:border-zinc-400 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer transition-all"
               >
-                <div className="font-bold text-white mb-1">100% MANUAL DELIVERABLES</div>
-                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight font-medium">Humans type and layout every article, social update, and document. Content takes substantial turnaround time.</p>
+                <div className="font-bold text-white mb-1">Standard Cloud Providers</div>
+                <p className="text-[13px] font-mono lowercase first-letter:uppercase text-zinc-500 leading-tight">Conventional VM deployments with substantial reliance on local network access points.</p>
               </button>
               <button
                 type="button"
                 onClick={() => handleAuditPick("content", "semi", "q3")}
-                className="bg-zinc-900 border border-zinc-850 hover:border-zinc-450 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer"
+                className="bg-zinc-950 border border-zinc-805 hover:border-zinc-400 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer transition-all"
               >
-                <div className="font-bold text-white mb-1">AI-ASSISTED DRAFTING</div>
-                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight font-medium">We use generators to draft layouts or write outlines, which our humans review, edit, and publish manually.</p>
+                <div className="font-bold text-white mb-1">Redundant Mirror Backups</div>
+                <p className="text-[13px] font-mono lowercase first-letter:uppercase text-zinc-500 leading-tight">Multi-region mirrors on general-purpose cloud services with automated fallbacks to secure databases.</p>
               </button>
               <button
                 type="button"
                 onClick={() => handleAuditPick("content", "automated", "q3")}
-                className="bg-zinc-900 border-2 border-orange-500 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer relative"
+                className="bg-zinc-950 border-2 border-orange-500 p-4 text-left text-xs text-zinc-350 uppercase cursor-pointer transition-all relative"
               >
-                <div className="absolute -top-2 right-2 bg-orange-500 text-black font-mono text-[8px] font-black px-1 uppercase">VC IDEAL</div>
-                <div className="font-bold text-white mb-1">AI-NATIVE CONTENT ENGINE</div>
-                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight font-medium">One input idea automatically generates 20 cross-channel assets tailored to our custom brand voice, running on a set loop.</p>
+                <div className="absolute -top-2 right-2 bg-orange-500 text-black font-mono text-[8.5px] font-black px-1.5 uppercase">IDEAL SCORE</div>
+                <div className="font-bold text-white mb-1">Zero Downtime Edge Mesh</div>
+                <p className="text-[13px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">Edge hosting combined with hybrid satellite networks and alternative offline transaction channels.</p>
               </button>
             </div>
           </div>
         )}
 
+        {/* STEP 3: CROSS-BORDER ENTITY PIPELINE */}
         {auditStep === "q3" && (
           <div className="space-y-4 py-2" id="audit_step_q3">
-            <div className="flex items-center gap-1 font-mono text-[10px] font-bold text-orange-500">
-              <span>STEP 3 OF 3</span>
+            <div className="flex items-center gap-1 font-mono text-[9.5px] font-black text-orange-500">
+              <span>SECTION 3 OF 3</span>
               <span>•</span>
-              <span className="uppercase">MODULE 3 CORE: INTEGRATION AUTOMATION</span>
+              <span className="uppercase">FINTECH GATEWAY DESIGN</span>
             </div>
-            <h4 className="font-syne font-extrabold text-sm text-white uppercase">How do leads and data synchronize into your CRM or systems?</h4>
+            <h4 className="font-syne font-extrabold text-sm text-white uppercase">How is capital cleared and transferred programmatically to the venture?</h4>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <button
                 type="button"
                 onClick={() => handleAuditPick("automation", "manual", "result")}
-                className="bg-zinc-900 border border-zinc-805 hover:border-zinc-450 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer"
+                className="bg-zinc-950 border border-zinc-800 hover:border-zinc-400 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer transition-all"
               >
-                <div className="font-bold text-white mb-1">MANUAL EXCEL FILES</div>
-                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">We manually copy-paste leads, files, and customer messages into Excel/Sheets to track everything.</p>
+                <div className="font-bold text-white mb-1">Legacy Wire Billing</div>
+                <p className="text-[13px] font-mono lowercase first-letter:uppercase text-zinc-500 leading-tight">Traditional bank checking accounts handling regional transfers manually with clearance limits.</p>
               </button>
               <button
                 type="button"
                 onClick={() => handleAuditPick("automation", "semi", "result")}
-                className="bg-zinc-900 border border-zinc-805 hover:border-zinc-450 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer"
+                className="bg-zinc-950 border border-zinc-800 hover:border-zinc-400 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer transition-all"
               >
-                <div className="font-bold text-white mb-1">BASIC WEB Webhooks</div>
-                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">Simple pre-built email alerts notify us when someone applies, but sorting is manual.</p>
+                <div className="font-bold text-white mb-1">Offshore Account Wrapper</div>
+                <p className="text-[13px] font-mono lowercase first-letter:uppercase text-zinc-500 leading-tight">An independent, remote bank setup cleared using standard wire transfers from GCC clients.</p>
               </button>
               <button
                 type="button"
                 onClick={() => handleAuditPick("automation", "zapier", "result")}
-                className="bg-zinc-900 border-2 border-orange-500 p-4 text-left text-xs text-zinc-300 uppercase cursor-pointer relative"
+                className="bg-zinc-950 border-2 border-orange-500 p-4 text-left text-xs text-zinc-350 uppercase cursor-pointer transition-all relative"
               >
-                <div className="absolute -top-2 right-2 bg-orange-500 text-black font-mono text-[8px] font-black px-1">VC IDEAL</div>
-                <div className="font-bold text-white mb-1">AUTONOMOUS MULTI-STEP LOGIC</div>
-                <p className="text-[15px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">We employ structured AI agent pipelines (custom workflows, multi-agent frameworks) with direct system integrations.</p>
+                <div className="absolute -top-2 right-2 bg-orange-500 text-black font-mono text-[8.5px] font-black px-1.5 uppercase">IDEAL SCORE</div>
+                <div className="font-bold text-white mb-1">Embedded Levant-to-Gulf Rails</div>
+                <p className="text-[13px] font-mono lowercase first-letter:uppercase text-zinc-450 leading-tight">Fully integrated global fintech APIs, multi-currency electronic wallets, and compliant GCC-wide structures.</p>
               </button>
             </div>
           </div>
         )}
 
+        {/* STEP 4: DIAGNOSTIC RESULTS */}
         {auditStep === "result" && (
           <div className="space-y-4 py-2" id="audit_step_result">
-            <div className="font-mono text-[10px] font-bold text-orange-500 uppercase">
-              AUDIT COMPLETED ✓ COMPOSING DIAGNOSTIC BLUEPRINT
+            <div className="font-mono text-[9px] font-black text-orange-550 uppercase">
+              AUDIT VERIFIED ✓ STRATEGIC COMPLIANCE SYNTACTIC SUMMARY
             </div>
             
             <div className="bg-zinc-900 border border-zinc-800 p-5 space-y-3">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800 pb-2.5">
                 <div>
-                  <span className="text-[9px] text-zinc-400 block font-mono">DETERMINED VC REPUTATION</span>
-                  <span className="font-syne font-extrabold text-sm sm:text-base text-white block mt-0.5">{auditResult.rank}</span>
+                  <span className="text-[8px] text-zinc-400 block font-mono">NCEI SCALE AGILITY CLASSIFICATION</span>
+                  <span className="font-syne font-black text-sm text-white block mt-0.5">{auditResult.rank}</span>
                 </div>
-                <div className="bg-orange-500 text-black px-2.5 py-1 text-[10px] font-mono font-black uppercase text-center shrink-0">
-                  Agility Status: Active
+                <div className="bg-orange-500 text-black px-2.5 py-1 text-[9.5px] font-mono font-black uppercase tracking-tight shrink-0">
+                  Sandboxed Status: Ready
                 </div>
               </div>
 
               <div>
-                <span className="text-[9px] text-zinc-400 block font-mono">DIAGNOSTIC CRITIQUE</span>
-                <p className="text-[17px] normal-case text-zinc-300 font-sans mt-0.5 leading-relaxed font-semibold">
+                <span className="text-[8px] text-zinc-400 block font-mono">DIAGNOSTIC FEEDBACK</span>
+                <p className="text-[13.5px] normal-case text-zinc-300 font-sans mt-0.5 leading-relaxed font-semibold">
                   {auditResult.desc}
                 </p>
               </div>
 
               <div className="bg-zinc-950 p-4 border border-zinc-800">
-                <span className="text-[9.5px] text-orange-400 block font-mono font-black uppercase">DAY 2 MENTOR RECOMMENDATION FOR JUNE 1st WORKSHOP</span>
-                <p className="text-[16px] normal-case text-zinc-300 font-sans mt-1 leading-snug">
+                <span className="text-[10px] text-orange-400 block font-mono font-black uppercase tracking-wide">SUMMIT RECOMMENDATION FOR JULY 17 COHORT PREPARATION</span>
+                <p className="text-[13px] normal-case text-zinc-300 font-sans mt-1 leading-snug">
                   {auditResult.stackRec}
                 </p>
               </div>
@@ -1387,34 +1336,34 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                 }}
                 className="bg-zinc-800 text-white border border-zinc-700 hover:bg-zinc-750 font-syne font-bold text-xxs sm:text-xs uppercase px-4 py-2.5 cursor-pointer"
               >
-                Reset Audit Simulator
+                Reset Diagnostic Modulator
               </button>
               
               <button
                 type="button"
                 onClick={() => {
-                  setActiveDay(2);
+                  setActiveHalf("afternoon");
                   const el = document.getElementById("agenda_full_block");
                   if (el) el.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="bg-white text-black font-syne font-black text-xxs sm:text-xs uppercase px-4 py-2.5 shadow-[2.5px_2.5px_0px_0px_rgba(255,255,255,0.4)] hover:shadow-none hover:translate-x-[0.5px] hover:translate-y-[0.5px] cursor-pointer"
+                className="bg-[#adff2f] text-black font-syne font-black text-xxs sm:text-xs uppercase px-4 py-3 shadow-[2.5px_2.5px_0px_0px_rgba(255,255,255,0.4)] hover:shadow-none hover:translate-x-[0.5px] hover:translate-y-[0.5px] cursor-pointer"
               >
-                Go to Day 2 Workshop Modules
+                Go to Afternoon AI Panels
               </button>
             </div>
           </div>
         )}
       </div>
 
-      {/* STRATEGY DEEP-DIVE: DETAILED MODULE BREAKDOWN (OCR INTEGRATED) */}
+      {/* 5. STRATEGY DEEP-DIVE: DETAILED MODULE BREAKDOWN (OCR INTEGRATED) */}
       <div className="bg-white border-4 border-black p-6 shadow-[7px_7px_0px_0px_rgba(0,0,0,1)]" id="detailed_strategic_playbook">
         
         {/* Playbook Header & Dynamic Filter Search */}
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 border-b-2 border-black pb-4 mb-6">
           <div>
-            <span className="font-mono text-xs font-black text-gray-500 uppercase tracking-widest pl-0.5">THE VENTURE MANIFESTO</span>
+            <span className="font-mono text-xs font-black text-gray-500 uppercase tracking-widest pl-0.5">THE INCUBATOR MANDATE</span>
             <h3 className="font-syne font-black text-lg sm:text-2xl uppercase tracking-tight text-black mt-1">
-              KEY NETWORKING & INVESTMENT STRATEGIES
+              THE 2026 STRATEGIC RECOMMENDATIONS
             </h3>
           </div>
 
@@ -1422,7 +1371,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
             <Search className="w-4 h-4 text-gray-500 shrink-0" />
             <input
               type="text"
-              placeholder="Filter Playbook..."
+              placeholder="Filter Playbook Pillars..."
               value={strategyQuery}
               onChange={(e) => setStrategyQuery(e.target.value)}
               className="text-[10px] bg-transparent outline-none w-full text-black placeholder-gray-400 font-mono uppercase font-black"
@@ -1449,7 +1398,7 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                       <h5 className="font-mono text-[10.5px] font-black text-black leading-tight uppercase mb-1">
                         {item.heading}
                       </h5>
-                      <p className="text-[20.5px] leading-relaxed text-gray-700 font-sans normal-case font-medium select-text">
+                      <p className="text-[14px] leading-relaxed text-zinc-700 font-sans normal-case font-semibold select-text">
                         {item.detail}
                       </p>
                     </div>
@@ -1457,8 +1406,8 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                 </div>
               </div>
 
-              <div className="border-t border-zinc-150 pt-3 mt-5 flex justify-between items-center text-[9px] font-mono text-zinc-400 font-bold">
-                <span>Z961 CURATED ADVISE</span>
+              <div className="border-t border-zinc-150 pt-3 mt-5 flex justify-between items-center text-[9px] font-mono text-zinc-405 font-black uppercase">
+                <span>INCUBATOR COHORT MANDATE</span>
                 <span>SECTION ID: 0{index + 1}</span>
               </div>
             </div>
@@ -1466,19 +1415,19 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
 
           {filteredStrategies.length === 0 && (
             <div className="col-span-full border-2 border-dashed border-black p-10 text-center bg-zinc-50 font-mono text-xs uppercase font-extrabold text-zinc-500" id="empty_strategy_search">
-              No specific strategies found matching key "{strategyQuery}". Clear input query to reload the complete manifesto.
+              No matching strategy found for "{strategyQuery}". Reset searching parameters to view the complete strategic pillars.
             </div>
           )}
         </div>
       </div>
 
-      {/* FOOTER CALL TO ACTION */}
+      {/* 6. CALL TO ACTION FOOTER */}
       <div className="bg-black text-white p-8 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] text-center max-w-3xl mx-auto space-y-4 mt-6" id="seminar_bottom_cta">
         <h3 className="font-syne font-bold text-xl sm:text-2xl uppercase tracking-tight text-white leading-none">
-          SECURE YOUR TICKET FOR THE BDD EVENT
+          JOIN LEBANON'S 2026 DEEP TECH ECOSYSTEM
         </h3>
-        <p className="text-[17px] sm:text-[17px] font-mono text-zinc-300 max-w-xl mx-auto leading-relaxed uppercase font-semibold">
-          Pre-registrations close 24 hours prior to commencement. Only 75 hardware seats are allocated at the BDD venue. Verification of codebase pipelines required for developers.
+        <p className="text-[13.5px] font-mono text-zinc-300 max-w-xl mx-auto leading-relaxed uppercase font-semibold">
+          Pre-registration is required to claim physical entrance permits at Beirut Digital District rooms. Sandbox members are urged to review security clearances beforehand.
         </p>
 
         <div className="flex flex-wrap justify-center gap-3.5 pt-2">
@@ -1489,20 +1438,20 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
                 if (el) el.scrollIntoView({ behavior: "smooth" });
               }}
               type="button"
-              className="bg-emerald-500 text-black border-2 border-emerald-500 font-syne font-black text-xs uppercase px-5 py-3 shadow-[3px_3px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] cursor-pointer"
+              className="bg-[#adff2f] text-black border-2 border-[#adff2f] font-syne font-black text-xs uppercase px-5 py-3 shadow-[3px_3px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] cursor-pointer"
             >
-              Pass Registered ✓ View Ticket
+              Ticket verified ✓ View Boarding pass
             </button>
           ) : (
             <button
               onClick={() => {
-                const el = document.getElementById("seminar_passenger_module");
+                const el = document.getElementById("seminar_pass_module");
                 if (el) el.scrollIntoView({ behavior: "smooth" });
               }}
               type="button"
               className="bg-white text-black border-2 border-white font-syne font-black text-xs uppercase px-5 py-3 shadow-[3px_3px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] cursor-pointer"
             >
-              Get Boarding Pass Now
+              Request Free Boarding Pass
             </button>
           )}
 
@@ -1511,16 +1460,16 @@ export default function KickoffSeminar({ onJoinEcosystem, onOpenNda }: KickoffSe
             type="button"
             className="bg-zinc-800 text-zinc-300 border-2 border-zinc-700 font-mono font-black text-xs uppercase px-5 py-3 shadow-[3px_3px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] cursor-pointer"
           >
-            Digital NDA Sign Registry
+            Digital NDA Sign Sandbox
           </button>
         </div>
 
-        <div className="border-t border-zinc-800 pt-4 text-[10px] font-mono text-zinc-400 flex flex-wrap justify-center items-center gap-x-2 gap-y-1">
+        <div className="border-t border-zinc-800 pt-4 text-[10px] font-mono text-zinc-500 flex flex-wrap justify-center items-center gap-x-2.5 gap-y-1 font-bold uppercase">
           <span>NCEI LEBANON</span>
           <span>•</span>
           <span>BEIRUT DIGITAL DISTRICT (BDD)</span>
           <span>•</span>
-          <span>JUNE 30 - JULY 1</span>
+          <span>FRIDAY, JULY 17, 2026</span>
         </div>
       </div>
 

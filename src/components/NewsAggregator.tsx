@@ -41,6 +41,8 @@ interface NewsAggregatorProps {
   onAddComment: (storyId: string, commentData: { author: string; text: string }) => Promise<void>;
   searchQuery?: string;
   setSearchQuery?: (val: string) => void;
+  isLoading?: boolean;
+  onRefresh?: () => void;
 }
 
 export default function NewsAggregator({
@@ -52,6 +54,8 @@ export default function NewsAggregator({
   onAddComment,
   searchQuery: externalSearchQuery,
   setSearchQuery: setExternalSearchQuery,
+  isLoading = false,
+  onRefresh,
 }: NewsAggregatorProps) {
   const [localSearchQuery, setLocalSearchQuery] = useState("");
   const searchQuery = externalSearchQuery !== undefined ? externalSearchQuery : localSearchQuery;
@@ -61,7 +65,29 @@ export default function NewsAggregator({
   const [sharingStory, setSharingStory] = useState<Story | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
   const [copiedPlatform, setCopiedPlatform] = useState<string | null>(null);
+  const [copiedStoryIds, setCopiedStoryIds] = useState<Record<string, boolean>>({});
   const [activeShareTab, setActiveShareTab] = useState<"twitter" | "linkedin" | "whatsapp">("twitter");
+  const [internalLoading, setInternalLoading] = useState(false);
+  const activeLoading = isLoading || internalLoading;
+
+  const handleCopyStoryLink = async (e: React.MouseEvent, storyId: string) => {
+    e.stopPropagation();
+    const link = typeof window !== "undefined"
+      ? `${window.location.origin}/?story=${encodeURIComponent(storyId)}`
+      : `https://ais-pre-ozodkckudhuljbtn66jpv7-276616341447.europe-west3.run.app/?story=${encodeURIComponent(storyId)}`;
+
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(link);
+        setCopiedStoryIds((prev) => ({ ...prev, [storyId]: true }));
+        setTimeout(() => {
+          setCopiedStoryIds((prev) => ({ ...prev, [storyId]: false }));
+        }, 1800);
+      }
+    } catch (err) {
+      console.error("Failed to copy link:", err);
+    }
+  };
 
   // Submission Form State
   const [newTitle, setNewTitle] = useState("");
@@ -76,7 +102,7 @@ export default function NewsAggregator({
   const [commentAuthor, setCommentAuthor] = useState("");
   const [commentError, setCommentError] = useState("");
 
-  const [sortBy, setSortBy] = useState<"newest" | "points" | "comments">("newest");
+  const [sortBy, setSortBy] = useState<"points" | "newest" | "comments">("points");
 
   // Helper to parse relative timestamp into milliseconds estimate
   const parseRelativeTime = (timestamp: string): number => {
@@ -264,14 +290,34 @@ export default function NewsAggregator({
             <select
               id="stories_sort_select"
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as "newest" | "points" | "comments")}
+              onChange={(e) => setSortBy(e.target.value as "points" | "newest" | "comments")}
               className="bg-transparent border-none outline-none font-black uppercase text-black cursor-pointer pr-1"
             >
+              <option value="points" className="bg-white text-black font-mono">Most Points (Default)</option>
               <option value="newest" className="bg-white text-black font-mono">Newest</option>
-              <option value="points" className="bg-white text-black font-mono">Most Points</option>
               <option value="comments" className="bg-white text-black font-mono">Most Commented</option>
             </select>
           </div>
+
+          <button
+            id="sync_feed_btn"
+            onClick={() => {
+              if (onRefresh) {
+                onRefresh();
+              } else {
+                setInternalLoading(true);
+                setTimeout(() => {
+                  setInternalLoading(false);
+                }, 1300);
+              }
+            }}
+            disabled={activeLoading}
+            className="flex items-center gap-1.5 bg-zinc-100 hover:bg-zinc-200 text-black font-mono font-black border-2 border-black px-3.5 py-1.5 text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[1px] active:translate-y-[1px] cursor-pointer transition-all disabled:opacity-50"
+            title="Force refresh database pipeline feed"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 text-black ${activeLoading ? "animate-spin" : ""}`} />
+            <span>Sync Feed</span>
+          </button>
 
           <button
             id="open_submit_modal_btn"
@@ -285,7 +331,42 @@ export default function NewsAggregator({
 
         {/* Stories List Feed */}
         <div className="bg-white border-2 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] divide-y-2 divide-black overflow-hidden mb-8">
-          {filteredStories.length === 0 ? (
+          {activeLoading ? (
+            // Modern premium skeleton screens for visual data feedback
+            Array.from({ length: 4 }).map((_, skeletonIdx) => (
+              <div
+                key={`story_skeleton_${skeletonIdx}`}
+                className="p-4 flex gap-4 items-start bg-white border-b border-zinc-100 last:border-b-0"
+              >
+                {/* Index number and pulsing upvote box skeleton */}
+                <div className="flex flex-col items-center gap-1.5 pt-0.5" id={`skeleton_vote_box_${skeletonIdx}`}>
+                  <span className="text-xs font-mono font-bold text-zinc-300 w-5 text-right select-none">
+                    {skeletonIdx + 1}.
+                  </span>
+                  <div className="w-6 h-6 bg-zinc-200 border-2 border-dashed border-zinc-300 rounded-none animate-pulse shrink-0"></div>
+                </div>
+
+                {/* Main cell content placeholder skeleton */}
+                <div className="flex-1 min-w-0 space-y-3">
+                  <div className="space-y-2">
+                    <div className="h-4 bg-zinc-200 border border-zinc-300 w-3/4 animate-pulse rounded-none"></div>
+                    <div className="h-3 bg-zinc-100 border border-zinc-200 w-1/4 animate-pulse rounded-none"></div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-xs">
+                    <div className="h-4 w-16 bg-zinc-150 border border-zinc-250 animate-pulse rounded-none"></div>
+                    <span className="text-zinc-300">•</span>
+                    <div className="h-4 w-20 bg-zinc-100 border border-zinc-150 animate-pulse rounded-none"></div>
+                    <span className="text-zinc-300">•</span>
+                    <div className="h-4 w-24 bg-zinc-150 border border-zinc-200 animate-pulse rounded-none"></div>
+                    <span className="text-zinc-300">•</span>
+                    <div className="h-4 w-12 bg-amber-50/50 border border-orange-200/50 animate-pulse rounded-none"></div>
+                    <div className="h-4 w-14 bg-zinc-200 border border-zinc-200 animate-pulse rounded-none ml-auto"></div>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : filteredStories.length === 0 ? (
             <div className="p-12 text-center text-gray-500 font-sans" id="empty_stories_prompt">
               <p className="font-semibold text-lg uppercase font-display text-black">No news found</p>
               <p className="text-sm text-gray-500 mt-1">Be the first to submit a tech breakthrough or financial commentary for Lebanon!</p>
@@ -374,6 +455,29 @@ export default function NewsAggregator({
                       >
                         <Share2 className="w-3 h-3 text-black" />
                         <span>Share</span>
+                      </button>
+                      <span className="text-zinc-400">•</span>
+                      <button
+                        id={`story_copy_link_btn_${story.id}`}
+                        onClick={(e) => handleCopyStoryLink(e, story.id)}
+                        className={`flex items-center gap-1 font-black transition cursor-pointer border border-black px-1.5 py-0.2 shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] active:translate-x-[0.5px] active:translate-y-[0.5px] ${
+                          copiedStoryIds[story.id]
+                            ? "bg-emerald-100 text-emerald-800 border-zinc-900"
+                            : "bg-zinc-100 hover:bg-zinc-50 text-black hover:text-amber-600"
+                        }`}
+                        title="Copy direct shareable link for this story"
+                      >
+                        {copiedStoryIds[story.id] ? (
+                          <>
+                            <Check className="w-3 h-3 text-emerald-700 stroke-[3]" />
+                            <span>Copied!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3 h-3 text-black animate-none" />
+                            <span>Copy Link</span>
+                          </>
+                        )}
                       </button>
                       <span className={`text-[10px] px-2 py-0.5 border ${getCategoryTagClass(story.category)} ml-auto font-mono font-bold uppercase`}>
                         {story.category}

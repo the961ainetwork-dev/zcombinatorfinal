@@ -19,6 +19,7 @@ import AdminPanel from "./components/AdminPanel";
 import InstitutionalEngagement from "./components/InstitutionalEngagement";
 import GetStarted from "./components/GetStarted";
 import KickoffSeminar from "./components/KickoffSeminar";
+import AiStartupBootcamp from "./components/AiStartupBootcamp";
 import { Story, Startup, Job } from "./types";
 import { Info, Mail, Phone, MapPin, Loader2, Sparkles } from "lucide-react";
 
@@ -226,7 +227,7 @@ export default function App() {
     }
   ];
 
-  const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources" | "sandbox" | "nda" | "tor" | "faq" | "mag" | "register" | "admin" | "institutional" | "get-started" | "kickoff">("get-started");
+  const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources" | "sandbox" | "nda" | "tor" | "faq" | "mag" | "register" | "admin" | "institutional" | "get-started" | "kickoff" | "bootcamp">("get-started");
   const [stories, setStories] = useState<Story[]>(INITIAL_STORIES);
   const [startups, setStartups] = useState<Startup[]>(INITIAL_STARTUPS);
   const [jobs, setJobs] = useState<Job[]>(INITIAL_JOBS);
@@ -277,6 +278,8 @@ export default function App() {
       setTab("get-started");
     } else if (path === "/kickoff") {
       setTab("kickoff");
+    } else if (path === "/bootcamp") {
+      setTab("bootcamp");
     } else {
       setTab("get-started");
     }
@@ -499,6 +502,8 @@ export default function App() {
             window.history.pushState({}, "", "/get-started");
           } else if (tab === "kickoff") {
             window.history.pushState({}, "", "/kickoff");
+          } else if (tab === "bootcamp") {
+            window.history.pushState({}, "", "/bootcamp");
           } else {
             window.history.pushState({}, "", "/");
           }
@@ -577,6 +582,8 @@ export default function App() {
                 window.history.pushState({}, "", "/get-started");
               } else if (tab === "kickoff") {
                 window.history.pushState({}, "", "/kickoff");
+              } else if (tab === "bootcamp") {
+                window.history.pushState({}, "", "/bootcamp");
               } else {
                 window.history.pushState({}, "", "/");
               }
@@ -646,6 +653,8 @@ export default function App() {
               onAddComment={handleAddComment}
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
+              isLoading={isSyncing}
+              onRefresh={loadInitialData}
             />
           )}
 
@@ -659,6 +668,8 @@ export default function App() {
               onAddComment={handleAddComment}
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
+              isLoading={isSyncing}
+              onRefresh={loadInitialData}
             />
           )}
 
@@ -672,6 +683,8 @@ export default function App() {
               onAddComment={handleAddComment}
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
+              isLoading={isSyncing}
+              onRefresh={loadInitialData}
             />
           )}
 
@@ -777,6 +790,10 @@ export default function App() {
 
           {currentTab === "get-started" && (
             <GetStarted setTab={setTab} />
+          )}
+
+          {currentTab === "bootcamp" && (
+            <AiStartupBootcamp onJoinEcosystem={() => setTab("register")} />
           )}
         </div>
       </main>
