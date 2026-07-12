@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Briefcase, Landmark, MessageSquare, Newspaper, Sparkles, TrendingUp, ShieldCheck, Scale, Search, X, Home, BookOpen, AlertCircle, FileSpreadsheet, HelpCircle, Flame, Rocket, Calendar } from "lucide-react";
+import { Briefcase, Landmark, MessageSquare, Newspaper, Sparkles, TrendingUp, ShieldCheck, Scale, Search, X, Home, BookOpen, AlertCircle, FileSpreadsheet, HelpCircle, Flame, Rocket, Calendar, Gauge } from "lucide-react";
 
 interface HeaderProps {
   currentTab: string;
@@ -263,6 +263,20 @@ export default function Header({ currentTab, setTab, stats, searchQuery, setSear
             >
               <ShieldCheck className="w-4.5 h-4.5 text-rose-800 shrink-0" />
               <span>Admin Desk</span>
+            </button>
+
+            {/* NEW: Site Optimizer Link */}
+            <button
+              id="tab_btn_optimizer"
+              onClick={() => handleTabClick("optimizer")}
+              className={`px-3 py-1.5 border-2 border-black font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                currentTab === "optimizer"
+                  ? "bg-[#adff2f] text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  : "bg-emerald-50 text-emerald-950 hover:bg-emerald-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
+              }`}
+            >
+              <Gauge className="w-4.5 h-4.5 text-emerald-700 shrink-0" />
+              <span>Site Optimizer</span>
             </button>
           </nav>
 

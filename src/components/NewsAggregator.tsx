@@ -3,7 +3,7 @@ import { Story, Comment } from "../types";
 import { ArrowUp, CornerDownRight, MessageSquare, Plus, Search, Tag, ExternalLink, RefreshCw, X, User, Clock, Share2, Copy, Check } from "lucide-react";
 
 // Robust, deterministic reading time calculation helper based on the story type and content length
-const calculateReadingTime = (story: Story) => {
+const calculateReadingTime = (story: Story, wpm: number = 200) => {
   const titleWordsCount = story.title ? story.title.split(/\s+/).filter(Boolean).length : 0;
   const textWordsCount = story.text ? story.text.split(/\s+/).filter(Boolean).length : 0;
   let totalWords = titleWordsCount + textWordsCount;
@@ -19,7 +19,7 @@ const calculateReadingTime = (story: Story) => {
     totalWords += 50 + ((idNum * 11) % 100);
   }
 
-  const minutes = Math.max(1, Math.round(totalWords / 200));
+  const minutes = Math.max(1, Math.round(totalWords / wpm));
   return {
     minutes,
     words: totalWords,
@@ -103,6 +103,7 @@ export default function NewsAggregator({
   const [commentError, setCommentError] = useState("");
 
   const [sortBy, setSortBy] = useState<"points" | "newest" | "comments">("points");
+  const [readingSpeed, setReadingSpeed] = useState<number>(200); // WPM (150 = Relaxed, 200 = Standard, 250 = Fast, 300 = Speed)
 
   // Helper to parse relative timestamp into milliseconds estimate
   const parseRelativeTime = (timestamp: string): number => {
@@ -202,6 +203,18 @@ export default function NewsAggregator({
     }
   };
 
+  // Helper to calculate the live estimated reading time for draft content in submission modal
+  const getDraftReadingTime = () => {
+    const titleWords = newTitle ? newTitle.trim().split(/\s+/).filter(Boolean).length : 0;
+    const textWords = newText ? newText.trim().split(/\s+/).filter(Boolean).length : 0;
+    let totalWords = titleWords + textWords;
+    if (newUrl) {
+      totalWords += 350; // default estimated external article words count
+    }
+    const mins = Math.max(1, Math.round(totalWords / readingSpeed));
+    return { minutes: mins, words: totalWords };
+  };
+
   // Handle Comment Submit
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -296,6 +309,23 @@ export default function NewsAggregator({
               <option value="points" className="bg-white text-black font-mono">Most Points (Default)</option>
               <option value="newest" className="bg-white text-black font-mono">Newest</option>
               <option value="comments" className="bg-white text-black font-mono">Most Commented</option>
+            </select>
+          </div>
+
+          {/* Premium Neo-Brutalist Reading Speed Control */}
+          <div className="flex items-center gap-2 bg-white border-2 border-black px-3 py-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[0.5px] hover:translate-y-[0.5px] transition-all text-xs font-mono" id="stories_reading_speed_box">
+            <Clock className="w-3.5 h-3.5 text-orange-600 shrink-0" />
+            <span className="font-bold text-gray-500 uppercase select-none shrink-0">WPM:</span>
+            <select
+              id="stories_speed_select"
+              value={readingSpeed}
+              onChange={(e) => setReadingSpeed(Number(e.target.value))}
+              className="bg-transparent border-none outline-none font-black uppercase text-black cursor-pointer pr-1"
+            >
+              <option value={150} className="bg-white text-black font-mono">150 WPM (Relaxing)</option>
+              <option value={200} className="bg-white text-black font-mono">200 WPM (Standard)</option>
+              <option value={250} className="bg-white text-black font-mono">250 WPM (Quick)</option>
+              <option value={300} className="bg-white text-black font-mono">300 WPM (Rapid)</option>
             </select>
           </div>
 
@@ -438,10 +468,10 @@ export default function NewsAggregator({
                       <span className="text-zinc-400">•</span>
                       <span 
                         className="flex items-center gap-1 text-zinc-750 dark:text-zinc-350 bg-amber-50 dark:bg-zinc-805 border border-black px-1.5 py-0.2 select-none" 
-                        title={`Estimated based on ${calculateReadingTime(story).words} words in full target article`}
+                        title={`Estimated based on ${calculateReadingTime(story, readingSpeed).words} words in full target article at ${readingSpeed} WPM`}
                       >
-                        <Clock className="w-3.5 h-3.5 text-orange-600 shrink-0" />
-                        <span>{calculateReadingTime(story).minutes} min read</span>
+                        <Clock className="w-3.5 h-3.5 text-orange-600 shrink-0 animate-pulse" />
+                        <span>{calculateReadingTime(story, readingSpeed).minutes} min read</span>
                       </span>
                       <span className="text-zinc-400">•</span>
                       <button
@@ -541,8 +571,8 @@ export default function NewsAggregator({
                 <span>{selectedStory.timestamp}</span>
                 <span>•</span>
                 <span className="flex items-center gap-1 font-black text-orange-600 bg-orange-50 border border-orange-200 px-2 py-0.5 select-none text-[9px]">
-                  <Clock className="w-3.5 h-3.5 text-orange-600" />
-                  <span>{calculateReadingTime(selectedStory).minutes} MIN READ ({calculateReadingTime(selectedStory).words} WDS)</span>
+                  <Clock className="w-3.5 h-3.5 text-orange-600 animate-pulse" />
+                  <span>{calculateReadingTime(selectedStory, readingSpeed).minutes} MIN READ ({calculateReadingTime(selectedStory, readingSpeed).words} WDS AT {readingSpeed} WPM)</span>
                 </span>
               </div>
             </div>
@@ -692,6 +722,18 @@ export default function NewsAggregator({
                   onChange={(e) => setNewText(e.target.value)}
                   className="w-full text-xs bg-white border-2 border-black p-2 outline-none text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:ring-1 focus:ring-black"
                 />
+              </div>
+
+              {/* Dynamic Draft Read-time Estimation Badge */}
+              <div className="bg-orange-50 border-2 border-dashed border-orange-400 p-2.5 flex items-center justify-between font-mono text-[11px] text-orange-950" id="draft_readtime_badge">
+                <div className="flex items-center gap-1.5 font-bold">
+                  <Clock className="w-4 h-4 text-orange-600 animate-pulse shrink-0" />
+                  <span>ESTIMATED READ TIME:</span>
+                </div>
+                <div className="text-right">
+                  <span className="font-black text-orange-800">{getDraftReadingTime().minutes} MIN READ </span>
+                  <span className="text-gray-500">({getDraftReadingTime().words} words at {readingSpeed} WPM)</span>
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">

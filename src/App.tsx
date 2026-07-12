@@ -20,6 +20,7 @@ import InstitutionalEngagement from "./components/InstitutionalEngagement";
 import GetStarted from "./components/GetStarted";
 import KickoffSeminar from "./components/KickoffSeminar";
 import AiStartupBootcamp from "./components/AiStartupBootcamp";
+import SiteOptimizer from "./components/SiteOptimizer";
 import { Story, Startup, Job } from "./types";
 import { Info, Mail, Phone, MapPin, Loader2, Sparkles } from "lucide-react";
 
@@ -227,7 +228,7 @@ export default function App() {
     }
   ];
 
-  const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources" | "sandbox" | "nda" | "tor" | "faq" | "mag" | "register" | "admin" | "institutional" | "get-started" | "kickoff" | "bootcamp">("get-started");
+  const [currentTab, setTab] = useState<"news" | "ask" | "show" | "startups" | "jobs" | "pitch-lab" | "prospectus" | "policy" | "values" | "resources" | "sandbox" | "nda" | "tor" | "faq" | "mag" | "register" | "admin" | "institutional" | "get-started" | "kickoff" | "bootcamp" | "optimizer">("get-started");
   const [stories, setStories] = useState<Story[]>(INITIAL_STORIES);
   const [startups, setStartups] = useState<Startup[]>(INITIAL_STARTUPS);
   const [jobs, setJobs] = useState<Job[]>(INITIAL_JOBS);
@@ -280,6 +281,8 @@ export default function App() {
       setTab("kickoff");
     } else if (path === "/bootcamp") {
       setTab("bootcamp");
+    } else if (path === "/optimizer") {
+      setTab("optimizer");
     } else {
       setTab("get-started");
     }
@@ -504,6 +507,8 @@ export default function App() {
             window.history.pushState({}, "", "/kickoff");
           } else if (tab === "bootcamp") {
             window.history.pushState({}, "", "/bootcamp");
+          } else if (tab === "optimizer") {
+            window.history.pushState({}, "", "/optimizer");
           } else {
             window.history.pushState({}, "", "/");
           }
@@ -584,6 +589,8 @@ export default function App() {
                 window.history.pushState({}, "", "/kickoff");
               } else if (tab === "bootcamp") {
                 window.history.pushState({}, "", "/bootcamp");
+              } else if (tab === "optimizer") {
+                window.history.pushState({}, "", "/optimizer");
               } else {
                 window.history.pushState({}, "", "/");
               }
@@ -794,6 +801,10 @@ export default function App() {
 
           {currentTab === "bootcamp" && (
             <AiStartupBootcamp onJoinEcosystem={() => setTab("register")} />
+          )}
+
+          {currentTab === "optimizer" && (
+            <SiteOptimizer onBackToApp={() => setTab("get-started")} />
           )}
         </div>
       </main>
